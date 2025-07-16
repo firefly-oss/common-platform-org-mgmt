@@ -1,6 +1,8 @@
 package com.catalis.core.organization.interfaces.dtos;
 
 import com.catalis.core.organization.interfaces.enums.DayOfWeek;
+import com.catalis.core.utils.annotations.FilterableId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +19,13 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BranchHoursDTO {
-    
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
+    @FilterableId
     private Long branchId;
+
     private DayOfWeek dayOfWeek;
     private LocalTime openTime;
     private LocalTime closeTime;

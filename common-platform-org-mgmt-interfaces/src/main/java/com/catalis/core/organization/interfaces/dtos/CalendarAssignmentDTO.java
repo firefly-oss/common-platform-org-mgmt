@@ -1,5 +1,7 @@
 package com.catalis.core.organization.interfaces.dtos;
 
+import com.catalis.core.utils.annotations.FilterableId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +17,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CalendarAssignmentDTO {
-    
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
+    @FilterableId
     private Long calendarId;
+
+    @FilterableId
     private Long branchId;
+
+    @FilterableId
     private Long departmentId;
+
+    @FilterableId
     private Long positionId;
+
     private LocalDateTime effectiveFrom;
     private LocalDateTime effectiveTo;
     private Boolean isActive;
