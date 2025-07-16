@@ -41,8 +41,9 @@ public class BankDivisionController {
             @PathVariable Long bankId,
             @Parameter(description = "Filter criteria for bank divisions", required = true)
             @Valid @RequestBody FilterRequest<BankDivisionDTO> filterRequest) {
-        // In a real implementation, you might want to add bankId to the filter criteria
-        // For now, we'll just pass the filter request to the service
+        if(null != filterRequest.getFilters()){
+            filterRequest.getFilters().setBankId(bankId);
+        }
         return bankDivisionService.filterBankDivisions(filterRequest);
     }
 
@@ -79,9 +80,7 @@ public class BankDivisionController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the division to retrieve", required = true)
             @PathVariable Long divisionId) {
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)));
+        return bankDivisionService.getBankDivisionByIdForBank(bankId, divisionId);
     }
 
     @Operation(summary = "Update bank division", description = "Updates an existing division of a specific bank with the provided details")
@@ -102,10 +101,7 @@ public class BankDivisionController {
             @Valid @RequestBody BankDivisionDTO bankDivisionDTO) {
         // Set the bankId from the path variable
         bankDivisionDTO.setBankId(bankId);
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankDivisionService.updateBankDivision(divisionId, bankDivisionDTO));
+        return bankDivisionService.updateBankDivisionForBank(bankId, divisionId, bankDivisionDTO);
     }
 
     @Operation(summary = "Delete bank division", description = "Deletes a division of a specific bank based on its ID")
@@ -121,9 +117,6 @@ public class BankDivisionController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the division to delete", required = true)
             @PathVariable Long divisionId) {
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankDivisionService.deleteBankDivision(divisionId));
+        return bankDivisionService.deleteBankDivisionForBank(bankId, divisionId);
     }
 }

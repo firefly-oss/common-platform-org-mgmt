@@ -22,6 +22,9 @@ public class BankDivisionServiceImpl implements BankDivisionService {
     @Autowired
     private BankDivisionMapper mapper;
 
+    @Autowired
+    private BankService bankService;
+
     @Override
     public Mono<PaginationResponse<BankDivisionDTO>> filterBankDivisions(FilterRequest<BankDivisionDTO> filterRequest) {
         return FilterUtils
@@ -64,5 +67,37 @@ public class BankDivisionServiceImpl implements BankDivisionService {
         return repository.findById(bankDivisionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank division not found with ID: " + bankDivisionId)))
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public Mono<BankDivisionDTO> getBankDivisionByIdForBank(Long bankId, Long divisionId) {
+        return bankService.getBankById(bankId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
+                .flatMap(bank -> getBankDivisionById(divisionId))
+                .filter(division -> division.getBankId().equals(bankId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)));
+    }
+
+    @Override
+    public Mono<BankDivisionDTO> updateBankDivisionForBank(Long bankId, Long divisionId, BankDivisionDTO bankDivisionDTO) {
+        return bankService.getBankById(bankId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
+                .flatMap(bank -> getBankDivisionById(divisionId))
+                .filter(division -> division.getBankId().equals(bankId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
+                .flatMap(division -> {
+                    bankDivisionDTO.setBankId(bankId);
+                    return updateBankDivision(divisionId, bankDivisionDTO);
+                });
+    }
+
+    @Override
+    public Mono<Void> deleteBankDivisionForBank(Long bankId, Long divisionId) {
+        return bankService.getBankById(bankId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
+                .flatMap(bank -> getBankDivisionById(divisionId))
+                .filter(division -> division.getBankId().equals(bankId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
+                .flatMap(division -> deleteBankDivision(divisionId));
     }
 }

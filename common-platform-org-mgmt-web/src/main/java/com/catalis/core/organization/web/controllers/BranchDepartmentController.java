@@ -3,7 +3,6 @@ package com.catalis.core.organization.web.controllers;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
 import com.catalis.core.organization.core.services.BranchDepartmentService;
-import com.catalis.core.organization.core.services.BranchService;
 import com.catalis.core.organization.interfaces.dtos.BranchDepartmentDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,9 +27,6 @@ public class BranchDepartmentController {
     @Autowired
     private BranchDepartmentService branchDepartmentService;
 
-    @Autowired
-    private BranchService branchService;
-
     @Operation(summary = "Get all departments for a branch with filtering", description = "Returns a paginated list of departments for a specific branch based on filter criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved branch departments",
@@ -45,14 +41,7 @@ public class BranchDepartmentController {
             @PathVariable Long branchId,
             @Parameter(description = "Filter criteria for branch departments", required = true)
             @Valid @RequestBody FilterRequest<BranchDepartmentDTO> filterRequest) {
-        // Verify that the branch exists
-        return branchService.getBranchById(branchId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
-                .flatMap(branch -> {
-                    // In a real implementation, you might want to add branchId to the filter criteria
-                    // For now, we'll just pass the filter request to the service
-                    return branchDepartmentService.filterBranchDepartments(filterRequest);
-                });
+        return branchDepartmentService.filterBranchDepartmentsForBranch(branchId, filterRequest);
     }
 
     @Operation(summary = "Create a new department for a branch", description = "Creates a new department for a specific branch with the provided details")
@@ -70,14 +59,7 @@ public class BranchDepartmentController {
             @PathVariable Long branchId,
             @Parameter(description = "Branch department details to create", required = true)
             @Valid @RequestBody BranchDepartmentDTO branchDepartmentDTO) {
-        // Verify that the branch exists
-        return branchService.getBranchById(branchId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
-                .flatMap(branch -> {
-                    // Set the branchId from the path variable
-                    branchDepartmentDTO.setBranchId(branchId);
-                    return branchDepartmentService.createBranchDepartment(branchDepartmentDTO);
-                });
+        return branchDepartmentService.createBranchDepartmentForBranch(branchId, branchDepartmentDTO);
     }
 
     @Operation(summary = "Get branch department by ID", description = "Returns a department of a specific branch based on its ID")
@@ -93,12 +75,7 @@ public class BranchDepartmentController {
             @PathVariable Long branchId,
             @Parameter(description = "ID of the department to retrieve", required = true)
             @PathVariable Long departmentId) {
-        // Verify that the branch exists
-        return branchService.getBranchById(branchId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
-                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
-                .filter(department -> department.getBranchId().equals(branchId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)));
+        return branchDepartmentService.getBranchDepartmentByIdForBranch(branchId, departmentId);
     }
 
     @Operation(summary = "Update branch department", description = "Updates an existing department of a specific branch with the provided details")
@@ -117,17 +94,7 @@ public class BranchDepartmentController {
             @PathVariable Long departmentId,
             @Parameter(description = "Updated branch department details", required = true)
             @Valid @RequestBody BranchDepartmentDTO branchDepartmentDTO) {
-        // Verify that the branch exists
-        return branchService.getBranchById(branchId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
-                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
-                .filter(department -> department.getBranchId().equals(branchId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
-                .flatMap(department -> {
-                    // Set the branchId from the path variable
-                    branchDepartmentDTO.setBranchId(branchId);
-                    return branchDepartmentService.updateBranchDepartment(departmentId, branchDepartmentDTO);
-                });
+        return branchDepartmentService.updateBranchDepartmentForBranch(branchId, departmentId, branchDepartmentDTO);
     }
 
     @Operation(summary = "Delete branch department", description = "Deletes a department of a specific branch based on its ID")
@@ -143,12 +110,6 @@ public class BranchDepartmentController {
             @PathVariable Long branchId,
             @Parameter(description = "ID of the department to delete", required = true)
             @PathVariable Long departmentId) {
-        // Verify that the branch exists
-        return branchService.getBranchById(branchId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
-                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
-                .filter(department -> department.getBranchId().equals(branchId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
-                .flatMap(department -> branchDepartmentService.deleteBranchDepartment(departmentId));
+        return branchDepartmentService.deleteBranchDepartmentForBranch(branchId, departmentId);
     }
 }

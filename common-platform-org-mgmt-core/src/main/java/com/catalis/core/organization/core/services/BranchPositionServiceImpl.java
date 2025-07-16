@@ -22,6 +22,12 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     @Autowired
     private BranchPositionMapper mapper;
 
+    @Autowired
+    private BranchService branchService;
+
+    @Autowired
+    private BranchDepartmentService branchDepartmentService;
+
     @Override
     public Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositions(FilterRequest<BranchPositionDTO> filterRequest) {
         return FilterUtils
@@ -33,11 +39,34 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
+    public Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositionsForDepartment(Long branchId, Long departmentId, FilterRequest<BranchPositionDTO> filterRequest) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> filterBranchPositions(filterRequest));
+    }
+
+    @Override
     public Mono<BranchPositionDTO> createBranchPosition(BranchPositionDTO branchPositionDTO) {
         return Mono.just(branchPositionDTO)
                 .map(mapper::toEntity)
                 .flatMap(repository::save)
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public Mono<BranchPositionDTO> createBranchPositionForDepartment(Long branchId, Long departmentId, BranchPositionDTO branchPositionDTO) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> {
+                    branchPositionDTO.setDepartmentId(departmentId);
+                    return createBranchPosition(branchPositionDTO);
+                });
     }
 
     @Override
@@ -53,6 +82,22 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
+    public Mono<BranchPositionDTO> updateBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId, BranchPositionDTO branchPositionDTO) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> getBranchPositionById(positionId))
+                .filter(position -> position.getDepartmentId().equals(departmentId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Position not found for department with ID: " + departmentId)))
+                .flatMap(position -> {
+                    branchPositionDTO.setDepartmentId(departmentId);
+                    return updateBranchPosition(positionId, branchPositionDTO);
+                });
+    }
+
+    @Override
     public Mono<Void> deleteBranchPosition(Long branchPositionId) {
         return repository.findById(branchPositionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch position not found with ID: " + branchPositionId)))
@@ -60,9 +105,34 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
+    public Mono<Void> deleteBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> getBranchPositionById(positionId))
+                .filter(position -> position.getDepartmentId().equals(departmentId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Position not found for department with ID: " + departmentId)))
+                .flatMap(position -> deleteBranchPosition(positionId));
+    }
+
+    @Override
     public Mono<BranchPositionDTO> getBranchPositionById(Long branchPositionId) {
         return repository.findById(branchPositionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch position not found with ID: " + branchPositionId)))
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public Mono<BranchPositionDTO> getBranchPositionByIdForDepartment(Long branchId, Long departmentId, Long positionId) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> getBranchPositionById(positionId))
+                .filter(position -> position.getDepartmentId().equals(departmentId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Position not found for department with ID: " + departmentId)));
     }
 }

@@ -22,6 +22,9 @@ public class BranchDepartmentServiceImpl implements BranchDepartmentService {
     @Autowired
     private BranchDepartmentMapper mapper;
 
+    @Autowired
+    private BranchService branchService;
+
     @Override
     public Mono<PaginationResponse<BranchDepartmentDTO>> filterBranchDepartments(FilterRequest<BranchDepartmentDTO> filterRequest) {
         return FilterUtils
@@ -33,11 +36,28 @@ public class BranchDepartmentServiceImpl implements BranchDepartmentService {
     }
 
     @Override
+    public Mono<PaginationResponse<BranchDepartmentDTO>> filterBranchDepartmentsForBranch(Long branchId, FilterRequest<BranchDepartmentDTO> filterRequest) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> filterBranchDepartments(filterRequest));
+    }
+
+    @Override
     public Mono<BranchDepartmentDTO> createBranchDepartment(BranchDepartmentDTO branchDepartmentDTO) {
         return Mono.just(branchDepartmentDTO)
                 .map(mapper::toEntity)
                 .flatMap(repository::save)
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public Mono<BranchDepartmentDTO> createBranchDepartmentForBranch(Long branchId, BranchDepartmentDTO branchDepartmentDTO) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> {
+                    branchDepartmentDTO.setBranchId(branchId);
+                    return createBranchDepartment(branchDepartmentDTO);
+                });
     }
 
     @Override
@@ -53,6 +73,19 @@ public class BranchDepartmentServiceImpl implements BranchDepartmentService {
     }
 
     @Override
+    public Mono<BranchDepartmentDTO> updateBranchDepartmentForBranch(Long branchId, Long departmentId, BranchDepartmentDTO branchDepartmentDTO) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> {
+                    branchDepartmentDTO.setBranchId(branchId);
+                    return updateBranchDepartment(departmentId, branchDepartmentDTO);
+                });
+    }
+
+    @Override
     public Mono<Void> deleteBranchDepartment(Long branchDepartmentId) {
         return repository.findById(branchDepartmentId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch department not found with ID: " + branchDepartmentId)))
@@ -60,9 +93,28 @@ public class BranchDepartmentServiceImpl implements BranchDepartmentService {
     }
 
     @Override
+    public Mono<Void> deleteBranchDepartmentForBranch(Long branchId, Long departmentId) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)))
+                .flatMap(department -> deleteBranchDepartment(departmentId));
+    }
+
+    @Override
     public Mono<BranchDepartmentDTO> getBranchDepartmentById(Long branchDepartmentId) {
         return repository.findById(branchDepartmentId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch department not found with ID: " + branchDepartmentId)))
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public Mono<BranchDepartmentDTO> getBranchDepartmentByIdForBranch(Long branchId, Long departmentId) {
+        return branchService.getBranchById(branchId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
+                .flatMap(branch -> getBranchDepartmentById(departmentId))
+                .filter(department -> department.getBranchId().equals(branchId))
+                .switchIfEmpty(Mono.error(new RuntimeException("Department not found for branch with ID: " + branchId)));
     }
 }

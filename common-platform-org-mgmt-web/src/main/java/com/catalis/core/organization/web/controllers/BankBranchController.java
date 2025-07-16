@@ -2,7 +2,6 @@ package com.catalis.core.organization.web.controllers;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.organization.core.services.BankService;
 import com.catalis.core.organization.core.services.BranchService;
 import com.catalis.core.organization.interfaces.dtos.BranchDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,9 +27,6 @@ public class BankBranchController {
     @Autowired
     private BranchService branchService;
 
-    @Autowired
-    private BankService bankService;
-
     @Operation(summary = "Get all branches for a bank with filtering", description = "Returns a paginated list of branches for a specific bank based on filter criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved branches",
@@ -45,12 +41,7 @@ public class BankBranchController {
             @PathVariable Long bankId,
             @Parameter(description = "Filter criteria for branches", required = true)
             @Valid @RequestBody FilterRequest<BranchDTO> filterRequest) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> {
-                    return branchService.filterBranches(filterRequest);
-                });
+        return branchService.filterBranchesForBank(bankId, filterRequest);
     }
 
     @Operation(summary = "Create a new branch for a bank", description = "Creates a new branch for a specific bank with the provided details")
@@ -68,14 +59,7 @@ public class BankBranchController {
             @PathVariable Long bankId,
             @Parameter(description = "Branch details to create", required = true)
             @Valid @RequestBody BranchDTO branchDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> {
-                    // Set the bankId from the path variable
-                    branchDTO.setBankId(bankId);
-                    return branchService.createBranch(branchDTO);
-                });
+        return branchService.createBranchForBank(bankId, branchDTO);
     }
 
     @Operation(summary = "Get branch by ID for a bank", description = "Returns a branch of a specific bank based on its ID")
@@ -91,12 +75,7 @@ public class BankBranchController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the branch to retrieve", required = true)
             @PathVariable Long branchId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> branchService.getBranchById(branchId))
-                .filter(branch -> branch.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found for bank with ID: " + bankId)));
+        return branchService.getBranchByIdForBank(bankId, branchId);
     }
 
     @Operation(summary = "Update branch for a bank", description = "Updates an existing branch of a specific bank with the provided details")
@@ -115,17 +94,7 @@ public class BankBranchController {
             @PathVariable Long branchId,
             @Parameter(description = "Updated branch details", required = true)
             @Valid @RequestBody BranchDTO branchDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> branchService.getBranchById(branchId))
-                .filter(branch -> branch.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found for bank with ID: " + bankId)))
-                .flatMap(branch -> {
-                    // Set the bankId from the path variable
-                    branchDTO.setBankId(bankId);
-                    return branchService.updateBranch(branchId, branchDTO);
-                });
+        return branchService.updateBranchForBank(bankId, branchId, branchDTO);
     }
 
     @Operation(summary = "Delete branch for a bank", description = "Deletes a branch of a specific bank based on its ID")
@@ -141,12 +110,6 @@ public class BankBranchController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the branch to delete", required = true)
             @PathVariable Long branchId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> branchService.getBranchById(branchId))
-                .filter(branch -> branch.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Branch not found for bank with ID: " + bankId)))
-                .flatMap(branch -> branchService.deleteBranch(branchId));
+        return branchService.deleteBranchForBank(bankId, branchId);
     }
 }

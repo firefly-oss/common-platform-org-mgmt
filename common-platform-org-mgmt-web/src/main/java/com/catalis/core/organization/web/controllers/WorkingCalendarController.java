@@ -2,7 +2,6 @@ package com.catalis.core.organization.web.controllers;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.organization.core.services.BankService;
 import com.catalis.core.organization.core.services.WorkingCalendarService;
 import com.catalis.core.organization.interfaces.dtos.WorkingCalendarDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,9 +27,6 @@ public class WorkingCalendarController {
     @Autowired
     private WorkingCalendarService workingCalendarService;
 
-    @Autowired
-    private BankService bankService;
-
     @Operation(summary = "Get all calendars for a bank with filtering", description = "Returns a paginated list of working calendars for a specific bank based on filter criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved working calendars",
@@ -45,14 +41,7 @@ public class WorkingCalendarController {
             @PathVariable Long bankId,
             @Parameter(description = "Filter criteria for working calendars", required = true)
             @Valid @RequestBody FilterRequest<WorkingCalendarDTO> filterRequest) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> {
-                    // In a real implementation, you might want to add bankId to the filter criteria
-                    // For now, we'll just pass the filter request to the service
-                    return workingCalendarService.filterWorkingCalendars(filterRequest);
-                });
+        return workingCalendarService.filterWorkingCalendarsForBank(bankId, filterRequest);
     }
 
     @Operation(summary = "Create a new working calendar for a bank", description = "Creates a new working calendar for a specific bank with the provided details")
@@ -70,14 +59,7 @@ public class WorkingCalendarController {
             @PathVariable Long bankId,
             @Parameter(description = "Working calendar details to create", required = true)
             @Valid @RequestBody WorkingCalendarDTO workingCalendarDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> {
-                    // Set the bankId from the path variable
-                    workingCalendarDTO.setBankId(bankId);
-                    return workingCalendarService.createWorkingCalendar(workingCalendarDTO);
-                });
+        return workingCalendarService.createWorkingCalendarForBank(bankId, workingCalendarDTO);
     }
 
     @Operation(summary = "Get working calendar by ID", description = "Returns a working calendar of a specific bank based on its ID")
@@ -93,12 +75,7 @@ public class WorkingCalendarController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the calendar to retrieve", required = true)
             @PathVariable Long calendarId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)));
+        return workingCalendarService.getWorkingCalendarByIdForBank(bankId, calendarId);
     }
 
     @Operation(summary = "Update working calendar", description = "Updates an existing working calendar of a specific bank with the provided details")
@@ -117,17 +94,7 @@ public class WorkingCalendarController {
             @PathVariable Long calendarId,
             @Parameter(description = "Updated working calendar details", required = true)
             @Valid @RequestBody WorkingCalendarDTO workingCalendarDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                .flatMap(calendar -> {
-                    // Set the bankId from the path variable
-                    workingCalendarDTO.setBankId(bankId);
-                    return workingCalendarService.updateWorkingCalendar(calendarId, workingCalendarDTO);
-                });
+        return workingCalendarService.updateWorkingCalendarForBank(bankId, calendarId, workingCalendarDTO);
     }
 
     @Operation(summary = "Delete working calendar", description = "Deletes a working calendar of a specific bank based on its ID")
@@ -143,12 +110,6 @@ public class WorkingCalendarController {
             @PathVariable Long bankId,
             @Parameter(description = "ID of the calendar to delete", required = true)
             @PathVariable Long calendarId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                .flatMap(calendar -> workingCalendarService.deleteWorkingCalendar(calendarId));
+        return workingCalendarService.deleteWorkingCalendarForBank(bankId, calendarId);
     }
 }

@@ -2,7 +2,6 @@ package com.catalis.core.organization.web.controllers;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.organization.core.services.BankDivisionService;
 import com.catalis.core.organization.core.services.BankRegionService;
 import com.catalis.core.organization.interfaces.dtos.BankRegionDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,9 +27,6 @@ public class BankRegionController {
     @Autowired
     private BankRegionService bankRegionService;
 
-    @Autowired
-    private BankDivisionService bankDivisionService;
-
     @Operation(summary = "Get all regions for a bank division with filtering", description = "Returns a paginated list of regions for a specific bank division based on filter criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved bank regions",
@@ -47,11 +43,7 @@ public class BankRegionController {
             @PathVariable Long divisionId,
             @Parameter(description = "Filter criteria for bank regions", required = true)
             @Valid @RequestBody FilterRequest<BankRegionDTO> filterRequest) {
-        // Verify that the division belongs to the bank
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankRegionService.filterBankRegions(filterRequest));
+        return bankRegionService.filterBankRegionsForDivision(bankId, divisionId, filterRequest);
     }
 
     @Operation(summary = "Create a new region for a bank division", description = "Creates a new region for a specific bank division with the provided details")
@@ -71,15 +63,7 @@ public class BankRegionController {
             @PathVariable Long divisionId,
             @Parameter(description = "Bank region details to create", required = true)
             @Valid @RequestBody BankRegionDTO bankRegionDTO) {
-        // Verify that the division belongs to the bank
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> {
-                    // Set the divisionId from the path variable
-                    bankRegionDTO.setDivisionId(divisionId);
-                    return bankRegionService.createBankRegion(bankRegionDTO);
-                });
+        return bankRegionService.createBankRegionForDivision(bankId, divisionId, bankRegionDTO);
     }
 
     @Operation(summary = "Get bank region by ID", description = "Returns a region of a specific bank division based on its ID")
@@ -97,13 +81,7 @@ public class BankRegionController {
             @PathVariable Long divisionId,
             @Parameter(description = "ID of the region to retrieve", required = true)
             @PathVariable Long regionId) {
-        // Verify that the division belongs to the bank
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankRegionService.getBankRegionById(regionId))
-                .filter(region -> region.getDivisionId().equals(divisionId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Region not found for division with ID: " + divisionId)));
+        return bankRegionService.getBankRegionByIdForDivision(bankId, divisionId, regionId);
     }
 
     @Operation(summary = "Update bank region", description = "Updates an existing region of a specific bank division with the provided details")
@@ -124,18 +102,7 @@ public class BankRegionController {
             @PathVariable Long regionId,
             @Parameter(description = "Updated bank region details", required = true)
             @Valid @RequestBody BankRegionDTO bankRegionDTO) {
-        // Verify that the division belongs to the bank
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankRegionService.getBankRegionById(regionId))
-                .filter(region -> region.getDivisionId().equals(divisionId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Region not found for division with ID: " + divisionId)))
-                .flatMap(region -> {
-                    // Set the divisionId from the path variable
-                    bankRegionDTO.setDivisionId(divisionId);
-                    return bankRegionService.updateBankRegion(regionId, bankRegionDTO);
-                });
+        return bankRegionService.updateBankRegionForDivision(bankId, divisionId, regionId, bankRegionDTO);
     }
 
     @Operation(summary = "Delete bank region", description = "Deletes a region of a specific bank division based on its ID")
@@ -153,13 +120,6 @@ public class BankRegionController {
             @PathVariable Long divisionId,
             @Parameter(description = "ID of the region to delete", required = true)
             @PathVariable Long regionId) {
-        // Verify that the division belongs to the bank
-        return bankDivisionService.getBankDivisionById(divisionId)
-                .filter(division -> division.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
-                .flatMap(division -> bankRegionService.getBankRegionById(regionId))
-                .filter(region -> region.getDivisionId().equals(divisionId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Region not found for division with ID: " + divisionId)))
-                .flatMap(region -> bankRegionService.deleteBankRegion(regionId));
+        return bankRegionService.deleteBankRegionForDivision(bankId, divisionId, regionId);
     }
 }

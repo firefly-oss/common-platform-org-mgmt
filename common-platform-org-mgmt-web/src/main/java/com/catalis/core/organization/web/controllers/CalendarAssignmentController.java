@@ -2,9 +2,7 @@ package com.catalis.core.organization.web.controllers;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.organization.core.services.BankService;
 import com.catalis.core.organization.core.services.CalendarAssignmentService;
-import com.catalis.core.organization.core.services.WorkingCalendarService;
 import com.catalis.core.organization.interfaces.dtos.CalendarAssignmentDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,12 +27,6 @@ public class CalendarAssignmentController {
     @Autowired
     private CalendarAssignmentService calendarAssignmentService;
 
-    @Autowired
-    private WorkingCalendarService workingCalendarService;
-
-    @Autowired
-    private BankService bankService;
-
     @Operation(summary = "Get all assignments for a calendar with filtering", description = "Returns a paginated list of assignments for a specific working calendar based on filter criteria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved calendar assignments",
@@ -51,18 +43,7 @@ public class CalendarAssignmentController {
             @PathVariable Long calendarId,
             @Parameter(description = "Filter criteria for calendar assignments", required = true)
             @Valid @RequestBody FilterRequest<CalendarAssignmentDTO> filterRequest) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                // Verify that the calendar exists and belongs to the bank
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                .flatMap(calendar -> {
-                    // In a real implementation, you might want to add calendarId to the filter criteria
-                    // For now, we'll just pass the filter request to the service
-                    return calendarAssignmentService.filterCalendarAssignments(filterRequest);
-                });
+        return calendarAssignmentService.filterCalendarAssignmentsForCalendar(bankId, calendarId, filterRequest);
     }
 
     @Operation(summary = "Create a new assignment for a calendar", description = "Creates a new assignment for a specific working calendar with the provided details")
@@ -82,18 +63,7 @@ public class CalendarAssignmentController {
             @PathVariable Long calendarId,
             @Parameter(description = "Calendar assignment details to create", required = true)
             @Valid @RequestBody CalendarAssignmentDTO calendarAssignmentDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                // Verify that the calendar exists and belongs to the bank
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                .flatMap(calendar -> {
-                    // Set the calendarId from the path variable
-                    calendarAssignmentDTO.setCalendarId(calendarId);
-                    return calendarAssignmentService.createCalendarAssignment(calendarAssignmentDTO);
-                });
+        return calendarAssignmentService.createCalendarAssignmentForCalendar(bankId, calendarId, calendarAssignmentDTO);
     }
 
     @Operation(summary = "Get calendar assignment by ID", description = "Returns an assignment of a specific working calendar based on its ID")
@@ -111,17 +81,7 @@ public class CalendarAssignmentController {
             @PathVariable Long calendarId,
             @Parameter(description = "ID of the assignment to retrieve", required = true)
             @PathVariable Long assignmentId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                // Verify that the calendar exists and belongs to the bank
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                // Verify that the assignment exists and belongs to the calendar
-                .flatMap(calendar -> calendarAssignmentService.getCalendarAssignmentById(assignmentId))
-                .filter(assignment -> assignment.getCalendarId().equals(calendarId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Assignment not found for calendar with ID: " + calendarId)));
+        return calendarAssignmentService.getCalendarAssignmentByIdForCalendar(bankId, calendarId, assignmentId);
     }
 
     @Operation(summary = "Update calendar assignment", description = "Updates an existing assignment of a specific working calendar with the provided details")
@@ -142,22 +102,7 @@ public class CalendarAssignmentController {
             @PathVariable Long assignmentId,
             @Parameter(description = "Updated calendar assignment details", required = true)
             @Valid @RequestBody CalendarAssignmentDTO calendarAssignmentDTO) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                // Verify that the calendar exists and belongs to the bank
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                // Verify that the assignment exists and belongs to the calendar
-                .flatMap(calendar -> calendarAssignmentService.getCalendarAssignmentById(assignmentId))
-                .filter(assignment -> assignment.getCalendarId().equals(calendarId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Assignment not found for calendar with ID: " + calendarId)))
-                .flatMap(assignment -> {
-                    // Set the calendarId from the path variable
-                    calendarAssignmentDTO.setCalendarId(calendarId);
-                    return calendarAssignmentService.updateCalendarAssignment(assignmentId, calendarAssignmentDTO);
-                });
+        return calendarAssignmentService.updateCalendarAssignmentForCalendar(bankId, calendarId, assignmentId, calendarAssignmentDTO);
     }
 
     @Operation(summary = "Delete calendar assignment", description = "Deletes an assignment of a specific working calendar based on its ID")
@@ -175,17 +120,6 @@ public class CalendarAssignmentController {
             @PathVariable Long calendarId,
             @Parameter(description = "ID of the assignment to delete", required = true)
             @PathVariable Long assignmentId) {
-        // Verify that the bank exists
-        return bankService.getBankById(bankId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
-                // Verify that the calendar exists and belongs to the bank
-                .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
-                .filter(calendar -> calendar.getBankId().equals(bankId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Calendar not found for bank with ID: " + bankId)))
-                // Verify that the assignment exists and belongs to the calendar
-                .flatMap(calendar -> calendarAssignmentService.getCalendarAssignmentById(assignmentId))
-                .filter(assignment -> assignment.getCalendarId().equals(calendarId))
-                .switchIfEmpty(Mono.error(new RuntimeException("Assignment not found for calendar with ID: " + calendarId)))
-                .flatMap(assignment -> calendarAssignmentService.deleteCalendarAssignment(assignmentId));
+        return calendarAssignmentService.deleteCalendarAssignmentForCalendar(bankId, calendarId, assignmentId);
     }
 }
