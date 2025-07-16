@@ -30,8 +30,6 @@ tags:
     description: APIs for managing assignments of a specific working calendar
   - name: Bank Branch Management
     description: APIs for managing branches of a specific bank
-  - name: Bank Holiday Management
-    description: APIs for managing holidays of a specific bank
   - name: Bank Management
     description: APIs for managing banks
   - name: Branch Department Management
