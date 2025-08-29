@@ -354,7 +354,7 @@ The Organization Management Microservice provides a comprehensive REST API for m
 ### Building the Project
 ```bash
 # Clone the repository
-git clone https://github.com/catalis/common-platform-org-mgmt.git
+git clone https://github.com/firefly/common-platform-org-mgmt.git
 cd common-platform-org-mgmt
 
 # Build the project
