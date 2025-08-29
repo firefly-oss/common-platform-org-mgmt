@@ -3,8 +3,8 @@ info:
   title: common-platform-org-mgmt
   description: Organization Management Core Application
   contact:
-    name: Catalis Development
-    email: dev@catalis.com
+    name: Firefly Software Solutions Inc
+    email: dev@getfirefly.io
   version: 1.0.0
 servers:
   - url: 'http://core.catalis.vc/organization'
