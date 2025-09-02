@@ -48,30 +48,36 @@ public class CalendarAssignmentServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
         
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testCalendarId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testBranchId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+        UUID testDepartmentId = UUID.fromString("423e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("523e4567-e89b-12d3-a456-426614174000");
+
         calendarAssignmentDTO = CalendarAssignmentDTO.builder()
-                .id(1L)
-                .calendarId(1L)
-                .branchId(1L)
-                .departmentId(1L)
+                .id(testId)
+                .calendarId(testCalendarId)
+                .branchId(testBranchId)
+                .departmentId(testDepartmentId)
                 .positionId(null) // Optional field
                 .effectiveFrom(now)
                 .effectiveTo(now.plusYears(1))
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
 
         calendarAssignment = CalendarAssignment.builder()
-                .id(1L)
-                .calendarId(1L)
-                .branchId(1L)
-                .departmentId(1L)
+                .id(testId)
+                .calendarId(testCalendarId)
+                .branchId(testBranchId)
+                .departmentId(testDepartmentId)
                 .positionId(null) // Optional field
                 .effectiveFrom(now)
                 .effectiveTo(now.plusYears(1))
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
     }
 
@@ -95,7 +101,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void updateCalendarAssignment_WhenCalendarAssignmentExists_ShouldUpdateAndReturnCalendarAssignment() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentMapper.toEntity(calendarAssignmentDTO)).thenReturn(calendarAssignment);
         when(calendarAssignmentRepository.save(calendarAssignment)).thenReturn(Mono.just(calendarAssignment));
@@ -115,7 +121,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void updateCalendarAssignment_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -130,7 +136,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void deleteCalendarAssignment_WhenCalendarAssignmentExists_ShouldDeleteCalendarAssignment() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentRepository.deleteById(calendarAssignmentId)).thenReturn(Mono.empty());
 
@@ -145,7 +151,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void deleteCalendarAssignment_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -160,7 +166,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void getCalendarAssignmentById_WhenCalendarAssignmentExists_ShouldReturnCalendarAssignment() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentMapper.toDTO(calendarAssignment)).thenReturn(calendarAssignmentDTO);
 
@@ -176,7 +182,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void getCalendarAssignmentById_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert

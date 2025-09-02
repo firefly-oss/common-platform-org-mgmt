@@ -48,26 +48,31 @@ public class WorkingCalendarServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
         
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testTimeZoneId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("423e4567-e89b-12d3-a456-426614174000");
+
         workingCalendarDTO = WorkingCalendarDTO.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .name("Standard Working Calendar")
                 .description("Standard 9-5 Working Calendar")
                 .isDefault(true)
-                .timeZoneId(1L)
+                .timeZoneId(testTimeZoneId)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
 
         workingCalendar = WorkingCalendar.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .name("Standard Working Calendar")
                 .description("Standard 9-5 Working Calendar")
                 .isDefault(true)
-                .timeZoneId(1L)
+                .timeZoneId(testTimeZoneId)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
     }
 
@@ -91,7 +96,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void updateWorkingCalendar_WhenWorkingCalendarExists_ShouldUpdateAndReturnWorkingCalendar() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarMapper.toEntity(workingCalendarDTO)).thenReturn(workingCalendar);
         when(workingCalendarRepository.save(workingCalendar)).thenReturn(Mono.just(workingCalendar));
@@ -111,7 +116,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void updateWorkingCalendar_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -126,7 +131,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void deleteWorkingCalendar_WhenWorkingCalendarExists_ShouldDeleteWorkingCalendar() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarRepository.deleteById(workingCalendarId)).thenReturn(Mono.empty());
 
@@ -141,7 +146,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void deleteWorkingCalendar_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -156,7 +161,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void getWorkingCalendarById_WhenWorkingCalendarExists_ShouldReturnWorkingCalendar() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarMapper.toDTO(workingCalendar)).thenReturn(workingCalendarDTO);
 
@@ -172,7 +177,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void getWorkingCalendarById_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID workingCalendarId = 1L;
+        UUID workingCalendarId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert
