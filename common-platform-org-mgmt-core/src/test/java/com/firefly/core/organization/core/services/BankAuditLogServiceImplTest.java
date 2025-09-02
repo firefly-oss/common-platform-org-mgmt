@@ -49,27 +49,31 @@ public class BankAuditLogServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
 
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+
         bankAuditLogDTO = BankAuditLogDTO.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .action(AuditAction.CREATED)
                 .entity("Bank")
                 .entityId("1")
                 .metadata("{\"name\":\"Test Bank\",\"code\":\"TEST\"}")
                 .ipAddress("192.168.1.1")
-                .userId(1L)
+                .userId(testUserId)
                 .timestamp(now)
                 .build();
 
         bankAuditLog = BankAuditLog.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .action(AuditAction.CREATED)
                 .entity("Bank")
                 .entityId("1")
                 .metadata("{\"name\":\"Test Bank\",\"code\":\"TEST\"}")
                 .ipAddress("192.168.1.1")
-                .userId(1L)
+                .userId(testUserId)
                 .timestamp(now)
                 .build();
     }
@@ -95,7 +99,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void updateBankAuditLog_WhenBankAuditLogExists_ShouldUpdateAndReturnBankAuditLog() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogMapper.toEntity(bankAuditLogDTO)).thenReturn(bankAuditLog);
         when(bankAuditLogRepository.save(bankAuditLog)).thenReturn(Mono.just(bankAuditLog));
@@ -115,7 +119,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void updateBankAuditLog_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -130,7 +134,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void deleteBankAuditLog_WhenBankAuditLogExists_ShouldDeleteBankAuditLog() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogRepository.deleteById(bankAuditLogId)).thenReturn(Mono.empty());
 
@@ -145,7 +149,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void deleteBankAuditLog_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -160,7 +164,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void getBankAuditLogById_WhenBankAuditLogExists_ShouldReturnBankAuditLog() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogMapper.toDTO(bankAuditLog)).thenReturn(bankAuditLogDTO);
 
@@ -176,7 +180,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void getBankAuditLogById_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankAuditLogId = 1L;
+        UUID bankAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert

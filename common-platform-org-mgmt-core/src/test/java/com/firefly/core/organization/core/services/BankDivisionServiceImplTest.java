@@ -46,9 +46,12 @@ public class BankDivisionServiceImplTest {
     @BeforeEach
     void setUp() {
         // Setup test data
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+
         bankDivisionDTO = BankDivisionDTO.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .code("TEST_DIVISION")
                 .name("Test Division")
                 .description("Test Division Description")
@@ -57,8 +60,8 @@ public class BankDivisionServiceImplTest {
                 .build();
 
         bankDivision = BankDivision.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .code("TEST_DIVISION")
                 .name("Test Division")
                 .description("Test Division Description")
@@ -88,7 +91,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void updateBankDivision_WhenBankDivisionExists_ShouldUpdateAndReturnBankDivision() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionMapper.toEntity(bankDivisionDTO)).thenReturn(bankDivision);
         when(bankDivisionRepository.save(bankDivision)).thenReturn(Mono.just(bankDivision));
@@ -108,7 +111,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void updateBankDivision_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -123,7 +126,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void deleteBankDivision_WhenBankDivisionExists_ShouldDeleteBankDivision() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionRepository.deleteById(bankDivisionId)).thenReturn(Mono.empty());
 
@@ -138,7 +141,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void deleteBankDivision_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -153,7 +156,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void getBankDivisionById_WhenBankDivisionExists_ShouldReturnBankDivision() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionMapper.toDTO(bankDivision)).thenReturn(bankDivisionDTO);
 
@@ -169,7 +172,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void getBankDivisionById_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankDivisionId = 1L;
+        UUID bankDivisionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert

@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.function.Function;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -47,8 +47,9 @@ public class BankServiceImplTest {
     @BeforeEach
     void setUp() {
         // Setup test data
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         bankDTO = BankDTO.builder()
-                .id(1L)
+                .id(testId)
                 .code("TEST")
                 .name("Test Bank")
                 .description("Test Bank Description")
@@ -57,7 +58,7 @@ public class BankServiceImplTest {
                 .build();
 
         bank = Bank.builder()
-                .id(1L)
+                .id(testId)
                 .code("TEST")
                 .name("Test Bank")
                 .description("Test Bank Description")
@@ -87,7 +88,7 @@ public class BankServiceImplTest {
     @Test
     void updateBank_WhenBankExists_ShouldUpdateAndReturnBank() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankMapper.toEntity(bankDTO)).thenReturn(bank);
         when(bankRepository.save(bank)).thenReturn(Mono.just(bank));
@@ -107,7 +108,7 @@ public class BankServiceImplTest {
     @Test
     void updateBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -122,7 +123,7 @@ public class BankServiceImplTest {
     @Test
     void deleteBank_WhenBankExists_ShouldDeleteBank() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankRepository.deleteById(bankId)).thenReturn(Mono.empty());
 
@@ -137,7 +138,7 @@ public class BankServiceImplTest {
     @Test
     void deleteBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -152,7 +153,7 @@ public class BankServiceImplTest {
     @Test
     void getBankById_WhenBankExists_ShouldReturnBank() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankMapper.toDTO(bank)).thenReturn(bankDTO);
 
@@ -168,7 +169,7 @@ public class BankServiceImplTest {
     @Test
     void getBankById_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert

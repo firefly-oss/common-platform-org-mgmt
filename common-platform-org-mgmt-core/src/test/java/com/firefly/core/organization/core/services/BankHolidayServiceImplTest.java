@@ -50,9 +50,12 @@ public class BankHolidayServiceImplTest {
         LocalDate holidayDate = LocalDate.of(2023, 12, 25);
         LocalDateTime now = LocalDateTime.now();
 
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+
         bankHolidayDTO = BankHolidayDTO.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .name("Christmas Day")
                 .date(holidayDate)
                 .isRecurring(true)
@@ -61,8 +64,8 @@ public class BankHolidayServiceImplTest {
                 .build();
 
         bankHoliday = BankHoliday.builder()
-                .id(1L)
-                .bankId(1L)
+                .id(testId)
+                .bankId(testBankId)
                 .name("Christmas Day")
                 .date(holidayDate)
                 .isRecurring(true)
@@ -92,7 +95,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void updateBankHoliday_WhenBankHolidayExists_ShouldUpdateAndReturnBankHoliday() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayMapper.toEntity(bankHolidayDTO)).thenReturn(bankHoliday);
         when(bankHolidayRepository.save(bankHoliday)).thenReturn(Mono.just(bankHoliday));
@@ -112,7 +115,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void updateBankHoliday_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -127,7 +130,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void deleteBankHoliday_WhenBankHolidayExists_ShouldDeleteBankHoliday() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayRepository.deleteById(bankHolidayId)).thenReturn(Mono.empty());
 
@@ -142,7 +145,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void deleteBankHoliday_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -157,7 +160,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void getBankHolidayById_WhenBankHolidayExists_ShouldReturnBankHoliday() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayMapper.toDTO(bankHoliday)).thenReturn(bankHolidayDTO);
 
@@ -173,7 +176,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void getBankHolidayById_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankHolidayId = 1L;
+        UUID bankHolidayId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert
