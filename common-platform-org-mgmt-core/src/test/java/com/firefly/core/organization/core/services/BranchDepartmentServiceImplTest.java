@@ -48,24 +48,28 @@ public class BranchDepartmentServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
         
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBranchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+
         branchDepartmentDTO = BranchDepartmentDTO.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .name("Customer Service")
                 .description("Customer Service Department")
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
 
         branchDepartment = BranchDepartment.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .name("Customer Service")
                 .description("Customer Service Department")
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
     }
 
@@ -89,7 +93,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void updateBranchDepartment_WhenBranchDepartmentExists_ShouldUpdateAndReturnBranchDepartment() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentMapper.toEntity(branchDepartmentDTO)).thenReturn(branchDepartment);
         when(branchDepartmentRepository.save(branchDepartment)).thenReturn(Mono.just(branchDepartment));
@@ -109,7 +113,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void updateBranchDepartment_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -124,7 +128,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void deleteBranchDepartment_WhenBranchDepartmentExists_ShouldDeleteBranchDepartment() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentRepository.deleteById(branchDepartmentId)).thenReturn(Mono.empty());
 
@@ -139,7 +143,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void deleteBranchDepartment_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -154,7 +158,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void getBranchDepartmentById_WhenBranchDepartmentExists_ShouldReturnBranchDepartment() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentMapper.toDTO(branchDepartment)).thenReturn(branchDepartmentDTO);
 
@@ -170,7 +174,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void getBranchDepartmentById_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchDepartmentId = 1L;
+        UUID branchDepartmentId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert

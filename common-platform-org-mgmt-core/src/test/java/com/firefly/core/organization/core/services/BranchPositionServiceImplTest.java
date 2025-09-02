@@ -48,24 +48,28 @@ public class BranchPositionServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
         
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testDepartmentId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+
         branchPositionDTO = BranchPositionDTO.builder()
-                .id(1L)
-                .departmentId(1L)
+                .id(testId)
+                .departmentId(testDepartmentId)
                 .title("Teller")
                 .description("Bank Teller Position")
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
 
         branchPosition = BranchPosition.builder()
-                .id(1L)
-                .departmentId(1L)
+                .id(testId)
+                .departmentId(testDepartmentId)
                 .title("Teller")
                 .description("Bank Teller Position")
                 .isActive(true)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(testUserId)
                 .build();
     }
 
@@ -89,7 +93,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void updateBranchPosition_WhenBranchPositionExists_ShouldUpdateAndReturnBranchPosition() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionMapper.toEntity(branchPositionDTO)).thenReturn(branchPosition);
         when(branchPositionRepository.save(branchPosition)).thenReturn(Mono.just(branchPosition));
@@ -109,7 +113,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void updateBranchPosition_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -124,7 +128,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void deleteBranchPosition_WhenBranchPositionExists_ShouldDeleteBranchPosition() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionRepository.deleteById(branchPositionId)).thenReturn(Mono.empty());
 
@@ -139,7 +143,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void deleteBranchPosition_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -154,7 +158,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void getBranchPositionById_WhenBranchPositionExists_ShouldReturnBranchPosition() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionMapper.toDTO(branchPosition)).thenReturn(branchPositionDTO);
 
@@ -170,7 +174,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void getBranchPositionById_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchPositionId = 1L;
+        UUID branchPositionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert

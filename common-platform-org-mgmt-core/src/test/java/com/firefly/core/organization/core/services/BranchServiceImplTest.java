@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.function.Function;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -55,10 +55,15 @@ public class BranchServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
 
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testRegionId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+        UUID testCountryId = UUID.fromString("423e4567-e89b-12d3-a456-426614174000");
+
         branchDTO = BranchDTO.builder()
-                .id(1L)
-                .bankId(1L)
-                .regionId(1L)
+                .id(testId)
+                .bankId(testBankId)
+                .regionId(testRegionId)
                 .code("BR001")
                 .name("Main Branch")
                 .description("Main Branch of Test Bank")
@@ -68,16 +73,16 @@ public class BranchServiceImplTest {
                 .postalCode("12345")
                 .city("Test City")
                 .state("Test State")
-                .countryId(1L)
+                .countryId(testCountryId)
                 .isActive(true)
                 .openedAt(now.minusYears(5))
                 .createdAt(now)
                 .build();
 
         branch = Branch.builder()
-                .id(1L)
-                .bankId(1L)
-                .regionId(1L)
+                .id(testId)
+                .bankId(testBankId)
+                .regionId(testRegionId)
                 .code("BR001")
                 .name("Main Branch")
                 .description("Main Branch of Test Bank")
@@ -87,7 +92,7 @@ public class BranchServiceImplTest {
                 .postalCode("12345")
                 .city("Test City")
                 .state("Test State")
-                .countryId(1L)
+                .countryId(testCountryId)
                 .isActive(true)
                 .openedAt(now.minusYears(5))
                 .createdAt(now)
@@ -115,7 +120,7 @@ public class BranchServiceImplTest {
     @Test
     void updateBranch_WhenBranchExists_ShouldUpdateAndReturnBranch() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));
         when(branchMapper.toEntity(branchDTO)).thenReturn(branch);
         when(branchRepository.save(branch)).thenReturn(Mono.just(branch));
@@ -135,7 +140,7 @@ public class BranchServiceImplTest {
     @Test
     void updateBranch_WhenBranchDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -150,7 +155,7 @@ public class BranchServiceImplTest {
     @Test
     void deleteBranch_WhenBranchExists_ShouldDeleteBranch() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));
         when(branchRepository.deleteById(branchId)).thenReturn(Mono.empty());
 
@@ -165,7 +170,7 @@ public class BranchServiceImplTest {
     @Test
     void deleteBranch_WhenBranchDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -180,7 +185,7 @@ public class BranchServiceImplTest {
     @Test
     void getBranchById_WhenBranchExists_ShouldReturnBranch() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));
         when(branchMapper.toDTO(branch)).thenReturn(branchDTO);
 
@@ -196,7 +201,7 @@ public class BranchServiceImplTest {
     @Test
     void getBranchById_WhenBranchDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchId = 1L;
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchRepository.findById(branchId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -214,7 +219,7 @@ public class BranchServiceImplTest {
     @Test
     void filterBranchesForBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
         FilterRequest<BranchDTO> filterRequest = new FilterRequest<>();
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.empty());
@@ -231,7 +236,7 @@ public class BranchServiceImplTest {
     @Test
     void createBranchForBank_WhenBankExists_ShouldCreateAndReturnBranch() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.just(bankDTO));
@@ -253,7 +258,7 @@ public class BranchServiceImplTest {
     @Test
     void createBranchForBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.empty());
 
@@ -271,8 +276,8 @@ public class BranchServiceImplTest {
     @Test
     void updateBranchForBank_WhenBankAndBranchExistAndBranchBelongsToBank_ShouldUpdateAndReturnBranch() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         branchDTO.setBankId(bankId);
@@ -298,8 +303,8 @@ public class BranchServiceImplTest {
     @Test
     void updateBranchForBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.empty());
 
@@ -310,18 +315,18 @@ public class BranchServiceImplTest {
                 .verify();
 
         verify(bankService).getBankById(bankId);
-        verify(branchRepository, never()).findById(anyLong());
+        verify(branchRepository, never()).findById(any(UUID.class));
     }
 
     @Test
     void updateBranchForBank_WhenBranchDoesNotBelongToBank_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         // Branch belongs to a different bank
-        branchDTO.setBankId(2L);
+        branchDTO.setBankId(UUID.fromString("999e4567-e89b-12d3-a456-426614174000"));
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.just(bankDTO));
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));
@@ -341,8 +346,8 @@ public class BranchServiceImplTest {
     @Test
     void deleteBranchForBank_WhenBankAndBranchExistAndBranchBelongsToBank_ShouldDeleteBranch() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         branchDTO.setBankId(bankId);
@@ -365,8 +370,8 @@ public class BranchServiceImplTest {
     @Test
     void deleteBranchForBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.empty());
 
@@ -377,18 +382,18 @@ public class BranchServiceImplTest {
                 .verify();
 
         verify(bankService).getBankById(bankId);
-        verify(branchRepository, never()).findById(anyLong());
+        verify(branchRepository, never()).findById(any(UUID.class));
     }
 
     @Test
     void deleteBranchForBank_WhenBranchDoesNotBelongToBank_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         // Branch belongs to a different bank
-        branchDTO.setBankId(2L);
+        branchDTO.setBankId(UUID.fromString("999e4567-e89b-12d3-a456-426614174000"));
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.just(bankDTO));
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));
@@ -403,14 +408,14 @@ public class BranchServiceImplTest {
         verify(bankService).getBankById(bankId);
         verify(branchRepository).findById(branchId);
         verify(branchMapper).toDTO(branch);
-        verify(branchRepository, never()).deleteById(anyLong());
+        verify(branchRepository, never()).deleteById(any(UUID.class));
     }
 
     @Test
     void getBranchByIdForBank_WhenBankAndBranchExistAndBranchBelongsToBank_ShouldReturnBranch() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         branchDTO.setBankId(bankId);
@@ -432,8 +437,8 @@ public class BranchServiceImplTest {
     @Test
     void getBranchByIdForBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.empty());
 
@@ -444,18 +449,18 @@ public class BranchServiceImplTest {
                 .verify();
 
         verify(bankService).getBankById(bankId);
-        verify(branchRepository, never()).findById(anyLong());
+        verify(branchRepository, never()).findById(any(UUID.class));
     }
 
     @Test
     void getBranchByIdForBank_WhenBranchDoesNotBelongToBank_ShouldReturnError() {
         // Arrange
-        UUID bankId = 1L;
-        UUID branchId = 1L;
+        UUID bankId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID branchId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         BankDTO bankDTO = BankDTO.builder().id(bankId).build();
 
         // Branch belongs to a different bank
-        branchDTO.setBankId(2L);
+        branchDTO.setBankId(UUID.fromString("999e4567-e89b-12d3-a456-426614174000"));
 
         when(bankService.getBankById(bankId)).thenReturn(Mono.just(bankDTO));
         when(branchRepository.findById(branchId)).thenReturn(Mono.just(branch));

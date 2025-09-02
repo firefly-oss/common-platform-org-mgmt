@@ -49,27 +49,31 @@ public class BranchAuditLogServiceImplTest {
         // Setup test data
         LocalDateTime now = LocalDateTime.now();
 
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBranchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+        UUID testUserId = UUID.fromString("323e4567-e89b-12d3-a456-426614174000");
+
         branchAuditLogDTO = BranchAuditLogDTO.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .action(AuditAction.CREATED)
                 .entity("Branch")
                 .entityId("1")
                 .metadata("{\"name\":\"Main Branch\",\"code\":\"BR001\"}")
                 .ipAddress("192.168.1.1")
-                .userId(1L)
+                .userId(testUserId)
                 .timestamp(now)
                 .build();
 
         branchAuditLog = BranchAuditLog.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .action(AuditAction.CREATED)
                 .entity("Branch")
                 .entityId("1")
                 .metadata("{\"name\":\"Main Branch\",\"code\":\"BR001\"}")
                 .ipAddress("192.168.1.1")
-                .userId(1L)
+                .userId(testUserId)
                 .timestamp(now)
                 .build();
     }
@@ -95,7 +99,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void updateBranchAuditLog_WhenBranchAuditLogExists_ShouldUpdateAndReturnBranchAuditLog() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogMapper.toEntity(branchAuditLogDTO)).thenReturn(branchAuditLog);
         when(branchAuditLogRepository.save(branchAuditLog)).thenReturn(Mono.just(branchAuditLog));
@@ -115,7 +119,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void updateBranchAuditLog_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -130,7 +134,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void deleteBranchAuditLog_WhenBranchAuditLogExists_ShouldDeleteBranchAuditLog() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogRepository.deleteById(branchAuditLogId)).thenReturn(Mono.empty());
 
@@ -145,7 +149,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void deleteBranchAuditLog_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -160,7 +164,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void getBranchAuditLogById_WhenBranchAuditLogExists_ShouldReturnBranchAuditLog() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogMapper.toDTO(branchAuditLog)).thenReturn(branchAuditLogDTO);
 
@@ -176,7 +180,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void getBranchAuditLogById_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchAuditLogId = 1L;
+        UUID branchAuditLogId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert

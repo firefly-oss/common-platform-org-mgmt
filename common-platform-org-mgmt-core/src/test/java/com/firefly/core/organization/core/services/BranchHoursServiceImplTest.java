@@ -52,26 +52,29 @@ public class BranchHoursServiceImplTest {
         LocalTime openTime = LocalTime.of(9, 0); // 9:00 AM
         LocalTime closeTime = LocalTime.of(17, 0); // 5:00 PM
         
+        UUID testId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+        UUID testBranchId = UUID.fromString("223e4567-e89b-12d3-a456-426614174000");
+
         branchHoursDTO = BranchHoursDTO.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .dayOfWeek(DayOfWeek.MONDAY)
                 .openTime(openTime)
                 .closeTime(closeTime)
                 .isClosed(false)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(UUID.fromString("323e4567-e89b-12d3-a456-426614174000"))
                 .build();
 
         branchHours = BranchHours.builder()
-                .id(1L)
-                .branchId(1L)
+                .id(testId)
+                .branchId(testBranchId)
                 .dayOfWeek(DayOfWeek.MONDAY)
                 .openTime(openTime)
                 .closeTime(closeTime)
                 .isClosed(false)
                 .createdAt(now)
-                .createdBy(1L)
+                .createdBy(UUID.fromString("323e4567-e89b-12d3-a456-426614174000"))
                 .build();
     }
 
@@ -95,7 +98,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void updateBranchHours_WhenBranchHoursExists_ShouldUpdateAndReturnBranchHours() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursMapper.toEntity(branchHoursDTO)).thenReturn(branchHours);
         when(branchHoursRepository.save(branchHours)).thenReturn(Mono.just(branchHours));
@@ -115,7 +118,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void updateBranchHours_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -130,7 +133,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void deleteBranchHours_WhenBranchHoursExists_ShouldDeleteBranchHours() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursRepository.deleteById(branchHoursId)).thenReturn(Mono.empty());
 
@@ -145,7 +148,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void deleteBranchHours_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -160,7 +163,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void getBranchHoursById_WhenBranchHoursExists_ShouldReturnBranchHours() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursMapper.toDTO(branchHours)).thenReturn(branchHoursDTO);
 
@@ -176,7 +179,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void getBranchHoursById_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        UUID branchHoursId = 1L;
+        UUID branchHoursId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert
