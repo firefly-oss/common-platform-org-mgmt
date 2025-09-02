@@ -7,7 +7,7 @@ info:
     email: dev@getfirefly.io
   version: 1.0.0
 servers:
-  - url: 'http://core.catalis.vc/organization'
+  - url: http://core.catalis.vc/organization
     description: Development Environment
   - url: /
     description: Local Development Environment
@@ -35,7 +35,7 @@ tags:
   - name: Branch Department Management
     description: APIs for managing departments of a specific branch
 paths:
-  '/api/v1/holidays/{holidayId}':
+  /api/v1/holidays/{holidayId}:
     get:
       tags:
         - Bank Holiday Management
@@ -48,8 +48,8 @@ paths:
           description: ID of the bank holiday to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved bank holiday
@@ -81,13 +81,11 @@ paths:
           description: ID of the bank holiday to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -134,8 +132,8 @@ paths:
           description: ID of the bank holiday to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Bank holiday successfully deleted
@@ -143,7 +141,7 @@ paths:
           description: Bank holiday not found
         '500':
           description: Internal server error
-  '/api/v1/branches/{branchId}/hours/{hoursId}':
+  /api/v1/branches/{branchId}/hours/{hoursId}:
     get:
       tags:
         - Branch Hours Management
@@ -156,15 +154,15 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: hoursId
           in: path
           description: ID of the hours to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved branch hours
@@ -188,9 +186,7 @@ paths:
       tags:
         - Branch Hours Management
       summary: Update branch hours
-      description: >-
-        Updates existing operating hours of a specific branch with the provided
-        details
+      description: Updates existing operating hours of a specific branch with the provided details
       operationId: updateBranchHours
       parameters:
         - name: branchId
@@ -198,20 +194,18 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: hoursId
           in: path
           description: ID of the hours to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -258,15 +252,15 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: hoursId
           in: path
           description: ID of the hours to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Branch hours successfully deleted
@@ -274,7 +268,7 @@ paths:
           description: Branch or hours not found
         '500':
           description: Internal server error
-  '/api/v1/branches/{branchId}/departments/{departmentId}/positions/{positionId}':
+  /api/v1/branches/{branchId}/departments/{departmentId}/positions/{positionId}:
     get:
       tags:
         - Branch Position Management
@@ -287,22 +281,22 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: positionId
           in: path
           description: ID of the position to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved branch position
@@ -311,7 +305,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BranchPositionDTO'
         '404':
-          description: 'Branch, department, or position not found'
+          description: Branch, department, or position not found
           content:
             application/json:
               schema:
@@ -326,9 +320,7 @@ paths:
       tags:
         - Branch Position Management
       summary: Update branch position
-      description: >-
-        Updates an existing position of a specific branch department with the
-        provided details
+      description: Updates an existing position of a specific branch department with the provided details
       operationId: updateBranchPosition
       parameters:
         - name: branchId
@@ -336,27 +328,25 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: positionId
           in: path
           description: ID of the position to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -380,7 +370,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BranchPositionDTO'
         '404':
-          description: 'Branch, department, or position not found'
+          description: Branch, department, or position not found
           content:
             application/json:
               schema:
@@ -403,30 +393,30 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: positionId
           in: path
           description: ID of the position to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Branch position successfully deleted
         '404':
-          description: 'Branch, department, or position not found'
+          description: Branch, department, or position not found
         '500':
           description: Internal server error
-  '/api/v1/branches/{branchId}/departments/{departmentId}':
+  /api/v1/branches/{branchId}/departments/{departmentId}:
     get:
       tags:
         - Branch Department Management
@@ -439,15 +429,15 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved branch department
@@ -471,9 +461,7 @@ paths:
       tags:
         - Branch Department Management
       summary: Update branch department
-      description: >-
-        Updates an existing department of a specific branch with the provided
-        details
+      description: Updates an existing department of a specific branch with the provided details
       operationId: updateBranchDepartment
       parameters:
         - name: branchId
@@ -481,20 +469,18 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -541,15 +527,15 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Branch department successfully deleted
@@ -557,7 +543,7 @@ paths:
           description: Branch or department not found
         '500':
           description: Internal server error
-  '/api/v1/branches/{branchId}':
+  /api/v1/branches/{branchId}:
     get:
       tags:
         - Branch Management
@@ -570,8 +556,8 @@ paths:
           description: ID of the branch to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved branch
@@ -603,13 +589,11 @@ paths:
           description: ID of the branch to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -656,8 +640,8 @@ paths:
           description: ID of the branch to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Branch successfully deleted
@@ -665,7 +649,7 @@ paths:
           description: Branch not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}/divisions/{divisionId}/regions/{regionId}':
+  /api/v1/banks/{bankId}/divisions/{divisionId}/regions/{regionId}:
     get:
       tags:
         - Bank Region Management
@@ -678,22 +662,22 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: regionId
           in: path
           description: ID of the region to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved bank region
@@ -702,7 +686,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BankRegionDTO'
         '404':
-          description: 'Bank, division, or region not found'
+          description: Bank, division, or region not found
           content:
             application/json:
               schema:
@@ -717,9 +701,7 @@ paths:
       tags:
         - Bank Region Management
       summary: Update bank region
-      description: >-
-        Updates an existing region of a specific bank division with the provided
-        details
+      description: Updates an existing region of a specific bank division with the provided details
       operationId: updateBankRegion
       parameters:
         - name: bankId
@@ -727,27 +709,25 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: regionId
           in: path
           description: ID of the region to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -771,7 +751,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BankRegionDTO'
         '404':
-          description: 'Bank, division, or region not found'
+          description: Bank, division, or region not found
           content:
             application/json:
               schema:
@@ -794,30 +774,30 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: regionId
           in: path
           description: ID of the region to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Bank region successfully deleted
         '404':
-          description: 'Bank, division, or region not found'
+          description: Bank, division, or region not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}/divisions/{divisionId}':
+  /api/v1/banks/{bankId}/divisions/{divisionId}:
     get:
       tags:
         - Bank Division Management
@@ -830,15 +810,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved bank division
@@ -862,9 +842,7 @@ paths:
       tags:
         - Bank Division Management
       summary: Update bank division
-      description: >-
-        Updates an existing division of a specific bank with the provided
-        details
+      description: Updates an existing division of a specific bank with the provided details
       operationId: updateBankDivision
       parameters:
         - name: bankId
@@ -872,20 +850,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -932,15 +908,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Bank division successfully deleted
@@ -948,7 +924,7 @@ paths:
           description: Bank or division not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}/calendars/{calendarId}/assignments/{assignmentId}':
+  /api/v1/banks/{bankId}/calendars/{calendarId}/assignments/{assignmentId}:
     get:
       tags:
         - Calendar Assignment Management
@@ -961,22 +937,22 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assignmentId
           in: path
           description: ID of the assignment to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved calendar assignment
@@ -985,7 +961,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalendarAssignmentDTO'
         '404':
-          description: 'Bank, calendar, or assignment not found'
+          description: Bank, calendar, or assignment not found
           content:
             application/json:
               schema:
@@ -1000,9 +976,7 @@ paths:
       tags:
         - Calendar Assignment Management
       summary: Update calendar assignment
-      description: >-
-        Updates an existing assignment of a specific working calendar with the
-        provided details
+      description: Updates an existing assignment of a specific working calendar with the provided details
       operationId: updateCalendarAssignment
       parameters:
         - name: bankId
@@ -1010,27 +984,25 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assignmentId
           in: path
           description: ID of the assignment to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1054,7 +1026,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CalendarAssignmentDTO'
         '404':
-          description: 'Bank, calendar, or assignment not found'
+          description: Bank, calendar, or assignment not found
           content:
             application/json:
               schema:
@@ -1077,30 +1049,30 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: assignmentId
           in: path
           description: ID of the assignment to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Calendar assignment successfully deleted
         '404':
-          description: 'Bank, calendar, or assignment not found'
+          description: Bank, calendar, or assignment not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}/calendars/{calendarId}':
+  /api/v1/banks/{bankId}/calendars/{calendarId}:
     get:
       tags:
         - Working Calendar Management
@@ -1113,15 +1085,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved working calendar
@@ -1145,9 +1117,7 @@ paths:
       tags:
         - Working Calendar Management
       summary: Update working calendar
-      description: >-
-        Updates an existing working calendar of a specific bank with the
-        provided details
+      description: Updates an existing working calendar of a specific bank with the provided details
       operationId: updateWorkingCalendar
       parameters:
         - name: bankId
@@ -1155,20 +1125,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1215,15 +1183,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Working calendar successfully deleted
@@ -1231,7 +1199,7 @@ paths:
           description: Bank or calendar not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}/branches/{branchId}':
+  /api/v1/banks/{bankId}/branches/{branchId}:
     get:
       tags:
         - Bank Branch Management
@@ -1244,15 +1212,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: branchId
           in: path
           description: ID of the branch to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved branch
@@ -1284,20 +1252,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: branchId
           in: path
           description: ID of the branch to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1344,15 +1310,15 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: branchId
           in: path
           description: ID of the branch to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Branch successfully deleted
@@ -1360,7 +1326,7 @@ paths:
           description: Bank or branch not found
         '500':
           description: Internal server error
-  '/api/v1/banks/{bankId}':
+  /api/v1/banks/{bankId}:
     get:
       tags:
         - Bank Management
@@ -1373,8 +1339,8 @@ paths:
           description: ID of the bank to retrieve
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '200':
           description: Successfully retrieved bank
@@ -1406,13 +1372,11 @@ paths:
           description: ID of the bank to update
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1459,8 +1423,8 @@ paths:
           description: ID of the bank to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       responses:
         '204':
           description: Bank successfully deleted
@@ -1478,9 +1442,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1519,9 +1481,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1550,14 +1510,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankHolidayDTO'
-  '/api/v1/branches/{branchId}/hours/filter':
+  /api/v1/branches/{branchId}/hours/filter:
     post:
       tags:
         - Branch Hours Management
       summary: Get all hours for a branch with filtering
-      description: >-
-        Returns a paginated list of operating hours for a specific branch based
-        on filter criteria
+      description: Returns a paginated list of operating hours for a specific branch based on filter criteria
       operationId: filterBranchHours
       parameters:
         - name: branchId
@@ -1565,13 +1523,11 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1606,14 +1562,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBranchHoursDTO'
-  '/api/v1/branches/{branchId}/hours':
+  /api/v1/branches/{branchId}/hours:
     post:
       tags:
         - Branch Hours Management
       summary: Create new operating hours for a branch
-      description: >-
-        Creates new operating hours for a specific branch with the provided
-        details
+      description: Creates new operating hours for a specific branch with the provided details
       operationId: createBranchHours
       parameters:
         - name: branchId
@@ -1621,13 +1575,11 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1662,14 +1614,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BranchHoursDTO'
-  '/api/v1/branches/{branchId}/departments/{departmentId}/positions/filter':
+  /api/v1/branches/{branchId}/departments/{departmentId}/positions/filter:
     post:
       tags:
         - Branch Position Management
       summary: Get all positions for a branch department with filtering
-      description: >-
-        Returns a paginated list of positions for a specific branch department
-        based on filter criteria
+      description: Returns a paginated list of positions for a specific branch department based on filter criteria
       operationId: filterBranchPositions
       parameters:
         - name: branchId
@@ -1677,20 +1627,18 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1725,14 +1673,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBranchPositionDTO'
-  '/api/v1/branches/{branchId}/departments/{departmentId}/positions':
+  /api/v1/branches/{branchId}/departments/{departmentId}/positions:
     post:
       tags:
         - Branch Position Management
       summary: Create a new position for a branch department
-      description: >-
-        Creates a new position for a specific branch department with the
-        provided details
+      description: Creates a new position for a specific branch department with the provided details
       operationId: createBranchPosition
       parameters:
         - name: branchId
@@ -1740,20 +1686,18 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: departmentId
           in: path
           description: ID of the department
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1788,14 +1732,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BranchPositionDTO'
-  '/api/v1/branches/{branchId}/departments/filter':
+  /api/v1/branches/{branchId}/departments/filter:
     post:
       tags:
         - Branch Department Management
       summary: Get all departments for a branch with filtering
-      description: >-
-        Returns a paginated list of departments for a specific branch based on
-        filter criteria
+      description: Returns a paginated list of departments for a specific branch based on filter criteria
       operationId: filterBranchDepartments
       parameters:
         - name: branchId
@@ -1803,13 +1745,11 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1844,7 +1784,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBranchDepartmentDTO'
-  '/api/v1/branches/{branchId}/departments':
+  /api/v1/branches/{branchId}/departments:
     post:
       tags:
         - Branch Department Management
@@ -1857,13 +1797,11 @@ paths:
           description: ID of the branch
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1908,9 +1846,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1949,9 +1885,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -1980,14 +1914,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BranchDTO'
-  '/api/v1/banks/{bankId}/divisions/{divisionId}/regions/filter':
+  /api/v1/banks/{bankId}/divisions/{divisionId}/regions/filter:
     post:
       tags:
         - Bank Region Management
       summary: Get all regions for a bank division with filtering
-      description: >-
-        Returns a paginated list of regions for a specific bank division based
-        on filter criteria
+      description: Returns a paginated list of regions for a specific bank division based on filter criteria
       operationId: filterBankRegions
       parameters:
         - name: bankId
@@ -1995,20 +1927,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2043,14 +1973,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBankRegionDTO'
-  '/api/v1/banks/{bankId}/divisions/{divisionId}/regions':
+  /api/v1/banks/{bankId}/divisions/{divisionId}/regions:
     post:
       tags:
         - Bank Region Management
       summary: Create a new region for a bank division
-      description: >-
-        Creates a new region for a specific bank division with the provided
-        details
+      description: Creates a new region for a specific bank division with the provided details
       operationId: createBankRegion
       parameters:
         - name: bankId
@@ -2058,20 +1986,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: divisionId
           in: path
           description: ID of the division
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2106,14 +2032,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankRegionDTO'
-  '/api/v1/banks/{bankId}/divisions/filter':
+  /api/v1/banks/{bankId}/divisions/filter:
     post:
       tags:
         - Bank Division Management
       summary: Get all divisions for a bank with filtering
-      description: >-
-        Returns a paginated list of divisions for a specific bank based on
-        filter criteria
+      description: Returns a paginated list of divisions for a specific bank based on filter criteria
       operationId: filterBankDivisions
       parameters:
         - name: bankId
@@ -2121,13 +2045,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2162,7 +2084,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBankDivisionDTO'
-  '/api/v1/banks/{bankId}/divisions':
+  /api/v1/banks/{bankId}/divisions:
     post:
       tags:
         - Bank Division Management
@@ -2175,13 +2097,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2216,14 +2136,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankDivisionDTO'
-  '/api/v1/banks/{bankId}/calendars/{calendarId}/assignments/filter':
+  /api/v1/banks/{bankId}/calendars/{calendarId}/assignments/filter:
     post:
       tags:
         - Calendar Assignment Management
       summary: Get all assignments for a calendar with filtering
-      description: >-
-        Returns a paginated list of assignments for a specific working calendar
-        based on filter criteria
+      description: Returns a paginated list of assignments for a specific working calendar based on filter criteria
       operationId: filterCalendarAssignments
       parameters:
         - name: bankId
@@ -2231,20 +2149,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2279,14 +2195,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseCalendarAssignmentDTO'
-  '/api/v1/banks/{bankId}/calendars/{calendarId}/assignments':
+  /api/v1/banks/{bankId}/calendars/{calendarId}/assignments:
     post:
       tags:
         - Calendar Assignment Management
       summary: Create a new assignment for a calendar
-      description: >-
-        Creates a new assignment for a specific working calendar with the
-        provided details
+      description: Creates a new assignment for a specific working calendar with the provided details
       operationId: createCalendarAssignment
       parameters:
         - name: bankId
@@ -2294,20 +2208,18 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: calendarId
           in: path
           description: ID of the calendar
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2342,14 +2254,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CalendarAssignmentDTO'
-  '/api/v1/banks/{bankId}/calendars/filter':
+  /api/v1/banks/{bankId}/calendars/filter:
     post:
       tags:
         - Working Calendar Management
       summary: Get all calendars for a bank with filtering
-      description: >-
-        Returns a paginated list of working calendars for a specific bank based
-        on filter criteria
+      description: Returns a paginated list of working calendars for a specific bank based on filter criteria
       operationId: filterWorkingCalendars
       parameters:
         - name: bankId
@@ -2357,13 +2267,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2398,14 +2306,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseWorkingCalendarDTO'
-  '/api/v1/banks/{bankId}/calendars':
+  /api/v1/banks/{bankId}/calendars:
     post:
       tags:
         - Working Calendar Management
       summary: Create a new working calendar for a bank
-      description: >-
-        Creates a new working calendar for a specific bank with the provided
-        details
+      description: Creates a new working calendar for a specific bank with the provided details
       operationId: createWorkingCalendar
       parameters:
         - name: bankId
@@ -2413,13 +2319,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2454,14 +2358,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkingCalendarDTO'
-  '/api/v1/banks/{bankId}/branches/filter':
+  /api/v1/banks/{bankId}/branches/filter:
     post:
       tags:
         - Bank Branch Management
       summary: Get all branches for a bank with filtering
-      description: >-
-        Returns a paginated list of branches for a specific bank based on filter
-        criteria
+      description: Returns a paginated list of branches for a specific bank based on filter criteria
       operationId: filterBranchesForBank
       parameters:
         - name: bankId
@@ -2469,13 +2371,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2510,7 +2410,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginationResponseBranchDTO'
-  '/api/v1/banks/{bankId}/branches':
+  /api/v1/banks/{bankId}/branches:
     post:
       tags:
         - Bank Branch Management
@@ -2523,13 +2423,11 @@ paths:
           description: ID of the bank
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2574,9 +2472,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2615,9 +2511,7 @@ paths:
       parameters:
         - name: X-Idempotency-Key
           in: header
-          description: >-
-            Unique key for idempotent requests. If provided, ensures that
-            identical requests with the same key will only be processed once.
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
           required: false
           schema:
             type: string
@@ -2652,17 +2546,18 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         bankId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         countryId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         name:
           type: string
         date:
@@ -2676,23 +2571,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BranchHoursDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         dayOfWeek:
           type: string
           enum:
@@ -2713,14 +2609,14 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     LocalTime:
       type: object
       properties:
@@ -2740,11 +2636,12 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         departmentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         title:
           type: string
         description:
@@ -2755,23 +2652,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BranchDepartmentDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         name:
           type: string
         description:
@@ -2782,26 +2680,27 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BranchDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         bankId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         regionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         code:
           type: string
         name:
@@ -2821,11 +2720,11 @@ components:
         state:
           type: string
         countryId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         timeZoneId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         latitude:
           type: number
           format: float
@@ -2844,23 +2743,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BankRegionDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         divisionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         code:
           type: string
         name:
@@ -2873,23 +2773,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BankDivisionDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         bankId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         code:
           type: string
         name:
@@ -2902,32 +2803,33 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     CalendarAssignmentDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         calendarId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         branchId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         departmentId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         positionId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         effectiveFrom:
           type: string
           format: date-time
@@ -2940,23 +2842,24 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     WorkingCalendarDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         bankId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         name:
           type: string
         description:
@@ -2964,26 +2867,27 @@ components:
         isDefault:
           type: boolean
         timeZoneId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         createdAt:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     BankDTO:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
+          readOnly: true
         code:
           type: string
         name:
@@ -3011,11 +2915,11 @@ components:
         state:
           type: string
         countryId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         timeZoneId:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         isActive:
           type: boolean
         establishedAt:
@@ -3025,14 +2929,14 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
         updatedAt:
           type: string
           format: date-time
         updatedBy:
-          type: integer
-          format: int64
+          type: string
+          format: uuid
     FilterOptions:
       type: object
       properties:
@@ -3076,12 +2980,10 @@ components:
           example: name
         sortDirection:
           type: string
-          description: 'The direction of sorting, either ASC or DESC.'
+          description: The direction of sorting, either ASC or DESC.
           example: DESC
           default: DESC
-      description: >-
-        Represents a pagination request for retrieving paginated results,
-        including page number, size, sort field, and direction.
+      description: Represents a pagination request for retrieving paginated results, including page number, size, sort field, and direction.
     RangeFilter:
       type: object
       properties:
@@ -3120,11 +3022,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     PaginationResponseBankHolidayDTO:
       type: object
       properties:
@@ -3143,11 +3043,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBranchHoursDTO:
       required:
         - pagination
@@ -3180,11 +3078,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBranchPositionDTO:
       required:
         - pagination
@@ -3217,11 +3113,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBranchDepartmentDTO:
       required:
         - pagination
@@ -3254,11 +3148,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBranchDTO:
       required:
         - pagination
@@ -3291,11 +3183,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBankRegionDTO:
       required:
         - pagination
@@ -3328,11 +3218,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBankDivisionDTO:
       required:
         - pagination
@@ -3365,11 +3253,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestCalendarAssignmentDTO:
       required:
         - pagination
@@ -3402,11 +3288,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestWorkingCalendarDTO:
       required:
         - pagination
@@ -3439,11 +3323,9 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestBankDTO:
       required:
         - pagination
@@ -3476,8 +3358,6 @@ components:
           format: int32
         currentPage:
           type: integer
-          description: 'The current page number, typically zero-based.'
+          description: The current page number, typically zero-based.
           format: int32
-      description: >-
-        Represents a paginated response containing a list of items and
-        pagination metadata.
+      description: Represents a paginated response containing a list of items and pagination metadata.
