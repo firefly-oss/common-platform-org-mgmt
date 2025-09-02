@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BankHolidayServiceImplTest {
@@ -91,7 +92,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void updateBankHoliday_WhenBankHolidayExists_ShouldUpdateAndReturnBankHoliday() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayMapper.toEntity(bankHolidayDTO)).thenReturn(bankHoliday);
         when(bankHolidayRepository.save(bankHoliday)).thenReturn(Mono.just(bankHoliday));
@@ -111,7 +112,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void updateBankHoliday_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -126,7 +127,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void deleteBankHoliday_WhenBankHolidayExists_ShouldDeleteBankHoliday() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayRepository.deleteById(bankHolidayId)).thenReturn(Mono.empty());
 
@@ -141,7 +142,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void deleteBankHoliday_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -156,7 +157,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void getBankHolidayById_WhenBankHolidayExists_ShouldReturnBankHoliday() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.just(bankHoliday));
         when(bankHolidayMapper.toDTO(bankHoliday)).thenReturn(bankHolidayDTO);
 
@@ -172,7 +173,7 @@ public class BankHolidayServiceImplTest {
     @Test
     void getBankHolidayById_WhenBankHolidayDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankHolidayId = 1L;
+        UUID bankHolidayId = 1L;
         when(bankHolidayRepository.findById(bankHolidayId)).thenReturn(Mono.empty());
 
         // Act & Assert

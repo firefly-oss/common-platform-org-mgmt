@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,7 +42,7 @@ public class BankAuditLogServiceImpl implements BankAuditLogService {
     }
 
     @Override
-    public Mono<BankAuditLogDTO> updateBankAuditLog(Long bankAuditLogId, BankAuditLogDTO bankAuditLogDTO) {
+    public Mono<BankAuditLogDTO> updateBankAuditLog(UUID bankAuditLogId, BankAuditLogDTO bankAuditLogDTO) {
         return repository.findById(bankAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank audit log not found with ID: " + bankAuditLogId)))
                 .flatMap(existingBankAuditLog -> {
@@ -53,14 +54,14 @@ public class BankAuditLogServiceImpl implements BankAuditLogService {
     }
 
     @Override
-    public Mono<Void> deleteBankAuditLog(Long bankAuditLogId) {
+    public Mono<Void> deleteBankAuditLog(UUID bankAuditLogId) {
         return repository.findById(bankAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank audit log not found with ID: " + bankAuditLogId)))
                 .flatMap(bankAuditLog -> repository.deleteById(bankAuditLogId));
     }
 
     @Override
-    public Mono<BankAuditLogDTO> getBankAuditLogById(Long bankAuditLogId) {
+    public Mono<BankAuditLogDTO> getBankAuditLogById(UUID bankAuditLogId) {
         return repository.findById(bankAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank audit log not found with ID: " + bankAuditLogId)))
                 .map(mapper::toDTO);

@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BranchPositionDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing branch positions.
@@ -26,7 +27,7 @@ public interface BranchPositionService {
      * @param filterRequest the request object containing filtering criteria for BranchPositionDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of branch positions
      */
-    Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositionsForDepartment(Long branchId, Long departmentId, FilterRequest<BranchPositionDTO> filterRequest);
+    Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositionsForDepartment(UUID branchId, UUID departmentId, FilterRequest<BranchPositionDTO> filterRequest);
 
     /**
      * Creates a new branch position based on the provided information.
@@ -44,7 +45,7 @@ public interface BranchPositionService {
      * @param branchPositionDTO the DTO object containing details of the branch position to be created
      * @return a Mono that emits the created BranchPositionDTO object
      */
-    Mono<BranchPositionDTO> createBranchPositionForDepartment(Long branchId, Long departmentId, BranchPositionDTO branchPositionDTO);
+    Mono<BranchPositionDTO> createBranchPositionForDepartment(UUID branchId, UUID departmentId, BranchPositionDTO branchPositionDTO);
 
     /**
      * Updates an existing branch position with updated information.
@@ -53,7 +54,7 @@ public interface BranchPositionService {
      * @param branchPositionDTO the data transfer object containing the updated details of the branch position
      * @return a reactive Mono containing the updated BranchPositionDTO
      */
-    Mono<BranchPositionDTO> updateBranchPosition(Long branchPositionId, BranchPositionDTO branchPositionDTO);
+    Mono<BranchPositionDTO> updateBranchPosition(UUID branchPositionId, BranchPositionDTO branchPositionDTO);
 
     /**
      * Updates an existing branch position for a specific branch department with updated information.
@@ -64,7 +65,7 @@ public interface BranchPositionService {
      * @param branchPositionDTO the data transfer object containing the updated details of the branch position
      * @return a reactive Mono containing the updated BranchPositionDTO
      */
-    Mono<BranchPositionDTO> updateBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId, BranchPositionDTO branchPositionDTO);
+    Mono<BranchPositionDTO> updateBranchPositionForDepartment(UUID branchId, UUID departmentId, UUID positionId, BranchPositionDTO branchPositionDTO);
 
     /**
      * Deletes a branch position identified by its unique ID.
@@ -72,7 +73,7 @@ public interface BranchPositionService {
      * @param branchPositionId the unique identifier of the branch position to be deleted
      * @return a Mono that completes when the branch position is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchPosition(Long branchPositionId);
+    Mono<Void> deleteBranchPosition(UUID branchPositionId);
 
     /**
      * Deletes a branch position for a specific branch department identified by its unique ID.
@@ -82,7 +83,7 @@ public interface BranchPositionService {
      * @param positionId the unique identifier of the position to be deleted
      * @return a Mono that completes when the branch position is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId);
+    Mono<Void> deleteBranchPositionForDepartment(UUID branchId, UUID departmentId, UUID positionId);
 
     /**
      * Retrieves a branch position by its unique identifier.
@@ -91,7 +92,7 @@ public interface BranchPositionService {
      * @return a Mono emitting the {@link BranchPositionDTO} representing the branch position if found,
      *         or an empty Mono if the branch position does not exist
      */
-    Mono<BranchPositionDTO> getBranchPositionById(Long branchPositionId);
+    Mono<BranchPositionDTO> getBranchPositionById(UUID branchPositionId);
 
     /**
      * Retrieves a branch position for a specific branch department by its unique identifier.
@@ -102,5 +103,5 @@ public interface BranchPositionService {
      * @return a Mono emitting the {@link BranchPositionDTO} representing the branch position if found,
      *         or an empty Mono if the branch position does not exist or doesn't belong to the specified department
      */
-    Mono<BranchPositionDTO> getBranchPositionByIdForDepartment(Long branchId, Long departmentId, Long positionId);
+    Mono<BranchPositionDTO> getBranchPositionByIdForDepartment(UUID branchId, UUID departmentId, UUID positionId);
 }

@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BranchPositionServiceImplTest {
@@ -88,7 +89,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void updateBranchPosition_WhenBranchPositionExists_ShouldUpdateAndReturnBranchPosition() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionMapper.toEntity(branchPositionDTO)).thenReturn(branchPosition);
         when(branchPositionRepository.save(branchPosition)).thenReturn(Mono.just(branchPosition));
@@ -108,7 +109,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void updateBranchPosition_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -123,7 +124,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void deleteBranchPosition_WhenBranchPositionExists_ShouldDeleteBranchPosition() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionRepository.deleteById(branchPositionId)).thenReturn(Mono.empty());
 
@@ -138,7 +139,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void deleteBranchPosition_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -153,7 +154,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void getBranchPositionById_WhenBranchPositionExists_ShouldReturnBranchPosition() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.just(branchPosition));
         when(branchPositionMapper.toDTO(branchPosition)).thenReturn(branchPositionDTO);
 
@@ -169,7 +170,7 @@ public class BranchPositionServiceImplTest {
     @Test
     void getBranchPositionById_WhenBranchPositionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchPositionId = 1L;
+        UUID branchPositionId = 1L;
         when(branchPositionRepository.findById(branchPositionId)).thenReturn(Mono.empty());
 
         // Act & Assert

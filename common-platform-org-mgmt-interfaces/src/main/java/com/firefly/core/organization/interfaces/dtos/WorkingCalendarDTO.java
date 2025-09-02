@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a working calendar for a bank.
@@ -19,20 +20,20 @@ import java.time.LocalDateTime;
 public class WorkingCalendarDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long bankId;
+    private UUID bankId;
 
     private String name;
     private String description;
     private Boolean isDefault;
 
     @FilterableId
-    private Long timeZoneId;
+    private UUID timeZoneId;
 
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private LocalDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

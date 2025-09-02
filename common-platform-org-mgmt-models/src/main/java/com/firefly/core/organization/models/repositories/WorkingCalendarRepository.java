@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.WorkingCalendar;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link WorkingCalendar} entities.
  */
 @Repository
-public interface WorkingCalendarRepository extends BaseRepository<WorkingCalendar, Long> {
+public interface WorkingCalendarRepository extends BaseRepository<WorkingCalendar, UUID> {
     
     /**
      * Find all calendars belonging to a specific bank.
@@ -17,7 +18,7 @@ public interface WorkingCalendarRepository extends BaseRepository<WorkingCalenda
      * @param bankId the bank ID
      * @return a Flux emitting all calendars for the specified bank
      */
-    Flux<WorkingCalendar> findByBankId(Long bankId);
+    Flux<WorkingCalendar> findByBankId(UUID bankId);
     
     /**
      * Find the default calendar for a specific bank.
@@ -25,7 +26,7 @@ public interface WorkingCalendarRepository extends BaseRepository<WorkingCalenda
      * @param bankId the bank ID
      * @return a Mono emitting the default calendar if found, or empty if not found
      */
-    Mono<WorkingCalendar> findByBankIdAndIsDefaultTrue(Long bankId);
+    Mono<WorkingCalendar> findByBankIdAndIsDefaultTrue(UUID bankId);
     
     /**
      * Find a calendar by its name and bank ID.
@@ -34,7 +35,7 @@ public interface WorkingCalendarRepository extends BaseRepository<WorkingCalenda
      * @param bankId the bank ID
      * @return a Mono emitting the calendar if found, or empty if not found
      */
-    Mono<WorkingCalendar> findByNameAndBankId(String name, Long bankId);
+    Mono<WorkingCalendar> findByNameAndBankId(String name, UUID bankId);
     
     /**
      * Find all calendars for a specific time zone.
@@ -42,5 +43,5 @@ public interface WorkingCalendarRepository extends BaseRepository<WorkingCalenda
      * @param timeZoneId the time zone ID
      * @return a Flux emitting all calendars for the specified time zone
      */
-    Flux<WorkingCalendar> findByTimeZoneId(Long timeZoneId);
+    Flux<WorkingCalendar> findByTimeZoneId(UUID timeZoneId);
 }

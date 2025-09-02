@@ -6,12 +6,13 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BranchAuditLog} entities.
  */
 @Repository
-public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog, Long> {
+public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog, UUID> {
     
     /**
      * Find all audit logs for a specific branch.
@@ -19,7 +20,7 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param branchId the branch ID
      * @return a Flux emitting all audit logs for the specified branch
      */
-    Flux<BranchAuditLog> findByBranchId(Long branchId);
+    Flux<BranchAuditLog> findByBranchId(UUID branchId);
     
     /**
      * Find all audit logs for a specific branch and action.
@@ -28,7 +29,7 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param action the audit action
      * @return a Flux emitting all audit logs for the specified branch and action
      */
-    Flux<BranchAuditLog> findByBranchIdAndAction(Long branchId, AuditAction action);
+    Flux<BranchAuditLog> findByBranchIdAndAction(UUID branchId, AuditAction action);
     
     /**
      * Find all audit logs for a specific branch and entity.
@@ -37,7 +38,7 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param entity the entity name
      * @return a Flux emitting all audit logs for the specified branch and entity
      */
-    Flux<BranchAuditLog> findByBranchIdAndEntity(Long branchId, String entity);
+    Flux<BranchAuditLog> findByBranchIdAndEntity(UUID branchId, String entity);
     
     /**
      * Find all audit logs for a specific branch, entity, and entity ID.
@@ -47,7 +48,7 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param entityId the entity ID
      * @return a Flux emitting all audit logs for the specified branch, entity, and entity ID
      */
-    Flux<BranchAuditLog> findByBranchIdAndEntityAndEntityId(Long branchId, String entity, String entityId);
+    Flux<BranchAuditLog> findByBranchIdAndEntityAndEntityId(UUID branchId, String entity, String entityId);
     
     /**
      * Find all audit logs for a specific branch within a time range.
@@ -57,7 +58,7 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param endTime the end time
      * @return a Flux emitting all audit logs for the specified branch within the time range
      */
-    Flux<BranchAuditLog> findByBranchIdAndTimestampBetween(Long branchId, LocalDateTime startTime, LocalDateTime endTime);
+    Flux<BranchAuditLog> findByBranchIdAndTimestampBetween(UUID branchId, LocalDateTime startTime, LocalDateTime endTime);
     
     /**
      * Find all audit logs for a specific user.
@@ -65,5 +66,5 @@ public interface BranchAuditLogRepository extends BaseRepository<BranchAuditLog,
      * @param userId the user ID
      * @return a Flux emitting all audit logs for the specified user
      */
-    Flux<BranchAuditLog> findByUserId(Long userId);
+    Flux<BranchAuditLog> findByUserId(UUID userId);
 }

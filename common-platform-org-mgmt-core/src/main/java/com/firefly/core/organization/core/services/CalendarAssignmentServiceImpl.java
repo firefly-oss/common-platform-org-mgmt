@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,7 +40,7 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<PaginationResponse<CalendarAssignmentDTO>> filterCalendarAssignmentsForCalendar(Long bankId, Long calendarId, FilterRequest<CalendarAssignmentDTO> filterRequest) {
+    public Mono<PaginationResponse<CalendarAssignmentDTO>> filterCalendarAssignmentsForCalendar(UUID bankId, UUID calendarId, FilterRequest<CalendarAssignmentDTO> filterRequest) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
@@ -57,7 +58,7 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<CalendarAssignmentDTO> createCalendarAssignmentForCalendar(Long bankId, Long calendarId, CalendarAssignmentDTO calendarAssignmentDTO) {
+    public Mono<CalendarAssignmentDTO> createCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, CalendarAssignmentDTO calendarAssignmentDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
@@ -70,7 +71,7 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<CalendarAssignmentDTO> updateCalendarAssignment(Long calendarAssignmentId, CalendarAssignmentDTO calendarAssignmentDTO) {
+    public Mono<CalendarAssignmentDTO> updateCalendarAssignment(UUID calendarAssignmentId, CalendarAssignmentDTO calendarAssignmentDTO) {
         return repository.findById(calendarAssignmentId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Calendar assignment not found with ID: " + calendarAssignmentId)))
                 .flatMap(existingCalendarAssignment -> {
@@ -82,7 +83,7 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<CalendarAssignmentDTO> updateCalendarAssignmentForCalendar(Long bankId, Long calendarId, Long assignmentId, CalendarAssignmentDTO calendarAssignmentDTO) {
+    public Mono<CalendarAssignmentDTO> updateCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, UUID assignmentId, CalendarAssignmentDTO calendarAssignmentDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
@@ -98,14 +99,14 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<Void> deleteCalendarAssignment(Long calendarAssignmentId) {
+    public Mono<Void> deleteCalendarAssignment(UUID calendarAssignmentId) {
         return repository.findById(calendarAssignmentId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Calendar assignment not found with ID: " + calendarAssignmentId)))
                 .flatMap(calendarAssignment -> repository.deleteById(calendarAssignmentId));
     }
 
     @Override
-    public Mono<Void> deleteCalendarAssignmentForCalendar(Long bankId, Long calendarId, Long assignmentId) {
+    public Mono<Void> deleteCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, UUID assignmentId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))
@@ -118,14 +119,14 @@ public class CalendarAssignmentServiceImpl implements CalendarAssignmentService 
     }
 
     @Override
-    public Mono<CalendarAssignmentDTO> getCalendarAssignmentById(Long calendarAssignmentId) {
+    public Mono<CalendarAssignmentDTO> getCalendarAssignmentById(UUID calendarAssignmentId) {
         return repository.findById(calendarAssignmentId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Calendar assignment not found with ID: " + calendarAssignmentId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<CalendarAssignmentDTO> getCalendarAssignmentByIdForCalendar(Long bankId, Long calendarId, Long assignmentId) {
+    public Mono<CalendarAssignmentDTO> getCalendarAssignmentByIdForCalendar(UUID bankId, UUID calendarId, UUID assignmentId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> workingCalendarService.getWorkingCalendarById(calendarId))

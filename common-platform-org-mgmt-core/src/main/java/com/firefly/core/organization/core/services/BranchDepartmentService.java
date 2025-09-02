@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BranchDepartmentDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing branch departments.
@@ -25,7 +26,7 @@ public interface BranchDepartmentService {
      * @param filterRequest the request object containing filtering criteria for BranchDepartmentDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of branch departments
      */
-    Mono<PaginationResponse<BranchDepartmentDTO>> filterBranchDepartmentsForBranch(Long branchId, FilterRequest<BranchDepartmentDTO> filterRequest);
+    Mono<PaginationResponse<BranchDepartmentDTO>> filterBranchDepartmentsForBranch(UUID branchId, FilterRequest<BranchDepartmentDTO> filterRequest);
 
     /**
      * Creates a new branch department based on the provided information.
@@ -42,7 +43,7 @@ public interface BranchDepartmentService {
      * @param branchDepartmentDTO the DTO object containing details of the branch department to be created
      * @return a Mono that emits the created BranchDepartmentDTO object
      */
-    Mono<BranchDepartmentDTO> createBranchDepartmentForBranch(Long branchId, BranchDepartmentDTO branchDepartmentDTO);
+    Mono<BranchDepartmentDTO> createBranchDepartmentForBranch(UUID branchId, BranchDepartmentDTO branchDepartmentDTO);
 
     /**
      * Updates an existing branch department with updated information.
@@ -51,7 +52,7 @@ public interface BranchDepartmentService {
      * @param branchDepartmentDTO the data transfer object containing the updated details of the branch department
      * @return a reactive Mono containing the updated BranchDepartmentDTO
      */
-    Mono<BranchDepartmentDTO> updateBranchDepartment(Long branchDepartmentId, BranchDepartmentDTO branchDepartmentDTO);
+    Mono<BranchDepartmentDTO> updateBranchDepartment(UUID branchDepartmentId, BranchDepartmentDTO branchDepartmentDTO);
 
     /**
      * Updates an existing branch department for a specific branch with updated information.
@@ -61,7 +62,7 @@ public interface BranchDepartmentService {
      * @param branchDepartmentDTO the data transfer object containing the updated details of the branch department
      * @return a reactive Mono containing the updated BranchDepartmentDTO
      */
-    Mono<BranchDepartmentDTO> updateBranchDepartmentForBranch(Long branchId, Long departmentId, BranchDepartmentDTO branchDepartmentDTO);
+    Mono<BranchDepartmentDTO> updateBranchDepartmentForBranch(UUID branchId, UUID departmentId, BranchDepartmentDTO branchDepartmentDTO);
 
     /**
      * Deletes a branch department identified by its unique ID.
@@ -69,7 +70,7 @@ public interface BranchDepartmentService {
      * @param branchDepartmentId the unique identifier of the branch department to be deleted
      * @return a Mono that completes when the branch department is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchDepartment(Long branchDepartmentId);
+    Mono<Void> deleteBranchDepartment(UUID branchDepartmentId);
 
     /**
      * Deletes a branch department for a specific branch identified by its unique ID.
@@ -78,7 +79,7 @@ public interface BranchDepartmentService {
      * @param departmentId the unique identifier of the department to be deleted
      * @return a Mono that completes when the branch department is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchDepartmentForBranch(Long branchId, Long departmentId);
+    Mono<Void> deleteBranchDepartmentForBranch(UUID branchId, UUID departmentId);
 
     /**
      * Retrieves a branch department by its unique identifier.
@@ -87,7 +88,7 @@ public interface BranchDepartmentService {
      * @return a Mono emitting the {@link BranchDepartmentDTO} representing the branch department if found,
      *         or an empty Mono if the branch department does not exist
      */
-    Mono<BranchDepartmentDTO> getBranchDepartmentById(Long branchDepartmentId);
+    Mono<BranchDepartmentDTO> getBranchDepartmentById(UUID branchDepartmentId);
 
     /**
      * Retrieves a branch department for a specific branch by its unique identifier.
@@ -97,5 +98,5 @@ public interface BranchDepartmentService {
      * @return a Mono emitting the {@link BranchDepartmentDTO} representing the department if found,
      *         or an empty Mono if the department does not exist or doesn't belong to the specified branch
      */
-    Mono<BranchDepartmentDTO> getBranchDepartmentByIdForBranch(Long branchId, Long departmentId);
+    Mono<BranchDepartmentDTO> getBranchDepartmentByIdForBranch(UUID branchId, UUID departmentId);
 }

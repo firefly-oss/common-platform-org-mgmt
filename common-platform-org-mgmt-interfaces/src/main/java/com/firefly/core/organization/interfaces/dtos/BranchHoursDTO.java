@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 /**
  * DTO representing the operating hours of a branch for a specific day of the week.
@@ -21,17 +22,17 @@ import java.time.LocalTime;
 public class BranchHoursDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long branchId;
+    private UUID branchId;
 
     private DayOfWeek dayOfWeek;
     private LocalTime openTime;
     private LocalTime closeTime;
     private Boolean isClosed;
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private LocalDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

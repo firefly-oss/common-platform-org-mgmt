@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a division within a bank.
@@ -24,10 +25,10 @@ import java.time.LocalDateTime;
 public class BankDivision {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("bank_id")
-    private Long bankId;
+    private UUID bankId;
     
     @Column("code")
     private String code;
@@ -46,12 +47,12 @@ public class BankDivision {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

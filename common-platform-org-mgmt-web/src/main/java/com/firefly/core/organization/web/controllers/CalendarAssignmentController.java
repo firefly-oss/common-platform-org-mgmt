@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks/{bankId}/calendars/{calendarId}/assignments")
@@ -38,9 +39,9 @@ public class CalendarAssignmentController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<CalendarAssignmentDTO>> filterCalendarAssignments(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "Filter criteria for calendar assignments", required = true)
             @Valid @RequestBody FilterRequest<CalendarAssignmentDTO> filterRequest) {
         return calendarAssignmentService.filterCalendarAssignmentsForCalendar(bankId, calendarId, filterRequest);
@@ -58,9 +59,9 @@ public class CalendarAssignmentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<CalendarAssignmentDTO> createCalendarAssignment(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "Calendar assignment details to create", required = true)
             @Valid @RequestBody CalendarAssignmentDTO calendarAssignmentDTO) {
         return calendarAssignmentService.createCalendarAssignmentForCalendar(bankId, calendarId, calendarAssignmentDTO);
@@ -76,11 +77,11 @@ public class CalendarAssignmentController {
     @GetMapping(value = "/{assignmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CalendarAssignmentDTO> getCalendarAssignmentById(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "ID of the assignment to retrieve", required = true)
-            @PathVariable Long assignmentId) {
+            @PathVariable UUID assignmentId) {
         return calendarAssignmentService.getCalendarAssignmentByIdForCalendar(bankId, calendarId, assignmentId);
     }
 
@@ -95,11 +96,11 @@ public class CalendarAssignmentController {
     @PutMapping(value = "/{assignmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<CalendarAssignmentDTO> updateCalendarAssignment(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "ID of the assignment to update", required = true)
-            @PathVariable Long assignmentId,
+            @PathVariable UUID assignmentId,
             @Parameter(description = "Updated calendar assignment details", required = true)
             @Valid @RequestBody CalendarAssignmentDTO calendarAssignmentDTO) {
         return calendarAssignmentService.updateCalendarAssignmentForCalendar(bankId, calendarId, assignmentId, calendarAssignmentDTO);
@@ -115,11 +116,11 @@ public class CalendarAssignmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteCalendarAssignment(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "ID of the assignment to delete", required = true)
-            @PathVariable Long assignmentId) {
+            @PathVariable UUID assignmentId) {
         return calendarAssignmentService.deleteCalendarAssignmentForCalendar(bankId, calendarId, assignmentId);
     }
 }

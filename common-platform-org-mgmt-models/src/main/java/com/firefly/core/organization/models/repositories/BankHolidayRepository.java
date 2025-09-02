@@ -6,12 +6,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BankHoliday} entities.
  */
 @Repository
-public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long> {
+public interface BankHolidayRepository extends BaseRepository<BankHoliday, UUID> {
     
     /**
      * Find all holidays for a specific bank.
@@ -19,7 +20,7 @@ public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long>
      * @param bankId the bank ID
      * @return a Flux emitting all holidays for the specified bank
      */
-    Flux<BankHoliday> findByBankId(Long bankId);
+    Flux<BankHoliday> findByBankId(UUID bankId);
     
     /**
      * Find all holidays for a specific branch.
@@ -27,7 +28,7 @@ public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long>
      * @param branchId the branch ID
      * @return a Flux emitting all holidays for the specified branch
      */
-    Flux<BankHoliday> findByBranchId(Long branchId);
+    Flux<BankHoliday> findByBranchId(UUID branchId);
     
     /**
      * Find all holidays for a specific date.
@@ -43,7 +44,7 @@ public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long>
      * @param bankId the bank ID
      * @return a Flux emitting all recurring holidays for the specified bank
      */
-    Flux<BankHoliday> findByBankIdAndIsRecurringTrue(Long bankId);
+    Flux<BankHoliday> findByBankIdAndIsRecurringTrue(UUID bankId);
     
     /**
      * Find all holidays for a specific bank and date.
@@ -52,7 +53,7 @@ public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long>
      * @param date the date
      * @return a Flux emitting all holidays for the specified bank and date
      */
-    Flux<BankHoliday> findByBankIdAndDate(Long bankId, LocalDate date);
+    Flux<BankHoliday> findByBankIdAndDate(UUID bankId, LocalDate date);
     
     /**
      * Find all holidays for a specific branch and date.
@@ -61,5 +62,5 @@ public interface BankHolidayRepository extends BaseRepository<BankHoliday, Long>
      * @param date the date
      * @return a Flux emitting all holidays for the specified branch and date
      */
-    Flux<BankHoliday> findByBranchIdAndDate(Long branchId, LocalDate date);
+    Flux<BankHoliday> findByBranchIdAndDate(UUID branchId, LocalDate date);
 }

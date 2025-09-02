@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.CalendarAssignmentDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing calendar assignments.
@@ -26,7 +27,7 @@ public interface CalendarAssignmentService {
      * @param filterRequest the request object containing filtering criteria for CalendarAssignmentDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of calendar assignments
      */
-    Mono<PaginationResponse<CalendarAssignmentDTO>> filterCalendarAssignmentsForCalendar(Long bankId, Long calendarId, FilterRequest<CalendarAssignmentDTO> filterRequest);
+    Mono<PaginationResponse<CalendarAssignmentDTO>> filterCalendarAssignmentsForCalendar(UUID bankId, UUID calendarId, FilterRequest<CalendarAssignmentDTO> filterRequest);
 
     /**
      * Creates a new calendar assignment based on the provided information.
@@ -44,7 +45,7 @@ public interface CalendarAssignmentService {
      * @param calendarAssignmentDTO the DTO object containing details of the calendar assignment to be created
      * @return a Mono that emits the created CalendarAssignmentDTO object
      */
-    Mono<CalendarAssignmentDTO> createCalendarAssignmentForCalendar(Long bankId, Long calendarId, CalendarAssignmentDTO calendarAssignmentDTO);
+    Mono<CalendarAssignmentDTO> createCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, CalendarAssignmentDTO calendarAssignmentDTO);
 
     /**
      * Updates an existing calendar assignment with updated information.
@@ -53,7 +54,7 @@ public interface CalendarAssignmentService {
      * @param calendarAssignmentDTO the data transfer object containing the updated details of the calendar assignment
      * @return a reactive Mono containing the updated CalendarAssignmentDTO
      */
-    Mono<CalendarAssignmentDTO> updateCalendarAssignment(Long calendarAssignmentId, CalendarAssignmentDTO calendarAssignmentDTO);
+    Mono<CalendarAssignmentDTO> updateCalendarAssignment(UUID calendarAssignmentId, CalendarAssignmentDTO calendarAssignmentDTO);
 
     /**
      * Updates an existing calendar assignment for a specific working calendar with updated information.
@@ -64,7 +65,7 @@ public interface CalendarAssignmentService {
      * @param calendarAssignmentDTO the data transfer object containing the updated details of the calendar assignment
      * @return a reactive Mono containing the updated CalendarAssignmentDTO
      */
-    Mono<CalendarAssignmentDTO> updateCalendarAssignmentForCalendar(Long bankId, Long calendarId, Long assignmentId, CalendarAssignmentDTO calendarAssignmentDTO);
+    Mono<CalendarAssignmentDTO> updateCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, UUID assignmentId, CalendarAssignmentDTO calendarAssignmentDTO);
 
     /**
      * Deletes a calendar assignment identified by its unique ID.
@@ -72,7 +73,7 @@ public interface CalendarAssignmentService {
      * @param calendarAssignmentId the unique identifier of the calendar assignment to be deleted
      * @return a Mono that completes when the calendar assignment is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteCalendarAssignment(Long calendarAssignmentId);
+    Mono<Void> deleteCalendarAssignment(UUID calendarAssignmentId);
 
     /**
      * Deletes a calendar assignment for a specific working calendar identified by its unique ID.
@@ -82,7 +83,7 @@ public interface CalendarAssignmentService {
      * @param assignmentId the unique identifier of the assignment to be deleted
      * @return a Mono that completes when the calendar assignment is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteCalendarAssignmentForCalendar(Long bankId, Long calendarId, Long assignmentId);
+    Mono<Void> deleteCalendarAssignmentForCalendar(UUID bankId, UUID calendarId, UUID assignmentId);
 
     /**
      * Retrieves a calendar assignment by its unique identifier.
@@ -91,7 +92,7 @@ public interface CalendarAssignmentService {
      * @return a Mono emitting the {@link CalendarAssignmentDTO} representing the calendar assignment if found,
      *         or an empty Mono if the calendar assignment does not exist
      */
-    Mono<CalendarAssignmentDTO> getCalendarAssignmentById(Long calendarAssignmentId);
+    Mono<CalendarAssignmentDTO> getCalendarAssignmentById(UUID calendarAssignmentId);
 
     /**
      * Retrieves a calendar assignment for a specific working calendar by its unique identifier.
@@ -102,5 +103,5 @@ public interface CalendarAssignmentService {
      * @return a Mono emitting the {@link CalendarAssignmentDTO} representing the calendar assignment if found,
      *         or an empty Mono if the calendar assignment does not exist or doesn't belong to the specified calendar
      */
-    Mono<CalendarAssignmentDTO> getCalendarAssignmentByIdForCalendar(Long bankId, Long calendarId, Long assignmentId);
+    Mono<CalendarAssignmentDTO> getCalendarAssignmentByIdForCalendar(UUID bankId, UUID calendarId, UUID assignmentId);
 }

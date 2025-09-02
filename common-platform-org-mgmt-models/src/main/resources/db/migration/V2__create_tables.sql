@@ -1,6 +1,6 @@
 -- Create bank table
 CREATE TABLE IF NOT EXISTS bank (
-    id BIGSERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -14,51 +14,51 @@ CREATE TABLE IF NOT EXISTS bank (
     postal_code VARCHAR(20),
     city VARCHAR(100),
     state VARCHAR(100),
-    country_id BIGINT,
-    time_zone_id BIGINT,
+    country_id UUID,
+    time_zone_id UUID,
     is_active BOOLEAN DEFAULT TRUE,
     established_at TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT
+    updated_by UUID
 );
 
 -- Create bank_division table
 CREATE TABLE IF NOT EXISTS bank_division (
-    id BIGSERIAL PRIMARY KEY,
-    bank_id BIGINT NOT NULL REFERENCES bank(id),
+    id UUID PRIMARY KEY,
+    bank_id UUID NOT NULL REFERENCES bank(id),
     code VARCHAR(50) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT,
+    updated_by UUID,
     UNIQUE(bank_id, code)
 );
 
 -- Create bank_region table
 CREATE TABLE IF NOT EXISTS bank_region (
-    id BIGSERIAL PRIMARY KEY,
-    division_id BIGINT NOT NULL REFERENCES bank_division(id),
+    id UUID PRIMARY KEY,
+    division_id UUID NOT NULL REFERENCES bank_division(id),
     code VARCHAR(50) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT,
+    updated_by UUID,
     UNIQUE(division_id, code)
 );
 
 -- Create branch table
 CREATE TABLE IF NOT EXISTS branch (
-    id BIGSERIAL PRIMARY KEY,
-    bank_id BIGINT NOT NULL REFERENCES bank(id),
-    region_id BIGINT NOT NULL REFERENCES bank_region(id),
+    id UUID PRIMARY KEY,
+    bank_id UUID NOT NULL REFERENCES bank(id),
+    region_id UUID NOT NULL REFERENCES bank_region(id),
     code VARCHAR(50) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -68,74 +68,74 @@ CREATE TABLE IF NOT EXISTS branch (
     postal_code VARCHAR(20),
     city VARCHAR(100),
     state VARCHAR(100),
-    country_id BIGINT,
-    time_zone_id BIGINT,
+    country_id UUID,
+    time_zone_id UUID,
     latitude FLOAT,
     longitude FLOAT,
     is_active BOOLEAN DEFAULT TRUE,
     opened_at TIMESTAMP,
     closed_at TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT,
+    updated_by UUID,
     UNIQUE(bank_id, code)
 );
 
 -- Create working_calendar table
 CREATE TABLE IF NOT EXISTS working_calendar (
-    id BIGSERIAL PRIMARY KEY,
-    bank_id BIGINT NOT NULL REFERENCES bank(id),
+    id UUID PRIMARY KEY,
+    bank_id UUID NOT NULL REFERENCES bank(id),
     name VARCHAR(255) NOT NULL,
     description TEXT,
     is_default BOOLEAN DEFAULT FALSE,
-    time_zone_id BIGINT,
+    time_zone_id UUID,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT
+    updated_by UUID
 );
 
 -- Create branch_department table
 CREATE TABLE IF NOT EXISTS branch_department (
-    id BIGSERIAL PRIMARY KEY,
-    branch_id BIGINT NOT NULL REFERENCES branch(id),
+    id UUID PRIMARY KEY,
+    branch_id UUID NOT NULL REFERENCES branch(id),
     name VARCHAR(255) NOT NULL,
     description TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT
+    updated_by UUID
 );
 
 -- Create branch_position table
 CREATE TABLE IF NOT EXISTS branch_position (
-    id BIGSERIAL PRIMARY KEY,
-    department_id BIGINT NOT NULL REFERENCES branch_department(id),
+    id UUID PRIMARY KEY,
+    department_id UUID NOT NULL REFERENCES branch_department(id),
     title VARCHAR(255) NOT NULL,
     description TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT
+    updated_by UUID
 );
 
 -- Create calendar_assignment table
 CREATE TABLE IF NOT EXISTS calendar_assignment (
-    id BIGSERIAL PRIMARY KEY,
-    calendar_id BIGINT NOT NULL REFERENCES working_calendar(id),
-    branch_id BIGINT REFERENCES branch(id),
-    department_id BIGINT REFERENCES branch_department(id),
-    position_id BIGINT REFERENCES branch_position(id),
+    id UUID PRIMARY KEY,
+    calendar_id UUID NOT NULL REFERENCES working_calendar(id),
+    branch_id UUID REFERENCES branch(id),
+    department_id UUID REFERENCES branch_department(id),
+    position_id UUID REFERENCES branch_position(id),
     effective_from TIMESTAMP NOT NULL,
     effective_to TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT,
+    updated_by UUID,
     CHECK (
         (branch_id IS NOT NULL AND department_id IS NULL AND position_id IS NULL) OR
         (branch_id IS NULL AND department_id IS NOT NULL AND position_id IS NULL) OR
@@ -145,58 +145,58 @@ CREATE TABLE IF NOT EXISTS calendar_assignment (
 
 -- Create bank_holiday table
 CREATE TABLE IF NOT EXISTS bank_holiday (
-    id BIGSERIAL PRIMARY KEY,
-    bank_id BIGINT NOT NULL REFERENCES bank(id),
-    branch_id BIGINT REFERENCES branch(id),
-    country_id BIGINT,
+    id UUID PRIMARY KEY,
+    bank_id UUID NOT NULL REFERENCES bank(id),
+    branch_id UUID REFERENCES branch(id),
+    country_id UUID,
     name VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
     is_recurring BOOLEAN DEFAULT FALSE,
     description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT
+    updated_by UUID
 );
 
 -- Create branch_hours table
 CREATE TABLE IF NOT EXISTS branch_hours (
-    id BIGSERIAL PRIMARY KEY,
-    branch_id BIGINT NOT NULL REFERENCES branch(id),
+    id UUID PRIMARY KEY,
+    branch_id UUID NOT NULL REFERENCES branch(id),
     day_of_week day_of_week_enum NOT NULL,
     open_time TIME,
     close_time TIME,
     is_closed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT NOT NULL,
+    created_by UUID NOT NULL,
     updated_at TIMESTAMP,
-    updated_by BIGINT,
+    updated_by UUID,
     UNIQUE(branch_id, day_of_week)
 );
 
 -- Create bank_audit_log table
 CREATE TABLE IF NOT EXISTS bank_audit_log (
-    id BIGSERIAL PRIMARY KEY,
-    bank_id BIGINT NOT NULL REFERENCES bank(id),
+    id UUID PRIMARY KEY,
+    bank_id UUID NOT NULL REFERENCES bank(id),
     action audit_action_enum NOT NULL,
     entity VARCHAR(100) NOT NULL,
     entity_id VARCHAR(50) NOT NULL,
     metadata JSONB,
     ip_address VARCHAR(45),
-    user_id BIGINT,
+    user_id UUID,
     timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create branch_audit_log table
 CREATE TABLE IF NOT EXISTS branch_audit_log (
-    id BIGSERIAL PRIMARY KEY,
-    branch_id BIGINT NOT NULL REFERENCES branch(id),
+    id UUID PRIMARY KEY,
+    branch_id UUID NOT NULL REFERENCES branch(id),
     action audit_action_enum NOT NULL,
     entity VARCHAR(100) NOT NULL,
     entity_id VARCHAR(50) NOT NULL,
     metadata JSONB,
     ip_address VARCHAR(45),
-    user_id BIGINT,
+    user_id UUID,
     timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

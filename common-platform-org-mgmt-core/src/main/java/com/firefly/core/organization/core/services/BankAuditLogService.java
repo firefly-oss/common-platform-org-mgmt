@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BankAuditLogDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing bank audit logs.
@@ -33,7 +34,7 @@ public interface BankAuditLogService {
      * @param bankAuditLogDTO the data transfer object containing the updated details of the bank audit log
      * @return a reactive Mono containing the updated BankAuditLogDTO
      */
-    Mono<BankAuditLogDTO> updateBankAuditLog(Long bankAuditLogId, BankAuditLogDTO bankAuditLogDTO);
+    Mono<BankAuditLogDTO> updateBankAuditLog(UUID bankAuditLogId, BankAuditLogDTO bankAuditLogDTO);
     
     /**
      * Deletes a bank audit log identified by its unique ID.
@@ -41,7 +42,7 @@ public interface BankAuditLogService {
      * @param bankAuditLogId the unique identifier of the bank audit log to be deleted
      * @return a Mono that completes when the bank audit log is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankAuditLog(Long bankAuditLogId);
+    Mono<Void> deleteBankAuditLog(UUID bankAuditLogId);
     
     /**
      * Retrieves a bank audit log by its unique identifier.
@@ -50,5 +51,5 @@ public interface BankAuditLogService {
      * @return a Mono emitting the {@link BankAuditLogDTO} representing the bank audit log if found,
      *         or an empty Mono if the bank audit log does not exist
      */
-    Mono<BankAuditLogDTO> getBankAuditLogById(Long bankAuditLogId);
+    Mono<BankAuditLogDTO> getBankAuditLogById(UUID bankAuditLogId);
 }

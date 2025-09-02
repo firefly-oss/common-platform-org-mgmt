@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BranchHoursDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing branch hours.
@@ -25,7 +26,7 @@ public interface BranchHoursService {
      * @param filterRequest the request object containing filtering criteria for BranchHoursDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of branch hours
      */
-    Mono<PaginationResponse<BranchHoursDTO>> filterBranchHoursForBranch(Long branchId, FilterRequest<BranchHoursDTO> filterRequest);
+    Mono<PaginationResponse<BranchHoursDTO>> filterBranchHoursForBranch(UUID branchId, FilterRequest<BranchHoursDTO> filterRequest);
 
     /**
      * Creates new branch hours based on the provided information.
@@ -42,7 +43,7 @@ public interface BranchHoursService {
      * @param branchHoursDTO the DTO object containing details of the branch hours to be created
      * @return a Mono that emits the created BranchHoursDTO object
      */
-    Mono<BranchHoursDTO> createBranchHoursForBranch(Long branchId, BranchHoursDTO branchHoursDTO);
+    Mono<BranchHoursDTO> createBranchHoursForBranch(UUID branchId, BranchHoursDTO branchHoursDTO);
 
     /**
      * Updates existing branch hours with updated information.
@@ -51,7 +52,7 @@ public interface BranchHoursService {
      * @param branchHoursDTO the data transfer object containing the updated details of the branch hours
      * @return a reactive Mono containing the updated BranchHoursDTO
      */
-    Mono<BranchHoursDTO> updateBranchHours(Long branchHoursId, BranchHoursDTO branchHoursDTO);
+    Mono<BranchHoursDTO> updateBranchHours(UUID branchHoursId, BranchHoursDTO branchHoursDTO);
 
     /**
      * Updates existing branch hours for a specific branch with updated information.
@@ -61,7 +62,7 @@ public interface BranchHoursService {
      * @param branchHoursDTO the data transfer object containing the updated details of the branch hours
      * @return a reactive Mono containing the updated BranchHoursDTO
      */
-    Mono<BranchHoursDTO> updateBranchHoursForBranch(Long branchId, Long hoursId, BranchHoursDTO branchHoursDTO);
+    Mono<BranchHoursDTO> updateBranchHoursForBranch(UUID branchId, UUID hoursId, BranchHoursDTO branchHoursDTO);
 
     /**
      * Deletes branch hours identified by its unique ID.
@@ -69,7 +70,7 @@ public interface BranchHoursService {
      * @param branchHoursId the unique identifier of the branch hours to be deleted
      * @return a Mono that completes when the branch hours are successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchHours(Long branchHoursId);
+    Mono<Void> deleteBranchHours(UUID branchHoursId);
 
     /**
      * Deletes branch hours for a specific branch identified by its unique ID.
@@ -78,7 +79,7 @@ public interface BranchHoursService {
      * @param hoursId the unique identifier of the hours to be deleted
      * @return a Mono that completes when the branch hours are successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchHoursForBranch(Long branchId, Long hoursId);
+    Mono<Void> deleteBranchHoursForBranch(UUID branchId, UUID hoursId);
 
     /**
      * Retrieves branch hours by its unique identifier.
@@ -87,7 +88,7 @@ public interface BranchHoursService {
      * @return a Mono emitting the {@link BranchHoursDTO} representing the branch hours if found,
      *         or an empty Mono if the branch hours do not exist
      */
-    Mono<BranchHoursDTO> getBranchHoursById(Long branchHoursId);
+    Mono<BranchHoursDTO> getBranchHoursById(UUID branchHoursId);
 
     /**
      * Retrieves branch hours for a specific branch by its unique identifier.
@@ -97,5 +98,5 @@ public interface BranchHoursService {
      * @return a Mono emitting the {@link BranchHoursDTO} representing the branch hours if found,
      *         or an empty Mono if the branch hours do not exist or don't belong to the specified branch
      */
-    Mono<BranchHoursDTO> getBranchHoursByIdForBranch(Long branchId, Long hoursId);
+    Mono<BranchHoursDTO> getBranchHoursByIdForBranch(UUID branchId, UUID hoursId);
 }

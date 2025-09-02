@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BankServiceImplTest {
@@ -86,7 +87,7 @@ public class BankServiceImplTest {
     @Test
     void updateBank_WhenBankExists_ShouldUpdateAndReturnBank() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankMapper.toEntity(bankDTO)).thenReturn(bank);
         when(bankRepository.save(bank)).thenReturn(Mono.just(bank));
@@ -106,7 +107,7 @@ public class BankServiceImplTest {
     @Test
     void updateBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -121,7 +122,7 @@ public class BankServiceImplTest {
     @Test
     void deleteBank_WhenBankExists_ShouldDeleteBank() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankRepository.deleteById(bankId)).thenReturn(Mono.empty());
 
@@ -136,7 +137,7 @@ public class BankServiceImplTest {
     @Test
     void deleteBank_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -151,7 +152,7 @@ public class BankServiceImplTest {
     @Test
     void getBankById_WhenBankExists_ShouldReturnBank() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.just(bank));
         when(bankMapper.toDTO(bank)).thenReturn(bankDTO);
 
@@ -167,7 +168,7 @@ public class BankServiceImplTest {
     @Test
     void getBankById_WhenBankDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankId = 1L;
+        UUID bankId = 1L;
         when(bankRepository.findById(bankId)).thenReturn(Mono.empty());
 
         // Act & Assert

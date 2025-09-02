@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an assignment of a working calendar to a branch, department, or position.
@@ -24,19 +25,19 @@ import java.time.LocalDateTime;
 public class CalendarAssignment {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("calendar_id")
-    private Long calendarId;
+    private UUID calendarId;
     
     @Column("branch_id")
-    private Long branchId;
+    private UUID branchId;
     
     @Column("department_id")
-    private Long departmentId;
+    private UUID departmentId;
     
     @Column("position_id")
-    private Long positionId;
+    private UUID positionId;
     
     @Column("effective_from")
     private LocalDateTime effectiveFrom;
@@ -52,12 +53,12 @@ public class CalendarAssignment {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

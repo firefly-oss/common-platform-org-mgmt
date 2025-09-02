@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/branches/{branchId}/hours")
@@ -38,7 +39,7 @@ public class BranchHoursController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BranchHoursDTO>> filterBranchHours(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Filter criteria for branch hours", required = true)
             @Valid @RequestBody FilterRequest<BranchHoursDTO> filterRequest) {
         return branchHoursService.filterBranchHoursForBranch(branchId, filterRequest);
@@ -56,7 +57,7 @@ public class BranchHoursController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BranchHoursDTO> createBranchHours(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Branch hours details to create", required = true)
             @Valid @RequestBody BranchHoursDTO branchHoursDTO) {
         return branchHoursService.createBranchHoursForBranch(branchId, branchHoursDTO);
@@ -72,9 +73,9 @@ public class BranchHoursController {
     @GetMapping(value = "/{hoursId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchHoursDTO> getBranchHoursById(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the hours to retrieve", required = true)
-            @PathVariable Long hoursId) {
+            @PathVariable UUID hoursId) {
         return branchHoursService.getBranchHoursByIdForBranch(branchId, hoursId);
     }
 
@@ -89,9 +90,9 @@ public class BranchHoursController {
     @PutMapping(value = "/{hoursId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchHoursDTO> updateBranchHours(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the hours to update", required = true)
-            @PathVariable Long hoursId,
+            @PathVariable UUID hoursId,
             @Parameter(description = "Updated branch hours details", required = true)
             @Valid @RequestBody BranchHoursDTO branchHoursDTO) {
         return branchHoursService.updateBranchHoursForBranch(branchId, hoursId, branchHoursDTO);
@@ -107,9 +108,9 @@ public class BranchHoursController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBranchHours(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the hours to delete", required = true)
-            @PathVariable Long hoursId) {
+            @PathVariable UUID hoursId) {
         return branchHoursService.deleteBranchHoursForBranch(branchId, hoursId);
     }
 }

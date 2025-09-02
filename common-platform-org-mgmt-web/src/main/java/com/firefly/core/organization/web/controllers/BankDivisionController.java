@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks/{bankId}/divisions")
@@ -38,7 +39,7 @@ public class BankDivisionController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BankDivisionDTO>> filterBankDivisions(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Filter criteria for bank divisions", required = true)
             @Valid @RequestBody FilterRequest<BankDivisionDTO> filterRequest) {
         if(null != filterRequest.getFilters()){
@@ -59,7 +60,7 @@ public class BankDivisionController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BankDivisionDTO> createBankDivision(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Bank division details to create", required = true)
             @Valid @RequestBody BankDivisionDTO bankDivisionDTO) {
         // Set the bankId from the path variable
@@ -77,9 +78,9 @@ public class BankDivisionController {
     @GetMapping(value = "/{divisionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankDivisionDTO> getBankDivisionById(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division to retrieve", required = true)
-            @PathVariable Long divisionId) {
+            @PathVariable UUID divisionId) {
         return bankDivisionService.getBankDivisionByIdForBank(bankId, divisionId);
     }
 
@@ -94,9 +95,9 @@ public class BankDivisionController {
     @PutMapping(value = "/{divisionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankDivisionDTO> updateBankDivision(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division to update", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "Updated bank division details", required = true)
             @Valid @RequestBody BankDivisionDTO bankDivisionDTO) {
         // Set the bankId from the path variable
@@ -114,9 +115,9 @@ public class BankDivisionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBankDivision(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division to delete", required = true)
-            @PathVariable Long divisionId) {
+            @PathVariable UUID divisionId) {
         return bankDivisionService.deleteBankDivisionForBank(bankId, divisionId);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,7 +42,7 @@ public class BankHolidayServiceImpl implements BankHolidayService {
     }
 
     @Override
-    public Mono<BankHolidayDTO> updateBankHoliday(Long bankHolidayId, BankHolidayDTO bankHolidayDTO) {
+    public Mono<BankHolidayDTO> updateBankHoliday(UUID bankHolidayId, BankHolidayDTO bankHolidayDTO) {
         return repository.findById(bankHolidayId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank holiday not found with ID: " + bankHolidayId)))
                 .flatMap(existingBankHoliday -> {
@@ -53,14 +54,14 @@ public class BankHolidayServiceImpl implements BankHolidayService {
     }
 
     @Override
-    public Mono<Void> deleteBankHoliday(Long bankHolidayId) {
+    public Mono<Void> deleteBankHoliday(UUID bankHolidayId) {
         return repository.findById(bankHolidayId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank holiday not found with ID: " + bankHolidayId)))
                 .flatMap(bankHoliday -> repository.deleteById(bankHolidayId));
     }
 
     @Override
-    public Mono<BankHolidayDTO> getBankHolidayById(Long bankHolidayId) {
+    public Mono<BankHolidayDTO> getBankHolidayById(UUID bankHolidayId) {
         return repository.findById(bankHolidayId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank holiday not found with ID: " + bankHolidayId)))
                 .map(mapper::toDTO);

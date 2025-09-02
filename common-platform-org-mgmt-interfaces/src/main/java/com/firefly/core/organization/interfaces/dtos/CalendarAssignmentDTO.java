@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing an assignment of a working calendar to a branch, department, or position.
@@ -19,25 +20,25 @@ import java.time.LocalDateTime;
 public class CalendarAssignmentDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long calendarId;
+    private UUID calendarId;
 
     @FilterableId
-    private Long branchId;
+    private UUID branchId;
 
     @FilterableId
-    private Long departmentId;
+    private UUID departmentId;
 
     @FilterableId
-    private Long positionId;
+    private UUID positionId;
 
     private LocalDateTime effectiveFrom;
     private LocalDateTime effectiveTo;
     private Boolean isActive;
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private LocalDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.BankRegion;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BankRegion} entities.
  */
 @Repository
-public interface BankRegionRepository extends BaseRepository<BankRegion, Long> {
+public interface BankRegionRepository extends BaseRepository<BankRegion, UUID> {
     
     /**
      * Find all regions belonging to a specific division.
@@ -17,7 +18,7 @@ public interface BankRegionRepository extends BaseRepository<BankRegion, Long> {
      * @param divisionId the division ID
      * @return a Flux emitting all regions for the specified division
      */
-    Flux<BankRegion> findByDivisionId(Long divisionId);
+    Flux<BankRegion> findByDivisionId(UUID divisionId);
     
     /**
      * Find a region by its division ID and code.
@@ -26,7 +27,7 @@ public interface BankRegionRepository extends BaseRepository<BankRegion, Long> {
      * @param code the region code
      * @return a Mono emitting the region if found, or empty if not found
      */
-    Mono<BankRegion> findByDivisionIdAndCode(Long divisionId, String code);
+    Mono<BankRegion> findByDivisionIdAndCode(UUID divisionId, String code);
     
     /**
      * Find all active regions belonging to a specific division.
@@ -34,7 +35,7 @@ public interface BankRegionRepository extends BaseRepository<BankRegion, Long> {
      * @param divisionId the division ID
      * @return a Flux emitting all active regions for the specified division
      */
-    Flux<BankRegion> findByDivisionIdAndIsActiveTrue(Long divisionId);
+    Flux<BankRegion> findByDivisionIdAndIsActiveTrue(UUID divisionId);
     
     /**
      * Find a region by its name.

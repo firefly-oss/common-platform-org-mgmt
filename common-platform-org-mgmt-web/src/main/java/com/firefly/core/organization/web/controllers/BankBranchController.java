@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks/{bankId}/branches")
@@ -38,7 +39,7 @@ public class BankBranchController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BranchDTO>> filterBranchesForBank(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Filter criteria for branches", required = true)
             @Valid @RequestBody FilterRequest<BranchDTO> filterRequest) {
         return branchService.filterBranchesForBank(bankId, filterRequest);
@@ -56,7 +57,7 @@ public class BankBranchController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BranchDTO> createBranchForBank(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Branch details to create", required = true)
             @Valid @RequestBody BranchDTO branchDTO) {
         return branchService.createBranchForBank(bankId, branchDTO);
@@ -72,9 +73,9 @@ public class BankBranchController {
     @GetMapping(value = "/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDTO> getBranchByIdForBank(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the branch to retrieve", required = true)
-            @PathVariable Long branchId) {
+            @PathVariable UUID branchId) {
         return branchService.getBranchByIdForBank(bankId, branchId);
     }
 
@@ -89,9 +90,9 @@ public class BankBranchController {
     @PutMapping(value = "/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDTO> updateBranchForBank(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the branch to update", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Updated branch details", required = true)
             @Valid @RequestBody BranchDTO branchDTO) {
         return branchService.updateBranchForBank(bankId, branchId, branchDTO);
@@ -107,9 +108,9 @@ public class BankBranchController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBranchForBank(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the branch to delete", required = true)
-            @PathVariable Long branchId) {
+            @PathVariable UUID branchId) {
         return branchService.deleteBranchForBank(bankId, branchId);
     }
 }

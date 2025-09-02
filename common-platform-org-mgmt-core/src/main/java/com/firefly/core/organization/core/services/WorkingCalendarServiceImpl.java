@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<PaginationResponse<WorkingCalendarDTO>> filterWorkingCalendarsForBank(Long bankId, FilterRequest<WorkingCalendarDTO> filterRequest) {
+    public Mono<PaginationResponse<WorkingCalendarDTO>> filterWorkingCalendarsForBank(UUID bankId, FilterRequest<WorkingCalendarDTO> filterRequest) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> filterWorkingCalendars(filterRequest));
@@ -51,7 +52,7 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<WorkingCalendarDTO> createWorkingCalendarForBank(Long bankId, WorkingCalendarDTO workingCalendarDTO) {
+    public Mono<WorkingCalendarDTO> createWorkingCalendarForBank(UUID bankId, WorkingCalendarDTO workingCalendarDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> {
@@ -61,7 +62,7 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<WorkingCalendarDTO> updateWorkingCalendar(Long workingCalendarId, WorkingCalendarDTO workingCalendarDTO) {
+    public Mono<WorkingCalendarDTO> updateWorkingCalendar(UUID workingCalendarId, WorkingCalendarDTO workingCalendarDTO) {
         return repository.findById(workingCalendarId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Working calendar not found with ID: " + workingCalendarId)))
                 .flatMap(existingWorkingCalendar -> {
@@ -73,7 +74,7 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<WorkingCalendarDTO> updateWorkingCalendarForBank(Long bankId, Long calendarId, WorkingCalendarDTO workingCalendarDTO) {
+    public Mono<WorkingCalendarDTO> updateWorkingCalendarForBank(UUID bankId, UUID calendarId, WorkingCalendarDTO workingCalendarDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getWorkingCalendarById(calendarId))
@@ -86,14 +87,14 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<Void> deleteWorkingCalendar(Long workingCalendarId) {
+    public Mono<Void> deleteWorkingCalendar(UUID workingCalendarId) {
         return repository.findById(workingCalendarId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Working calendar not found with ID: " + workingCalendarId)))
                 .flatMap(workingCalendar -> repository.deleteById(workingCalendarId));
     }
 
     @Override
-    public Mono<Void> deleteWorkingCalendarForBank(Long bankId, Long calendarId) {
+    public Mono<Void> deleteWorkingCalendarForBank(UUID bankId, UUID calendarId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getWorkingCalendarById(calendarId))
@@ -103,14 +104,14 @@ public class WorkingCalendarServiceImpl implements WorkingCalendarService {
     }
 
     @Override
-    public Mono<WorkingCalendarDTO> getWorkingCalendarById(Long workingCalendarId) {
+    public Mono<WorkingCalendarDTO> getWorkingCalendarById(UUID workingCalendarId) {
         return repository.findById(workingCalendarId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Working calendar not found with ID: " + workingCalendarId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<WorkingCalendarDTO> getWorkingCalendarByIdForBank(Long bankId, Long calendarId) {
+    public Mono<WorkingCalendarDTO> getWorkingCalendarByIdForBank(UUID bankId, UUID calendarId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getWorkingCalendarById(calendarId))

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<PaginationResponse<BranchDTO>> filterBranchesForBank(Long bankId, FilterRequest<BranchDTO> filterRequest) {
+    public Mono<PaginationResponse<BranchDTO>> filterBranchesForBank(UUID bankId, FilterRequest<BranchDTO> filterRequest) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> filterBranches(filterRequest));
@@ -51,7 +52,7 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<BranchDTO> createBranchForBank(Long bankId, BranchDTO branchDTO) {
+    public Mono<BranchDTO> createBranchForBank(UUID bankId, BranchDTO branchDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> {
@@ -61,7 +62,7 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<BranchDTO> updateBranch(Long branchId, BranchDTO branchDTO) {
+    public Mono<BranchDTO> updateBranch(UUID branchId, BranchDTO branchDTO) {
         return repository.findById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(existingBranch -> {
@@ -73,7 +74,7 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<BranchDTO> updateBranchForBank(Long bankId, Long branchId, BranchDTO branchDTO) {
+    public Mono<BranchDTO> updateBranchForBank(UUID bankId, UUID branchId, BranchDTO branchDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBranchById(branchId))
@@ -86,14 +87,14 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<Void> deleteBranch(Long branchId) {
+    public Mono<Void> deleteBranch(UUID branchId) {
         return repository.findById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> repository.deleteById(branchId));
     }
 
     @Override
-    public Mono<Void> deleteBranchForBank(Long bankId, Long branchId) {
+    public Mono<Void> deleteBranchForBank(UUID bankId, UUID branchId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBranchById(branchId))
@@ -103,14 +104,14 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Mono<BranchDTO> getBranchById(Long branchId) {
+    public Mono<BranchDTO> getBranchById(UUID branchId) {
         return repository.findById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BranchDTO> getBranchByIdForBank(Long bankId, Long branchId) {
+    public Mono<BranchDTO> getBranchByIdForBank(UUID bankId, UUID branchId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBranchById(branchId))

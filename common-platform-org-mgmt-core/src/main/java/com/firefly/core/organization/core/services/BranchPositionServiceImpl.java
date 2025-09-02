@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,7 +40,7 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositionsForDepartment(Long branchId, Long departmentId, FilterRequest<BranchPositionDTO> filterRequest) {
+    public Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositionsForDepartment(UUID branchId, UUID departmentId, FilterRequest<BranchPositionDTO> filterRequest) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
@@ -57,7 +58,7 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<BranchPositionDTO> createBranchPositionForDepartment(Long branchId, Long departmentId, BranchPositionDTO branchPositionDTO) {
+    public Mono<BranchPositionDTO> createBranchPositionForDepartment(UUID branchId, UUID departmentId, BranchPositionDTO branchPositionDTO) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
@@ -70,7 +71,7 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<BranchPositionDTO> updateBranchPosition(Long branchPositionId, BranchPositionDTO branchPositionDTO) {
+    public Mono<BranchPositionDTO> updateBranchPosition(UUID branchPositionId, BranchPositionDTO branchPositionDTO) {
         return repository.findById(branchPositionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch position not found with ID: " + branchPositionId)))
                 .flatMap(existingBranchPosition -> {
@@ -82,7 +83,7 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<BranchPositionDTO> updateBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId, BranchPositionDTO branchPositionDTO) {
+    public Mono<BranchPositionDTO> updateBranchPositionForDepartment(UUID branchId, UUID departmentId, UUID positionId, BranchPositionDTO branchPositionDTO) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
@@ -98,14 +99,14 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<Void> deleteBranchPosition(Long branchPositionId) {
+    public Mono<Void> deleteBranchPosition(UUID branchPositionId) {
         return repository.findById(branchPositionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch position not found with ID: " + branchPositionId)))
                 .flatMap(branchPosition -> repository.deleteById(branchPositionId));
     }
 
     @Override
-    public Mono<Void> deleteBranchPositionForDepartment(Long branchId, Long departmentId, Long positionId) {
+    public Mono<Void> deleteBranchPositionForDepartment(UUID branchId, UUID departmentId, UUID positionId) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))
@@ -118,14 +119,14 @@ public class BranchPositionServiceImpl implements BranchPositionService {
     }
 
     @Override
-    public Mono<BranchPositionDTO> getBranchPositionById(Long branchPositionId) {
+    public Mono<BranchPositionDTO> getBranchPositionById(UUID branchPositionId) {
         return repository.findById(branchPositionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch position not found with ID: " + branchPositionId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BranchPositionDTO> getBranchPositionByIdForDepartment(Long branchId, Long departmentId, Long positionId) {
+    public Mono<BranchPositionDTO> getBranchPositionByIdForDepartment(UUID branchId, UUID departmentId, UUID positionId) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> branchDepartmentService.getBranchDepartmentById(departmentId))

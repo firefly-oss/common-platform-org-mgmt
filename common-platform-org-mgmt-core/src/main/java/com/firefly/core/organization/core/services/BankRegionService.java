@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BankRegionDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing bank regions.
@@ -26,7 +27,7 @@ public interface BankRegionService {
      * @param filterRequest the request object containing filtering criteria for BankRegionDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of bank regions
      */
-    Mono<PaginationResponse<BankRegionDTO>> filterBankRegionsForDivision(Long bankId, Long divisionId, FilterRequest<BankRegionDTO> filterRequest);
+    Mono<PaginationResponse<BankRegionDTO>> filterBankRegionsForDivision(UUID bankId, UUID divisionId, FilterRequest<BankRegionDTO> filterRequest);
 
     /**
      * Creates a new bank region based on the provided information.
@@ -44,7 +45,7 @@ public interface BankRegionService {
      * @param bankRegionDTO the DTO object containing details of the bank region to be created
      * @return a Mono that emits the created BankRegionDTO object
      */
-    Mono<BankRegionDTO> createBankRegionForDivision(Long bankId, Long divisionId, BankRegionDTO bankRegionDTO);
+    Mono<BankRegionDTO> createBankRegionForDivision(UUID bankId, UUID divisionId, BankRegionDTO bankRegionDTO);
 
     /**
      * Updates an existing bank region with updated information.
@@ -53,7 +54,7 @@ public interface BankRegionService {
      * @param bankRegionDTO the data transfer object containing the updated details of the bank region
      * @return a reactive Mono containing the updated BankRegionDTO
      */
-    Mono<BankRegionDTO> updateBankRegion(Long bankRegionId, BankRegionDTO bankRegionDTO);
+    Mono<BankRegionDTO> updateBankRegion(UUID bankRegionId, BankRegionDTO bankRegionDTO);
 
     /**
      * Updates an existing bank region for a specific bank division with updated information.
@@ -64,7 +65,7 @@ public interface BankRegionService {
      * @param bankRegionDTO the data transfer object containing the updated details of the bank region
      * @return a reactive Mono containing the updated BankRegionDTO
      */
-    Mono<BankRegionDTO> updateBankRegionForDivision(Long bankId, Long divisionId, Long regionId, BankRegionDTO bankRegionDTO);
+    Mono<BankRegionDTO> updateBankRegionForDivision(UUID bankId, UUID divisionId, UUID regionId, BankRegionDTO bankRegionDTO);
 
     /**
      * Deletes a bank region identified by its unique ID.
@@ -72,7 +73,7 @@ public interface BankRegionService {
      * @param bankRegionId the unique identifier of the bank region to be deleted
      * @return a Mono that completes when the bank region is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankRegion(Long bankRegionId);
+    Mono<Void> deleteBankRegion(UUID bankRegionId);
 
     /**
      * Deletes a bank region for a specific bank division identified by its unique ID.
@@ -82,7 +83,7 @@ public interface BankRegionService {
      * @param regionId the unique identifier of the region to be deleted
      * @return a Mono that completes when the bank region is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankRegionForDivision(Long bankId, Long divisionId, Long regionId);
+    Mono<Void> deleteBankRegionForDivision(UUID bankId, UUID divisionId, UUID regionId);
 
     /**
      * Retrieves a bank region by its unique identifier.
@@ -91,7 +92,7 @@ public interface BankRegionService {
      * @return a Mono emitting the {@link BankRegionDTO} representing the bank region if found,
      *         or an empty Mono if the bank region does not exist
      */
-    Mono<BankRegionDTO> getBankRegionById(Long bankRegionId);
+    Mono<BankRegionDTO> getBankRegionById(UUID bankRegionId);
 
     /**
      * Retrieves a bank region for a specific bank division by its unique identifier.
@@ -102,5 +103,5 @@ public interface BankRegionService {
      * @return a Mono emitting the {@link BankRegionDTO} representing the bank region if found,
      *         or an empty Mono if the bank region does not exist or doesn't belong to the specified division
      */
-    Mono<BankRegionDTO> getBankRegionByIdForDivision(Long bankId, Long divisionId, Long regionId);
+    Mono<BankRegionDTO> getBankRegionByIdForDivision(UUID bankId, UUID divisionId, UUID regionId);
 }

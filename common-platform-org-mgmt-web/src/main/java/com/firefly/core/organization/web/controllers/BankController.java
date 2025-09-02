@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks")
@@ -66,7 +67,7 @@ public class BankController {
     @GetMapping(value = "/{bankId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankDTO> getBankById(
             @Parameter(description = "ID of the bank to retrieve", required = true)
-            @PathVariable Long bankId) {
+            @PathVariable UUID bankId) {
         return bankService.getBankById(bankId);
     }
 
@@ -81,7 +82,7 @@ public class BankController {
     @PutMapping(value = "/{bankId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankDTO> updateBank(
             @Parameter(description = "ID of the bank to update", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Updated bank details", required = true)
             @Valid @RequestBody BankDTO bankDTO) {
         return bankService.updateBank(bankId, bankDTO);
@@ -97,7 +98,7 @@ public class BankController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBank(
             @Parameter(description = "ID of the bank to delete", required = true)
-            @PathVariable Long bankId) {
+            @PathVariable UUID bankId) {
         return bankService.deleteBank(bankId);
     }
 }

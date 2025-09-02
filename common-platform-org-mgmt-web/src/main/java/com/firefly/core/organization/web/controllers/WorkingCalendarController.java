@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks/{bankId}/calendars")
@@ -38,7 +39,7 @@ public class WorkingCalendarController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<WorkingCalendarDTO>> filterWorkingCalendars(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Filter criteria for working calendars", required = true)
             @Valid @RequestBody FilterRequest<WorkingCalendarDTO> filterRequest) {
         return workingCalendarService.filterWorkingCalendarsForBank(bankId, filterRequest);
@@ -56,7 +57,7 @@ public class WorkingCalendarController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<WorkingCalendarDTO> createWorkingCalendar(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "Working calendar details to create", required = true)
             @Valid @RequestBody WorkingCalendarDTO workingCalendarDTO) {
         return workingCalendarService.createWorkingCalendarForBank(bankId, workingCalendarDTO);
@@ -72,9 +73,9 @@ public class WorkingCalendarController {
     @GetMapping(value = "/{calendarId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<WorkingCalendarDTO> getWorkingCalendarById(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar to retrieve", required = true)
-            @PathVariable Long calendarId) {
+            @PathVariable UUID calendarId) {
         return workingCalendarService.getWorkingCalendarByIdForBank(bankId, calendarId);
     }
 
@@ -89,9 +90,9 @@ public class WorkingCalendarController {
     @PutMapping(value = "/{calendarId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<WorkingCalendarDTO> updateWorkingCalendar(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar to update", required = true)
-            @PathVariable Long calendarId,
+            @PathVariable UUID calendarId,
             @Parameter(description = "Updated working calendar details", required = true)
             @Valid @RequestBody WorkingCalendarDTO workingCalendarDTO) {
         return workingCalendarService.updateWorkingCalendarForBank(bankId, calendarId, workingCalendarDTO);
@@ -107,9 +108,9 @@ public class WorkingCalendarController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteWorkingCalendar(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the calendar to delete", required = true)
-            @PathVariable Long calendarId) {
+            @PathVariable UUID calendarId) {
         return workingCalendarService.deleteWorkingCalendarForBank(bankId, calendarId);
     }
 }

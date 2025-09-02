@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing an audit log entry for branch-related actions.
@@ -20,10 +21,10 @@ import java.time.LocalDateTime;
 public class BranchAuditLogDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long branchId;
+    private UUID branchId;
 
     private AuditAction action;
     private String entity;
@@ -32,7 +33,7 @@ public class BranchAuditLogDTO {
     private String ipAddress;
 
     @FilterableId
-    private Long userId;
+    private UUID userId;
 
     private LocalDateTime timestamp;
 }

@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BranchDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing branches.
@@ -25,7 +26,7 @@ public interface BranchService {
      * @param filterRequest the request object containing filtering criteria for BranchDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of branches
      */
-    Mono<PaginationResponse<BranchDTO>> filterBranchesForBank(Long bankId, FilterRequest<BranchDTO> filterRequest);
+    Mono<PaginationResponse<BranchDTO>> filterBranchesForBank(UUID bankId, FilterRequest<BranchDTO> filterRequest);
 
     /**
      * Creates a new branch based on the provided information.
@@ -42,7 +43,7 @@ public interface BranchService {
      * @param branchDTO the DTO object containing details of the branch to be created
      * @return a Mono that emits the created BranchDTO object
      */
-    Mono<BranchDTO> createBranchForBank(Long bankId, BranchDTO branchDTO);
+    Mono<BranchDTO> createBranchForBank(UUID bankId, BranchDTO branchDTO);
 
     /**
      * Updates an existing branch with updated information.
@@ -51,7 +52,7 @@ public interface BranchService {
      * @param branchDTO the data transfer object containing the updated details of the branch
      * @return a reactive Mono containing the updated BranchDTO
      */
-    Mono<BranchDTO> updateBranch(Long branchId, BranchDTO branchDTO);
+    Mono<BranchDTO> updateBranch(UUID branchId, BranchDTO branchDTO);
 
     /**
      * Updates an existing branch for a specific bank with updated information.
@@ -61,7 +62,7 @@ public interface BranchService {
      * @param branchDTO the data transfer object containing the updated details of the branch
      * @return a reactive Mono containing the updated BranchDTO
      */
-    Mono<BranchDTO> updateBranchForBank(Long bankId, Long branchId, BranchDTO branchDTO);
+    Mono<BranchDTO> updateBranchForBank(UUID bankId, UUID branchId, BranchDTO branchDTO);
 
     /**
      * Deletes a branch identified by its unique ID.
@@ -69,7 +70,7 @@ public interface BranchService {
      * @param branchId the unique identifier of the branch to be deleted
      * @return a Mono that completes when the branch is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranch(Long branchId);
+    Mono<Void> deleteBranch(UUID branchId);
 
     /**
      * Deletes a branch for a specific bank identified by its unique ID.
@@ -78,7 +79,7 @@ public interface BranchService {
      * @param branchId the unique identifier of the branch to be deleted
      * @return a Mono that completes when the branch is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBranchForBank(Long bankId, Long branchId);
+    Mono<Void> deleteBranchForBank(UUID bankId, UUID branchId);
 
     /**
      * Retrieves a branch by its unique identifier.
@@ -87,7 +88,7 @@ public interface BranchService {
      * @return a Mono emitting the {@link BranchDTO} representing the branch if found,
      *         or an empty Mono if the branch does not exist
      */
-    Mono<BranchDTO> getBranchById(Long branchId);
+    Mono<BranchDTO> getBranchById(UUID branchId);
 
     /**
      * Retrieves a branch for a specific bank by its unique identifier.
@@ -97,5 +98,5 @@ public interface BranchService {
      * @return a Mono emitting the {@link BranchDTO} representing the branch if found,
      *         or an empty Mono if the branch does not exist or doesn't belong to the specified bank
      */
-    Mono<BranchDTO> getBranchByIdForBank(Long bankId, Long branchId);
+    Mono<BranchDTO> getBranchByIdForBank(UUID bankId, UUID branchId);
 }

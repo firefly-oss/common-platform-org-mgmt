@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<PaginationResponse<BranchHoursDTO>> filterBranchHoursForBranch(Long branchId, FilterRequest<BranchHoursDTO> filterRequest) {
+    public Mono<PaginationResponse<BranchHoursDTO>> filterBranchHoursForBranch(UUID branchId, FilterRequest<BranchHoursDTO> filterRequest) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> filterBranchHours(filterRequest));
@@ -51,7 +52,7 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<BranchHoursDTO> createBranchHoursForBranch(Long branchId, BranchHoursDTO branchHoursDTO) {
+    public Mono<BranchHoursDTO> createBranchHoursForBranch(UUID branchId, BranchHoursDTO branchHoursDTO) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> {
@@ -61,7 +62,7 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<BranchHoursDTO> updateBranchHours(Long branchHoursId, BranchHoursDTO branchHoursDTO) {
+    public Mono<BranchHoursDTO> updateBranchHours(UUID branchHoursId, BranchHoursDTO branchHoursDTO) {
         return repository.findById(branchHoursId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch hours not found with ID: " + branchHoursId)))
                 .flatMap(existingBranchHours -> {
@@ -73,7 +74,7 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<BranchHoursDTO> updateBranchHoursForBranch(Long branchId, Long hoursId, BranchHoursDTO branchHoursDTO) {
+    public Mono<BranchHoursDTO> updateBranchHoursForBranch(UUID branchId, UUID hoursId, BranchHoursDTO branchHoursDTO) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> getBranchHoursById(hoursId))
@@ -86,14 +87,14 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<Void> deleteBranchHours(Long branchHoursId) {
+    public Mono<Void> deleteBranchHours(UUID branchHoursId) {
         return repository.findById(branchHoursId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch hours not found with ID: " + branchHoursId)))
                 .flatMap(branchHours -> repository.deleteById(branchHoursId));
     }
 
     @Override
-    public Mono<Void> deleteBranchHoursForBranch(Long branchId, Long hoursId) {
+    public Mono<Void> deleteBranchHoursForBranch(UUID branchId, UUID hoursId) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> getBranchHoursById(hoursId))
@@ -103,14 +104,14 @@ public class BranchHoursServiceImpl implements BranchHoursService {
     }
 
     @Override
-    public Mono<BranchHoursDTO> getBranchHoursById(Long branchHoursId) {
+    public Mono<BranchHoursDTO> getBranchHoursById(UUID branchHoursId) {
         return repository.findById(branchHoursId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch hours not found with ID: " + branchHoursId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BranchHoursDTO> getBranchHoursByIdForBranch(Long branchId, Long hoursId) {
+    public Mono<BranchHoursDTO> getBranchHoursByIdForBranch(UUID branchId, UUID hoursId) {
         return branchService.getBranchById(branchId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch not found with ID: " + branchId)))
                 .flatMap(branch -> getBranchHoursById(hoursId))

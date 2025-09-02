@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.Bank;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link Bank} entities.
  */
 @Repository
-public interface BankRepository extends BaseRepository<Bank, Long> {
+public interface BankRepository extends BaseRepository<Bank, UUID> {
     
     /**
      * Find a bank by its code.

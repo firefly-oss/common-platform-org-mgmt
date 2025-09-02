@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing an audit log entry for bank-related actions.
@@ -20,10 +21,10 @@ import java.time.LocalDateTime;
 public class BankAuditLogDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long bankId;
+    private UUID bankId;
 
     private AuditAction action;
     private String entity;
@@ -35,7 +36,7 @@ public class BankAuditLogDTO {
     private String ipAddress;
 
     @FilterableId
-    private Long userId;
+    private UUID userId;
 
     private LocalDateTime timestamp;
 }

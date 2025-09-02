@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.BankDivision;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BankDivision} entities.
  */
 @Repository
-public interface BankDivisionRepository extends BaseRepository<BankDivision, Long> {
+public interface BankDivisionRepository extends BaseRepository<BankDivision, UUID> {
     
     /**
      * Find all divisions belonging to a specific bank.
@@ -17,7 +18,7 @@ public interface BankDivisionRepository extends BaseRepository<BankDivision, Lon
      * @param bankId the bank ID
      * @return a Flux emitting all divisions for the specified bank
      */
-    Flux<BankDivision> findByBankId(Long bankId);
+    Flux<BankDivision> findByBankId(UUID bankId);
     
     /**
      * Find a division by its bank ID and code.
@@ -26,7 +27,7 @@ public interface BankDivisionRepository extends BaseRepository<BankDivision, Lon
      * @param code the division code
      * @return a Mono emitting the division if found, or empty if not found
      */
-    Mono<BankDivision> findByBankIdAndCode(Long bankId, String code);
+    Mono<BankDivision> findByBankIdAndCode(UUID bankId, String code);
     
     /**
      * Find all active divisions belonging to a specific bank.
@@ -34,7 +35,7 @@ public interface BankDivisionRepository extends BaseRepository<BankDivision, Lon
      * @param bankId the bank ID
      * @return a Flux emitting all active divisions for the specified bank
      */
-    Flux<BankDivision> findByBankIdAndIsActiveTrue(Long bankId);
+    Flux<BankDivision> findByBankIdAndIsActiveTrue(UUID bankId);
     
     /**
      * Find a division by its name.

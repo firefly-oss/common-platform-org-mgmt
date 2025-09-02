@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing an audit log entry for bank-related actions.
@@ -23,10 +24,10 @@ import java.time.LocalDateTime;
 public class BankAuditLog {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("bank_id")
-    private Long bankId;
+    private UUID bankId;
     
     @Column("action")
     private AuditAction action;
@@ -44,7 +45,7 @@ public class BankAuditLog {
     private String ipAddress;
     
     @Column("user_id")
-    private Long userId;
+    private UUID userId;
     
     @Column("timestamp")
     private LocalDateTime timestamp;

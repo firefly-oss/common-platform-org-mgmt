@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BankDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing banks.
@@ -33,7 +34,7 @@ public interface BankService {
      * @param bankDTO the data transfer object containing the updated details of the bank
      * @return a reactive Mono containing the updated BankDTO
      */
-    Mono<BankDTO> updateBank(Long bankId, BankDTO bankDTO);
+    Mono<BankDTO> updateBank(UUID bankId, BankDTO bankDTO);
     
     /**
      * Deletes a bank identified by its unique ID.
@@ -41,7 +42,7 @@ public interface BankService {
      * @param bankId the unique identifier of the bank to be deleted
      * @return a Mono that completes when the bank is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBank(Long bankId);
+    Mono<Void> deleteBank(UUID bankId);
     
     /**
      * Retrieves a bank by its unique identifier.
@@ -50,5 +51,5 @@ public interface BankService {
      * @return a Mono emitting the {@link BankDTO} representing the bank if found,
      *         or an empty Mono if the bank does not exist
      */
-    Mono<BankDTO> getBankById(Long bankId);
+    Mono<BankDTO> getBankById(UUID bankId);
 }

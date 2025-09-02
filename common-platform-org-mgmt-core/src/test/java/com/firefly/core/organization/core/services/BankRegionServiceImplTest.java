@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BankRegionServiceImplTest {
@@ -87,7 +88,7 @@ public class BankRegionServiceImplTest {
     @Test
     void updateBankRegion_WhenBankRegionExists_ShouldUpdateAndReturnBankRegion() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.just(bankRegion));
         when(bankRegionMapper.toEntity(bankRegionDTO)).thenReturn(bankRegion);
         when(bankRegionRepository.save(bankRegion)).thenReturn(Mono.just(bankRegion));
@@ -107,7 +108,7 @@ public class BankRegionServiceImplTest {
     @Test
     void updateBankRegion_WhenBankRegionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -122,7 +123,7 @@ public class BankRegionServiceImplTest {
     @Test
     void deleteBankRegion_WhenBankRegionExists_ShouldDeleteBankRegion() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.just(bankRegion));
         when(bankRegionRepository.deleteById(bankRegionId)).thenReturn(Mono.empty());
 
@@ -137,7 +138,7 @@ public class BankRegionServiceImplTest {
     @Test
     void deleteBankRegion_WhenBankRegionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -152,7 +153,7 @@ public class BankRegionServiceImplTest {
     @Test
     void getBankRegionById_WhenBankRegionExists_ShouldReturnBankRegion() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.just(bankRegion));
         when(bankRegionMapper.toDTO(bankRegion)).thenReturn(bankRegionDTO);
 
@@ -168,7 +169,7 @@ public class BankRegionServiceImplTest {
     @Test
     void getBankRegionById_WhenBankRegionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankRegionId = 1L;
+        UUID bankRegionId = 1L;
         when(bankRegionRepository.findById(bankRegionId)).thenReturn(Mono.empty());
 
         // Act & Assert

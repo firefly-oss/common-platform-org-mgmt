@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a bank holiday.
@@ -25,16 +26,16 @@ import java.time.LocalDateTime;
 public class BankHoliday {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("bank_id")
-    private Long bankId;
+    private UUID bankId;
     
     @Column("branch_id")
-    private Long branchId;
+    private UUID branchId;
     
     @Column("country_id")
-    private Long countryId;
+    private UUID countryId;
     
     @Column("name")
     private String name;
@@ -53,12 +54,12 @@ public class BankHoliday {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

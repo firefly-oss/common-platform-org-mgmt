@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.WorkingCalendarDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing working calendars.
@@ -25,7 +26,7 @@ public interface WorkingCalendarService {
      * @param filterRequest the request object containing filtering criteria for WorkingCalendarDTO
      * @return a reactive {@code Mono} emitting a {@code PaginationResponse} containing the filtered list of working calendars
      */
-    Mono<PaginationResponse<WorkingCalendarDTO>> filterWorkingCalendarsForBank(Long bankId, FilterRequest<WorkingCalendarDTO> filterRequest);
+    Mono<PaginationResponse<WorkingCalendarDTO>> filterWorkingCalendarsForBank(UUID bankId, FilterRequest<WorkingCalendarDTO> filterRequest);
 
     /**
      * Creates a new working calendar based on the provided information.
@@ -42,7 +43,7 @@ public interface WorkingCalendarService {
      * @param workingCalendarDTO the DTO object containing details of the working calendar to be created
      * @return a Mono that emits the created WorkingCalendarDTO object
      */
-    Mono<WorkingCalendarDTO> createWorkingCalendarForBank(Long bankId, WorkingCalendarDTO workingCalendarDTO);
+    Mono<WorkingCalendarDTO> createWorkingCalendarForBank(UUID bankId, WorkingCalendarDTO workingCalendarDTO);
 
     /**
      * Updates an existing working calendar with updated information.
@@ -51,7 +52,7 @@ public interface WorkingCalendarService {
      * @param workingCalendarDTO the data transfer object containing the updated details of the working calendar
      * @return a reactive Mono containing the updated WorkingCalendarDTO
      */
-    Mono<WorkingCalendarDTO> updateWorkingCalendar(Long workingCalendarId, WorkingCalendarDTO workingCalendarDTO);
+    Mono<WorkingCalendarDTO> updateWorkingCalendar(UUID workingCalendarId, WorkingCalendarDTO workingCalendarDTO);
 
     /**
      * Updates an existing working calendar for a specific bank with updated information.
@@ -61,7 +62,7 @@ public interface WorkingCalendarService {
      * @param workingCalendarDTO the data transfer object containing the updated details of the working calendar
      * @return a reactive Mono containing the updated WorkingCalendarDTO
      */
-    Mono<WorkingCalendarDTO> updateWorkingCalendarForBank(Long bankId, Long calendarId, WorkingCalendarDTO workingCalendarDTO);
+    Mono<WorkingCalendarDTO> updateWorkingCalendarForBank(UUID bankId, UUID calendarId, WorkingCalendarDTO workingCalendarDTO);
 
     /**
      * Deletes a working calendar identified by its unique ID.
@@ -69,7 +70,7 @@ public interface WorkingCalendarService {
      * @param workingCalendarId the unique identifier of the working calendar to be deleted
      * @return a Mono that completes when the working calendar is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteWorkingCalendar(Long workingCalendarId);
+    Mono<Void> deleteWorkingCalendar(UUID workingCalendarId);
 
     /**
      * Deletes a working calendar for a specific bank identified by its unique ID.
@@ -78,7 +79,7 @@ public interface WorkingCalendarService {
      * @param calendarId the unique identifier of the calendar to be deleted
      * @return a Mono that completes when the working calendar is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteWorkingCalendarForBank(Long bankId, Long calendarId);
+    Mono<Void> deleteWorkingCalendarForBank(UUID bankId, UUID calendarId);
 
     /**
      * Retrieves a working calendar by its unique identifier.
@@ -87,7 +88,7 @@ public interface WorkingCalendarService {
      * @return a Mono emitting the {@link WorkingCalendarDTO} representing the working calendar if found,
      *         or an empty Mono if the working calendar does not exist
      */
-    Mono<WorkingCalendarDTO> getWorkingCalendarById(Long workingCalendarId);
+    Mono<WorkingCalendarDTO> getWorkingCalendarById(UUID workingCalendarId);
 
     /**
      * Retrieves a working calendar for a specific bank by its unique identifier.
@@ -97,5 +98,5 @@ public interface WorkingCalendarService {
      * @return a Mono emitting the {@link WorkingCalendarDTO} representing the working calendar if found,
      *         or an empty Mono if the working calendar does not exist or doesn't belong to the specified bank
      */
-    Mono<WorkingCalendarDTO> getWorkingCalendarByIdForBank(Long bankId, Long calendarId);
+    Mono<WorkingCalendarDTO> getWorkingCalendarByIdForBank(UUID bankId, UUID calendarId);
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/branches")
@@ -66,7 +67,7 @@ public class BranchController {
     @GetMapping(value = "/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDTO> getBranchById(
             @Parameter(description = "ID of the branch to retrieve", required = true)
-            @PathVariable Long branchId) {
+            @PathVariable UUID branchId) {
         return branchService.getBranchById(branchId);
     }
 
@@ -81,7 +82,7 @@ public class BranchController {
     @PutMapping(value = "/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDTO> updateBranch(
             @Parameter(description = "ID of the branch to update", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Updated branch details", required = true)
             @Valid @RequestBody BranchDTO branchDTO) {
         return branchService.updateBranch(branchId, branchDTO);
@@ -97,7 +98,7 @@ public class BranchController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBranch(
             @Parameter(description = "ID of the branch to delete", required = true)
-            @PathVariable Long branchId) {
+            @PathVariable UUID branchId) {
         return branchService.deleteBranch(branchId);
     }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a division within a bank.
@@ -19,17 +20,17 @@ import java.time.LocalDateTime;
 public class BankDivisionDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long bankId;
+    private UUID bankId;
 
     private String code;
     private String name;
     private String description;
     private Boolean isActive;
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private LocalDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

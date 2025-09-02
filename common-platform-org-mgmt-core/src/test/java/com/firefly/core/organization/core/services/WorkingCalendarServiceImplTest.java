@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkingCalendarServiceImplTest {
@@ -90,7 +91,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void updateWorkingCalendar_WhenWorkingCalendarExists_ShouldUpdateAndReturnWorkingCalendar() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarMapper.toEntity(workingCalendarDTO)).thenReturn(workingCalendar);
         when(workingCalendarRepository.save(workingCalendar)).thenReturn(Mono.just(workingCalendar));
@@ -110,7 +111,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void updateWorkingCalendar_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -125,7 +126,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void deleteWorkingCalendar_WhenWorkingCalendarExists_ShouldDeleteWorkingCalendar() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarRepository.deleteById(workingCalendarId)).thenReturn(Mono.empty());
 
@@ -140,7 +141,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void deleteWorkingCalendar_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -155,7 +156,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void getWorkingCalendarById_WhenWorkingCalendarExists_ShouldReturnWorkingCalendar() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.just(workingCalendar));
         when(workingCalendarMapper.toDTO(workingCalendar)).thenReturn(workingCalendarDTO);
 
@@ -171,7 +172,7 @@ public class WorkingCalendarServiceImplTest {
     @Test
     void getWorkingCalendarById_WhenWorkingCalendarDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long workingCalendarId = 1L;
+        UUID workingCalendarId = 1L;
         when(workingCalendarRepository.findById(workingCalendarId)).thenReturn(Mono.empty());
 
         // Act & Assert

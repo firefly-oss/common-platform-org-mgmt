@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,7 +42,7 @@ public class BranchAuditLogServiceImpl implements BranchAuditLogService {
     }
 
     @Override
-    public Mono<BranchAuditLogDTO> updateBranchAuditLog(Long branchAuditLogId, BranchAuditLogDTO branchAuditLogDTO) {
+    public Mono<BranchAuditLogDTO> updateBranchAuditLog(UUID branchAuditLogId, BranchAuditLogDTO branchAuditLogDTO) {
         return repository.findById(branchAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch audit log not found with ID: " + branchAuditLogId)))
                 .flatMap(existingBranchAuditLog -> {
@@ -53,14 +54,14 @@ public class BranchAuditLogServiceImpl implements BranchAuditLogService {
     }
 
     @Override
-    public Mono<Void> deleteBranchAuditLog(Long branchAuditLogId) {
+    public Mono<Void> deleteBranchAuditLog(UUID branchAuditLogId) {
         return repository.findById(branchAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch audit log not found with ID: " + branchAuditLogId)))
                 .flatMap(branchAuditLog -> repository.deleteById(branchAuditLogId));
     }
 
     @Override
-    public Mono<BranchAuditLogDTO> getBranchAuditLogById(Long branchAuditLogId) {
+    public Mono<BranchAuditLogDTO> getBranchAuditLogById(UUID branchAuditLogId) {
         return repository.findById(branchAuditLogId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Branch audit log not found with ID: " + branchAuditLogId)))
                 .map(mapper::toDTO);

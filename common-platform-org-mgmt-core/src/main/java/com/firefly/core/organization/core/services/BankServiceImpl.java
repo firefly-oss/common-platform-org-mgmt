@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,7 +42,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Mono<BankDTO> updateBank(Long bankId, BankDTO bankDTO) {
+    public Mono<BankDTO> updateBank(UUID bankId, BankDTO bankDTO) {
         return repository.findById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(existingBank -> {
@@ -53,14 +54,14 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Mono<Void> deleteBank(Long bankId) {
+    public Mono<Void> deleteBank(UUID bankId) {
         return repository.findById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> repository.deleteById(bankId));
     }
 
     @Override
-    public Mono<BankDTO> getBankById(Long bankId) {
+    public Mono<BankDTO> getBankById(UUID bankId) {
         return repository.findById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .map(mapper::toDTO);

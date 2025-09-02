@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a department within a branch.
@@ -24,10 +25,10 @@ import java.time.LocalDateTime;
 public class BranchDepartment {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("branch_id")
-    private Long branchId;
+    private UUID branchId;
     
     @Column("name")
     private String name;
@@ -43,12 +44,12 @@ public class BranchDepartment {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

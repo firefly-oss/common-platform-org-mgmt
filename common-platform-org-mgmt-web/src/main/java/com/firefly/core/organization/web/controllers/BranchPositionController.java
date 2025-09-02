@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/branches/{branchId}/departments/{departmentId}/positions")
@@ -38,9 +39,9 @@ public class BranchPositionController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BranchPositionDTO>> filterBranchPositions(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "Filter criteria for branch positions", required = true)
             @Valid @RequestBody FilterRequest<BranchPositionDTO> filterRequest) {
         return branchPositionService.filterBranchPositionsForDepartment(branchId, departmentId, filterRequest);
@@ -58,9 +59,9 @@ public class BranchPositionController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BranchPositionDTO> createBranchPosition(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "Branch position details to create", required = true)
             @Valid @RequestBody BranchPositionDTO branchPositionDTO) {
         return branchPositionService.createBranchPositionForDepartment(branchId, departmentId, branchPositionDTO);
@@ -76,11 +77,11 @@ public class BranchPositionController {
     @GetMapping(value = "/{positionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchPositionDTO> getBranchPositionById(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "ID of the position to retrieve", required = true)
-            @PathVariable Long positionId) {
+            @PathVariable UUID positionId) {
         return branchPositionService.getBranchPositionByIdForDepartment(branchId, departmentId, positionId);
     }
 
@@ -95,11 +96,11 @@ public class BranchPositionController {
     @PutMapping(value = "/{positionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchPositionDTO> updateBranchPosition(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "ID of the position to update", required = true)
-            @PathVariable Long positionId,
+            @PathVariable UUID positionId,
             @Parameter(description = "Updated branch position details", required = true)
             @Valid @RequestBody BranchPositionDTO branchPositionDTO) {
         return branchPositionService.updateBranchPositionForDepartment(branchId, departmentId, positionId, branchPositionDTO);
@@ -115,11 +116,11 @@ public class BranchPositionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBranchPosition(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "ID of the position to delete", required = true)
-            @PathVariable Long positionId) {
+            @PathVariable UUID positionId) {
         return branchPositionService.deleteBranchPositionForDepartment(branchId, departmentId, positionId);
     }
 }

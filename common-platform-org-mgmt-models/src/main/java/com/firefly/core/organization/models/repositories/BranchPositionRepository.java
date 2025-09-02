@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.BranchPosition;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BranchPosition} entities.
  */
 @Repository
-public interface BranchPositionRepository extends BaseRepository<BranchPosition, Long> {
+public interface BranchPositionRepository extends BaseRepository<BranchPosition, UUID> {
     
     /**
      * Find all positions belonging to a specific department.
@@ -17,7 +18,7 @@ public interface BranchPositionRepository extends BaseRepository<BranchPosition,
      * @param departmentId the department ID
      * @return a Flux emitting all positions for the specified department
      */
-    Flux<BranchPosition> findByDepartmentId(Long departmentId);
+    Flux<BranchPosition> findByDepartmentId(UUID departmentId);
     
     /**
      * Find all active positions belonging to a specific department.
@@ -25,7 +26,7 @@ public interface BranchPositionRepository extends BaseRepository<BranchPosition,
      * @param departmentId the department ID
      * @return a Flux emitting all active positions for the specified department
      */
-    Flux<BranchPosition> findByDepartmentIdAndIsActiveTrue(Long departmentId);
+    Flux<BranchPosition> findByDepartmentIdAndIsActiveTrue(UUID departmentId);
     
     /**
      * Find a position by its title and department ID.
@@ -34,7 +35,7 @@ public interface BranchPositionRepository extends BaseRepository<BranchPosition,
      * @param departmentId the department ID
      * @return a Mono emitting the position if found, or empty if not found
      */
-    Mono<BranchPosition> findByTitleAndDepartmentId(String title, Long departmentId);
+    Mono<BranchPosition> findByTitleAndDepartmentId(String title, UUID departmentId);
     
     /**
      * Find a position by its title.

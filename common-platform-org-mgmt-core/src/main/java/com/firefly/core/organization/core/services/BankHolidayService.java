@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BankHolidayDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing bank holidays.
@@ -33,7 +34,7 @@ public interface BankHolidayService {
      * @param bankHolidayDTO the data transfer object containing the updated details of the bank holiday
      * @return a reactive Mono containing the updated BankHolidayDTO
      */
-    Mono<BankHolidayDTO> updateBankHoliday(Long bankHolidayId, BankHolidayDTO bankHolidayDTO);
+    Mono<BankHolidayDTO> updateBankHoliday(UUID bankHolidayId, BankHolidayDTO bankHolidayDTO);
     
     /**
      * Deletes a bank holiday identified by its unique ID.
@@ -41,7 +42,7 @@ public interface BankHolidayService {
      * @param bankHolidayId the unique identifier of the bank holiday to be deleted
      * @return a Mono that completes when the bank holiday is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankHoliday(Long bankHolidayId);
+    Mono<Void> deleteBankHoliday(UUID bankHolidayId);
     
     /**
      * Retrieves a bank holiday by its unique identifier.
@@ -50,5 +51,5 @@ public interface BankHolidayService {
      * @return a Mono emitting the {@link BankHolidayDTO} representing the bank holiday if found,
      *         or an empty Mono if the bank holiday does not exist
      */
-    Mono<BankHolidayDTO> getBankHolidayById(Long bankHolidayId);
+    Mono<BankHolidayDTO> getBankHolidayById(UUID bankHolidayId);
 }

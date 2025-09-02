@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class CalendarAssignmentServiceImplTest {
@@ -94,7 +95,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void updateCalendarAssignment_WhenCalendarAssignmentExists_ShouldUpdateAndReturnCalendarAssignment() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentMapper.toEntity(calendarAssignmentDTO)).thenReturn(calendarAssignment);
         when(calendarAssignmentRepository.save(calendarAssignment)).thenReturn(Mono.just(calendarAssignment));
@@ -114,7 +115,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void updateCalendarAssignment_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -129,7 +130,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void deleteCalendarAssignment_WhenCalendarAssignmentExists_ShouldDeleteCalendarAssignment() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentRepository.deleteById(calendarAssignmentId)).thenReturn(Mono.empty());
 
@@ -144,7 +145,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void deleteCalendarAssignment_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -159,7 +160,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void getCalendarAssignmentById_WhenCalendarAssignmentExists_ShouldReturnCalendarAssignment() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.just(calendarAssignment));
         when(calendarAssignmentMapper.toDTO(calendarAssignment)).thenReturn(calendarAssignmentDTO);
 
@@ -175,7 +176,7 @@ public class CalendarAssignmentServiceImplTest {
     @Test
     void getCalendarAssignmentById_WhenCalendarAssignmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long calendarAssignmentId = 1L;
+        UUID calendarAssignmentId = 1L;
         when(calendarAssignmentRepository.findById(calendarAssignmentId)).thenReturn(Mono.empty());
 
         // Act & Assert

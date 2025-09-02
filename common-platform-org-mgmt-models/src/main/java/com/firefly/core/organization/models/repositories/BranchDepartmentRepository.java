@@ -4,12 +4,13 @@ import com.firefly.core.organization.models.entities.BranchDepartment;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link BranchDepartment} entities.
  */
 @Repository
-public interface BranchDepartmentRepository extends BaseRepository<BranchDepartment, Long> {
+public interface BranchDepartmentRepository extends BaseRepository<BranchDepartment, UUID> {
     
     /**
      * Find all departments belonging to a specific branch.
@@ -17,7 +18,7 @@ public interface BranchDepartmentRepository extends BaseRepository<BranchDepartm
      * @param branchId the branch ID
      * @return a Flux emitting all departments for the specified branch
      */
-    Flux<BranchDepartment> findByBranchId(Long branchId);
+    Flux<BranchDepartment> findByBranchId(UUID branchId);
     
     /**
      * Find all active departments belonging to a specific branch.
@@ -25,7 +26,7 @@ public interface BranchDepartmentRepository extends BaseRepository<BranchDepartm
      * @param branchId the branch ID
      * @return a Flux emitting all active departments for the specified branch
      */
-    Flux<BranchDepartment> findByBranchIdAndIsActiveTrue(Long branchId);
+    Flux<BranchDepartment> findByBranchIdAndIsActiveTrue(UUID branchId);
     
     /**
      * Find a department by its name and branch ID.
@@ -34,7 +35,7 @@ public interface BranchDepartmentRepository extends BaseRepository<BranchDepartm
      * @param branchId the branch ID
      * @return a Mono emitting the department if found, or empty if not found
      */
-    Mono<BranchDepartment> findByNameAndBranchId(String name, Long branchId);
+    Mono<BranchDepartment> findByNameAndBranchId(String name, UUID branchId);
     
     /**
      * Find a department by its name.

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/holidays")
@@ -66,7 +67,7 @@ public class BankHolidayController {
     @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankHolidayDTO> getBankHolidayById(
             @Parameter(description = "ID of the bank holiday to retrieve", required = true)
-            @PathVariable Long holidayId) {
+            @PathVariable UUID holidayId) {
         return bankHolidayService.getBankHolidayById(holidayId);
     }
 
@@ -81,7 +82,7 @@ public class BankHolidayController {
     @PutMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankHolidayDTO> updateBankHoliday(
             @Parameter(description = "ID of the bank holiday to update", required = true)
-            @PathVariable Long holidayId,
+            @PathVariable UUID holidayId,
             @Parameter(description = "Updated bank holiday details", required = true)
             @Valid @RequestBody BankHolidayDTO bankHolidayDTO) {
         return bankHolidayService.updateBankHoliday(holidayId, bankHolidayDTO);
@@ -97,7 +98,7 @@ public class BankHolidayController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBankHoliday(
             @Parameter(description = "ID of the bank holiday to delete", required = true)
-            @PathVariable Long holidayId) {
+            @PathVariable UUID holidayId) {
         return bankHolidayService.deleteBankHoliday(holidayId);
     }
 }

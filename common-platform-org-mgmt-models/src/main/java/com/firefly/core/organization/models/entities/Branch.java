@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a branch of a bank.
@@ -24,13 +25,13 @@ import java.time.LocalDateTime;
 public class Branch {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("bank_id")
-    private Long bankId;
+    private UUID bankId;
     
     @Column("region_id")
-    private Long regionId;
+    private UUID regionId;
     
     @Column("code")
     private String code;
@@ -60,10 +61,10 @@ public class Branch {
     private String state;
     
     @Column("country_id")
-    private Long countryId;
+    private UUID countryId;
     
     @Column("time_zone_id")
-    private Long timeZoneId;
+    private UUID timeZoneId;
     
     @Column("latitude")
     private Float latitude;
@@ -85,12 +86,12 @@ public class Branch {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.organization.interfaces.dtos.BankDivisionDTO;
 
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Service interface for managing bank divisions.
@@ -33,7 +34,7 @@ public interface BankDivisionService {
      * @param bankDivisionDTO the data transfer object containing the updated details of the bank division
      * @return a reactive Mono containing the updated BankDivisionDTO
      */
-    Mono<BankDivisionDTO> updateBankDivision(Long bankDivisionId, BankDivisionDTO bankDivisionDTO);
+    Mono<BankDivisionDTO> updateBankDivision(UUID bankDivisionId, BankDivisionDTO bankDivisionDTO);
 
     /**
      * Deletes a bank division identified by its unique ID.
@@ -41,7 +42,7 @@ public interface BankDivisionService {
      * @param bankDivisionId the unique identifier of the bank division to be deleted
      * @return a Mono that completes when the bank division is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankDivision(Long bankDivisionId);
+    Mono<Void> deleteBankDivision(UUID bankDivisionId);
 
     /**
      * Retrieves a bank division by its unique identifier.
@@ -50,7 +51,7 @@ public interface BankDivisionService {
      * @return a Mono emitting the {@link BankDivisionDTO} representing the bank division if found,
      *         or an empty Mono if the bank division does not exist
      */
-    Mono<BankDivisionDTO> getBankDivisionById(Long bankDivisionId);
+    Mono<BankDivisionDTO> getBankDivisionById(UUID bankDivisionId);
 
     /**
      * Retrieves a bank division for a specific bank by its unique identifier.
@@ -60,7 +61,7 @@ public interface BankDivisionService {
      * @return a Mono emitting the {@link BankDivisionDTO} representing the division if found,
      *         or an empty Mono if the division does not exist or doesn't belong to the specified bank
      */
-    Mono<BankDivisionDTO> getBankDivisionByIdForBank(Long bankId, Long divisionId);
+    Mono<BankDivisionDTO> getBankDivisionByIdForBank(UUID bankId, UUID divisionId);
 
     /**
      * Updates an existing bank division for a specific bank with updated information.
@@ -70,7 +71,7 @@ public interface BankDivisionService {
      * @param bankDivisionDTO the data transfer object containing the updated details of the bank division
      * @return a reactive Mono containing the updated BankDivisionDTO
      */
-    Mono<BankDivisionDTO> updateBankDivisionForBank(Long bankId, Long divisionId, BankDivisionDTO bankDivisionDTO);
+    Mono<BankDivisionDTO> updateBankDivisionForBank(UUID bankId, UUID divisionId, BankDivisionDTO bankDivisionDTO);
 
     /**
      * Deletes a bank division for a specific bank identified by its unique ID.
@@ -79,5 +80,5 @@ public interface BankDivisionService {
      * @param divisionId the unique identifier of the division to be deleted
      * @return a Mono that completes when the bank division is successfully deleted or errors if the deletion fails
      */
-    Mono<Void> deleteBankDivisionForBank(Long bankId, Long divisionId);
+    Mono<Void> deleteBankDivisionForBank(UUID bankId, UUID divisionId);
 }

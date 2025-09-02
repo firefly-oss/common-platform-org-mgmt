@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<PaginationResponse<BankRegionDTO>> filterBankRegionsForDivision(Long bankId, Long divisionId, FilterRequest<BankRegionDTO> filterRequest) {
+    public Mono<PaginationResponse<BankRegionDTO>> filterBankRegionsForDivision(UUID bankId, UUID divisionId, FilterRequest<BankRegionDTO> filterRequest) {
         return bankDivisionService.getBankDivisionById(divisionId)
                 .filter(division -> division.getBankId().equals(bankId))
                 .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
@@ -52,7 +53,7 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<BankRegionDTO> createBankRegionForDivision(Long bankId, Long divisionId, BankRegionDTO bankRegionDTO) {
+    public Mono<BankRegionDTO> createBankRegionForDivision(UUID bankId, UUID divisionId, BankRegionDTO bankRegionDTO) {
         return bankDivisionService.getBankDivisionById(divisionId)
                 .filter(division -> division.getBankId().equals(bankId))
                 .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
@@ -63,7 +64,7 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<BankRegionDTO> updateBankRegion(Long bankRegionId, BankRegionDTO bankRegionDTO) {
+    public Mono<BankRegionDTO> updateBankRegion(UUID bankRegionId, BankRegionDTO bankRegionDTO) {
         return repository.findById(bankRegionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank region not found with ID: " + bankRegionId)))
                 .flatMap(existingBankRegion -> {
@@ -75,7 +76,7 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<BankRegionDTO> updateBankRegionForDivision(Long bankId, Long divisionId, Long regionId, BankRegionDTO bankRegionDTO) {
+    public Mono<BankRegionDTO> updateBankRegionForDivision(UUID bankId, UUID divisionId, UUID regionId, BankRegionDTO bankRegionDTO) {
         return bankDivisionService.getBankDivisionById(divisionId)
                 .filter(division -> division.getBankId().equals(bankId))
                 .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
@@ -89,14 +90,14 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<Void> deleteBankRegion(Long bankRegionId) {
+    public Mono<Void> deleteBankRegion(UUID bankRegionId) {
         return repository.findById(bankRegionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank region not found with ID: " + bankRegionId)))
                 .flatMap(bankRegion -> repository.deleteById(bankRegionId));
     }
 
     @Override
-    public Mono<Void> deleteBankRegionForDivision(Long bankId, Long divisionId, Long regionId) {
+    public Mono<Void> deleteBankRegionForDivision(UUID bankId, UUID divisionId, UUID regionId) {
         return bankDivisionService.getBankDivisionById(divisionId)
                 .filter(division -> division.getBankId().equals(bankId))
                 .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))
@@ -107,14 +108,14 @@ public class BankRegionServiceImpl implements BankRegionService {
     }
 
     @Override
-    public Mono<BankRegionDTO> getBankRegionById(Long bankRegionId) {
+    public Mono<BankRegionDTO> getBankRegionById(UUID bankRegionId) {
         return repository.findById(bankRegionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank region not found with ID: " + bankRegionId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BankRegionDTO> getBankRegionByIdForDivision(Long bankId, Long divisionId, Long regionId) {
+    public Mono<BankRegionDTO> getBankRegionByIdForDivision(UUID bankId, UUID divisionId, UUID regionId) {
         return bankDivisionService.getBankDivisionById(divisionId)
                 .filter(division -> division.getBankId().equals(bankId))
                 .switchIfEmpty(Mono.error(new RuntimeException("Division not found for bank with ID: " + bankId)))

@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BankAuditLogServiceImplTest {
@@ -94,7 +95,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void updateBankAuditLog_WhenBankAuditLogExists_ShouldUpdateAndReturnBankAuditLog() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogMapper.toEntity(bankAuditLogDTO)).thenReturn(bankAuditLog);
         when(bankAuditLogRepository.save(bankAuditLog)).thenReturn(Mono.just(bankAuditLog));
@@ -114,7 +115,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void updateBankAuditLog_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -129,7 +130,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void deleteBankAuditLog_WhenBankAuditLogExists_ShouldDeleteBankAuditLog() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogRepository.deleteById(bankAuditLogId)).thenReturn(Mono.empty());
 
@@ -144,7 +145,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void deleteBankAuditLog_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -159,7 +160,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void getBankAuditLogById_WhenBankAuditLogExists_ShouldReturnBankAuditLog() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.just(bankAuditLog));
         when(bankAuditLogMapper.toDTO(bankAuditLog)).thenReturn(bankAuditLogDTO);
 
@@ -175,7 +176,7 @@ public class BankAuditLogServiceImplTest {
     @Test
     void getBankAuditLogById_WhenBankAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankAuditLogId = 1L;
+        UUID bankAuditLogId = 1L;
         when(bankAuditLogRepository.findById(bankAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert

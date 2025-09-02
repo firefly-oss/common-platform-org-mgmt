@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BankDivisionServiceImplTest {
@@ -87,7 +88,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void updateBankDivision_WhenBankDivisionExists_ShouldUpdateAndReturnBankDivision() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionMapper.toEntity(bankDivisionDTO)).thenReturn(bankDivision);
         when(bankDivisionRepository.save(bankDivision)).thenReturn(Mono.just(bankDivision));
@@ -107,7 +108,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void updateBankDivision_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -122,7 +123,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void deleteBankDivision_WhenBankDivisionExists_ShouldDeleteBankDivision() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionRepository.deleteById(bankDivisionId)).thenReturn(Mono.empty());
 
@@ -137,7 +138,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void deleteBankDivision_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -152,7 +153,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void getBankDivisionById_WhenBankDivisionExists_ShouldReturnBankDivision() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.just(bankDivision));
         when(bankDivisionMapper.toDTO(bankDivision)).thenReturn(bankDivisionDTO);
 
@@ -168,7 +169,7 @@ public class BankDivisionServiceImplTest {
     @Test
     void getBankDivisionById_WhenBankDivisionDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long bankDivisionId = 1L;
+        UUID bankDivisionId = 1L;
         when(bankDivisionRepository.findById(bankDivisionId)).thenReturn(Mono.empty());
 
         // Act & Assert

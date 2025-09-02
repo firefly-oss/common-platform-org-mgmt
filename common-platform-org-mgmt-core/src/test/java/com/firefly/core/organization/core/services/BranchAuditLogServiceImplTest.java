@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BranchAuditLogServiceImplTest {
@@ -94,7 +95,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void updateBranchAuditLog_WhenBranchAuditLogExists_ShouldUpdateAndReturnBranchAuditLog() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogMapper.toEntity(branchAuditLogDTO)).thenReturn(branchAuditLog);
         when(branchAuditLogRepository.save(branchAuditLog)).thenReturn(Mono.just(branchAuditLog));
@@ -114,7 +115,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void updateBranchAuditLog_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -129,7 +130,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void deleteBranchAuditLog_WhenBranchAuditLogExists_ShouldDeleteBranchAuditLog() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogRepository.deleteById(branchAuditLogId)).thenReturn(Mono.empty());
 
@@ -144,7 +145,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void deleteBranchAuditLog_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -159,7 +160,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void getBranchAuditLogById_WhenBranchAuditLogExists_ShouldReturnBranchAuditLog() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.just(branchAuditLog));
         when(branchAuditLogMapper.toDTO(branchAuditLog)).thenReturn(branchAuditLogDTO);
 
@@ -175,7 +176,7 @@ public class BranchAuditLogServiceImplTest {
     @Test
     void getBranchAuditLogById_WhenBranchAuditLogDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchAuditLogId = 1L;
+        UUID branchAuditLogId = 1L;
         when(branchAuditLogRepository.findById(branchAuditLogId)).thenReturn(Mono.empty());
 
         // Act & Assert

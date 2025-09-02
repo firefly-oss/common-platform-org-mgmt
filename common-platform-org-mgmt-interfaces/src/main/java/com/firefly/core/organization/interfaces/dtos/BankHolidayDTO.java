@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a bank holiday.
@@ -20,23 +21,23 @@ import java.time.LocalDateTime;
 public class BankHolidayDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long bankId;
+    private UUID bankId;
 
     @FilterableId
-    private Long branchId;
+    private UUID branchId;
 
     @FilterableId
-    private Long countryId;
+    private UUID countryId;
 
     private String name;
     private LocalDate date;
     private Boolean isRecurring;
     private String description;
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private UUID createdBy;
     private LocalDateTime updatedAt;
-    private Long updatedBy;
+    private UUID updatedBy;
 }

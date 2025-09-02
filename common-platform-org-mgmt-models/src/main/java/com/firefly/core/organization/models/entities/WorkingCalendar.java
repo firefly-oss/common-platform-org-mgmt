@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a working calendar for a bank.
@@ -24,10 +25,10 @@ import java.time.LocalDateTime;
 public class WorkingCalendar {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("bank_id")
-    private Long bankId;
+    private UUID bankId;
     
     @Column("name")
     private String name;
@@ -39,19 +40,19 @@ public class WorkingCalendar {
     private Boolean isDefault;
     
     @Column("time_zone_id")
-    private Long timeZoneId;
+    private UUID timeZoneId;
     
     @CreatedDate
     @Column("created_at")
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

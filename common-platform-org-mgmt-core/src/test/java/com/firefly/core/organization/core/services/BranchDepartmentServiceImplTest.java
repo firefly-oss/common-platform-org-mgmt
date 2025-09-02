@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BranchDepartmentServiceImplTest {
@@ -88,7 +89,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void updateBranchDepartment_WhenBranchDepartmentExists_ShouldUpdateAndReturnBranchDepartment() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentMapper.toEntity(branchDepartmentDTO)).thenReturn(branchDepartment);
         when(branchDepartmentRepository.save(branchDepartment)).thenReturn(Mono.just(branchDepartment));
@@ -108,7 +109,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void updateBranchDepartment_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -123,7 +124,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void deleteBranchDepartment_WhenBranchDepartmentExists_ShouldDeleteBranchDepartment() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentRepository.deleteById(branchDepartmentId)).thenReturn(Mono.empty());
 
@@ -138,7 +139,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void deleteBranchDepartment_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -153,7 +154,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void getBranchDepartmentById_WhenBranchDepartmentExists_ShouldReturnBranchDepartment() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.just(branchDepartment));
         when(branchDepartmentMapper.toDTO(branchDepartment)).thenReturn(branchDepartmentDTO);
 
@@ -169,7 +170,7 @@ public class BranchDepartmentServiceImplTest {
     @Test
     void getBranchDepartmentById_WhenBranchDepartmentDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchDepartmentId = 1L;
+        UUID branchDepartmentId = 1L;
         when(branchDepartmentRepository.findById(branchDepartmentId)).thenReturn(Mono.empty());
 
         // Act & Assert

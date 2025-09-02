@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/banks/{bankId}/divisions/{divisionId}/regions")
@@ -38,9 +39,9 @@ public class BankRegionController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BankRegionDTO>> filterBankRegions(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "Filter criteria for bank regions", required = true)
             @Valid @RequestBody FilterRequest<BankRegionDTO> filterRequest) {
         return bankRegionService.filterBankRegionsForDivision(bankId, divisionId, filterRequest);
@@ -58,9 +59,9 @@ public class BankRegionController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BankRegionDTO> createBankRegion(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "Bank region details to create", required = true)
             @Valid @RequestBody BankRegionDTO bankRegionDTO) {
         return bankRegionService.createBankRegionForDivision(bankId, divisionId, bankRegionDTO);
@@ -76,11 +77,11 @@ public class BankRegionController {
     @GetMapping(value = "/{regionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankRegionDTO> getBankRegionById(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "ID of the region to retrieve", required = true)
-            @PathVariable Long regionId) {
+            @PathVariable UUID regionId) {
         return bankRegionService.getBankRegionByIdForDivision(bankId, divisionId, regionId);
     }
 
@@ -95,11 +96,11 @@ public class BankRegionController {
     @PutMapping(value = "/{regionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BankRegionDTO> updateBankRegion(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "ID of the region to update", required = true)
-            @PathVariable Long regionId,
+            @PathVariable UUID regionId,
             @Parameter(description = "Updated bank region details", required = true)
             @Valid @RequestBody BankRegionDTO bankRegionDTO) {
         return bankRegionService.updateBankRegionForDivision(bankId, divisionId, regionId, bankRegionDTO);
@@ -115,11 +116,11 @@ public class BankRegionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBankRegion(
             @Parameter(description = "ID of the bank", required = true)
-            @PathVariable Long bankId,
+            @PathVariable UUID bankId,
             @Parameter(description = "ID of the division", required = true)
-            @PathVariable Long divisionId,
+            @PathVariable UUID divisionId,
             @Parameter(description = "ID of the region to delete", required = true)
-            @PathVariable Long regionId) {
+            @PathVariable UUID regionId) {
         return bankRegionService.deleteBankRegionForDivision(bankId, divisionId, regionId);
     }
 }

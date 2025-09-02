@@ -28,6 +28,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class BranchHoursServiceImplTest {
@@ -94,7 +95,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void updateBranchHours_WhenBranchHoursExists_ShouldUpdateAndReturnBranchHours() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursMapper.toEntity(branchHoursDTO)).thenReturn(branchHours);
         when(branchHoursRepository.save(branchHours)).thenReturn(Mono.just(branchHours));
@@ -114,7 +115,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void updateBranchHours_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -129,7 +130,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void deleteBranchHours_WhenBranchHoursExists_ShouldDeleteBranchHours() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursRepository.deleteById(branchHoursId)).thenReturn(Mono.empty());
 
@@ -144,7 +145,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void deleteBranchHours_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert
@@ -159,7 +160,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void getBranchHoursById_WhenBranchHoursExists_ShouldReturnBranchHours() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.just(branchHours));
         when(branchHoursMapper.toDTO(branchHours)).thenReturn(branchHoursDTO);
 
@@ -175,7 +176,7 @@ public class BranchHoursServiceImplTest {
     @Test
     void getBranchHoursById_WhenBranchHoursDoesNotExist_ShouldReturnError() {
         // Arrange
-        Long branchHoursId = 1L;
+        UUID branchHoursId = 1L;
         when(branchHoursRepository.findById(branchHoursId)).thenReturn(Mono.empty());
 
         // Act & Assert

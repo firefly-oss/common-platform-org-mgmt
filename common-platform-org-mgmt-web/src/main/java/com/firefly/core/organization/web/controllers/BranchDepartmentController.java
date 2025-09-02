@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import jakarta.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/branches/{branchId}/departments")
@@ -38,7 +39,7 @@ public class BranchDepartmentController {
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<PaginationResponse<BranchDepartmentDTO>> filterBranchDepartments(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Filter criteria for branch departments", required = true)
             @Valid @RequestBody FilterRequest<BranchDepartmentDTO> filterRequest) {
         return branchDepartmentService.filterBranchDepartmentsForBranch(branchId, filterRequest);
@@ -56,7 +57,7 @@ public class BranchDepartmentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BranchDepartmentDTO> createBranchDepartment(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "Branch department details to create", required = true)
             @Valid @RequestBody BranchDepartmentDTO branchDepartmentDTO) {
         return branchDepartmentService.createBranchDepartmentForBranch(branchId, branchDepartmentDTO);
@@ -72,9 +73,9 @@ public class BranchDepartmentController {
     @GetMapping(value = "/{departmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDepartmentDTO> getBranchDepartmentById(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department to retrieve", required = true)
-            @PathVariable Long departmentId) {
+            @PathVariable UUID departmentId) {
         return branchDepartmentService.getBranchDepartmentByIdForBranch(branchId, departmentId);
     }
 
@@ -89,9 +90,9 @@ public class BranchDepartmentController {
     @PutMapping(value = "/{departmentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<BranchDepartmentDTO> updateBranchDepartment(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department to update", required = true)
-            @PathVariable Long departmentId,
+            @PathVariable UUID departmentId,
             @Parameter(description = "Updated branch department details", required = true)
             @Valid @RequestBody BranchDepartmentDTO branchDepartmentDTO) {
         return branchDepartmentService.updateBranchDepartmentForBranch(branchId, departmentId, branchDepartmentDTO);
@@ -107,9 +108,9 @@ public class BranchDepartmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBranchDepartment(
             @Parameter(description = "ID of the branch", required = true)
-            @PathVariable Long branchId,
+            @PathVariable UUID branchId,
             @Parameter(description = "ID of the department to delete", required = true)
-            @PathVariable Long departmentId) {
+            @PathVariable UUID departmentId) {
         return branchDepartmentService.deleteBranchDepartmentForBranch(branchId, departmentId);
     }
 }

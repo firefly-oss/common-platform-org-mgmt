@@ -6,12 +6,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Repository for managing {@link CalendarAssignment} entities.
  */
 @Repository
-public interface CalendarAssignmentRepository extends BaseRepository<CalendarAssignment, Long> {
+public interface CalendarAssignmentRepository extends BaseRepository<CalendarAssignment, UUID> {
     
     /**
      * Find all assignments for a specific calendar.
@@ -19,7 +20,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param calendarId the calendar ID
      * @return a Flux emitting all assignments for the specified calendar
      */
-    Flux<CalendarAssignment> findByCalendarId(Long calendarId);
+    Flux<CalendarAssignment> findByCalendarId(UUID calendarId);
     
     /**
      * Find all assignments for a specific branch.
@@ -27,7 +28,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param branchId the branch ID
      * @return a Flux emitting all assignments for the specified branch
      */
-    Flux<CalendarAssignment> findByBranchId(Long branchId);
+    Flux<CalendarAssignment> findByBranchId(UUID branchId);
     
     /**
      * Find all assignments for a specific department.
@@ -35,7 +36,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param departmentId the department ID
      * @return a Flux emitting all assignments for the specified department
      */
-    Flux<CalendarAssignment> findByDepartmentId(Long departmentId);
+    Flux<CalendarAssignment> findByDepartmentId(UUID departmentId);
     
     /**
      * Find all assignments for a specific position.
@@ -43,7 +44,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param positionId the position ID
      * @return a Flux emitting all assignments for the specified position
      */
-    Flux<CalendarAssignment> findByPositionId(Long positionId);
+    Flux<CalendarAssignment> findByPositionId(UUID positionId);
     
     /**
      * Find all active assignments for a specific calendar.
@@ -51,7 +52,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param calendarId the calendar ID
      * @return a Flux emitting all active assignments for the specified calendar
      */
-    Flux<CalendarAssignment> findByCalendarIdAndIsActiveTrue(Long calendarId);
+    Flux<CalendarAssignment> findByCalendarIdAndIsActiveTrue(UUID calendarId);
     
     /**
      * Find all active assignments for a specific branch.
@@ -59,7 +60,7 @@ public interface CalendarAssignmentRepository extends BaseRepository<CalendarAss
      * @param branchId the branch ID
      * @return a Flux emitting all active assignments for the specified branch
      */
-    Flux<CalendarAssignment> findByBranchIdAndIsActiveTrue(Long branchId);
+    Flux<CalendarAssignment> findByBranchIdAndIsActiveTrue(UUID branchId);
     
     /**
      * Find all assignments effective at a specific date.

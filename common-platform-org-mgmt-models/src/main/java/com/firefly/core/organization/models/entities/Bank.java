@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity representing a bank in the system.
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
 public class Bank {
     
     @Id
-    private Long id;
+    private UUID id;
     
     @Column("code")
     private String code;
@@ -66,10 +67,10 @@ public class Bank {
     private String state;
     
     @Column("country_id")
-    private Long countryId;
+    private UUID countryId;
     
     @Column("time_zone_id")
-    private Long timeZoneId;
+    private UUID timeZoneId;
     
     @Column("is_active")
     private Boolean isActive;
@@ -82,12 +83,12 @@ public class Bank {
     private LocalDateTime createdAt;
     
     @Column("created_by")
-    private Long createdBy;
+    private UUID createdBy;
     
     @LastModifiedDate
     @Column("updated_at")
     private LocalDateTime updatedAt;
     
     @Column("updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -44,7 +45,7 @@ public class BankDivisionServiceImpl implements BankDivisionService {
     }
 
     @Override
-    public Mono<BankDivisionDTO> updateBankDivision(Long bankDivisionId, BankDivisionDTO bankDivisionDTO) {
+    public Mono<BankDivisionDTO> updateBankDivision(UUID bankDivisionId, BankDivisionDTO bankDivisionDTO) {
         return repository.findById(bankDivisionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank division not found with ID: " + bankDivisionId)))
                 .flatMap(existingBankDivision -> {
@@ -56,21 +57,21 @@ public class BankDivisionServiceImpl implements BankDivisionService {
     }
 
     @Override
-    public Mono<Void> deleteBankDivision(Long bankDivisionId) {
+    public Mono<Void> deleteBankDivision(UUID bankDivisionId) {
         return repository.findById(bankDivisionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank division not found with ID: " + bankDivisionId)))
                 .flatMap(bankDivision -> repository.deleteById(bankDivisionId));
     }
 
     @Override
-    public Mono<BankDivisionDTO> getBankDivisionById(Long bankDivisionId) {
+    public Mono<BankDivisionDTO> getBankDivisionById(UUID bankDivisionId) {
         return repository.findById(bankDivisionId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank division not found with ID: " + bankDivisionId)))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<BankDivisionDTO> getBankDivisionByIdForBank(Long bankId, Long divisionId) {
+    public Mono<BankDivisionDTO> getBankDivisionByIdForBank(UUID bankId, UUID divisionId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBankDivisionById(divisionId))
@@ -79,7 +80,7 @@ public class BankDivisionServiceImpl implements BankDivisionService {
     }
 
     @Override
-    public Mono<BankDivisionDTO> updateBankDivisionForBank(Long bankId, Long divisionId, BankDivisionDTO bankDivisionDTO) {
+    public Mono<BankDivisionDTO> updateBankDivisionForBank(UUID bankId, UUID divisionId, BankDivisionDTO bankDivisionDTO) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBankDivisionById(divisionId))
@@ -92,7 +93,7 @@ public class BankDivisionServiceImpl implements BankDivisionService {
     }
 
     @Override
-    public Mono<Void> deleteBankDivisionForBank(Long bankId, Long divisionId) {
+    public Mono<Void> deleteBankDivisionForBank(UUID bankId, UUID divisionId) {
         return bankService.getBankById(bankId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Bank not found with ID: " + bankId)))
                 .flatMap(bank -> getBankDivisionById(divisionId))
