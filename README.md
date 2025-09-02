@@ -438,8 +438,8 @@ curl -X POST http://localhost:8080/api/v1/banks \
     "postalCode": "10001",
     "city": "New York",
     "state": "NY",
-    "countryId": 1,
-    "timeZoneId": 1,
+    "countryId": "423e4567-e89b-12d3-a456-426614174000",
+    "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
     "isActive": true
   }'
 ```
@@ -447,7 +447,7 @@ curl -X POST http://localhost:8080/api/v1/banks \
 **Response:**
 ```json
 {
-  "id": 1,
+  "id": "123e4567-e89b-12d3-a456-426614174000",
   "code": "ACME",
   "name": "ACME Bank",
   "description": "A leading financial institution",
@@ -461,8 +461,8 @@ curl -X POST http://localhost:8080/api/v1/banks \
   "postalCode": "10001",
   "city": "New York",
   "state": "NY",
-  "countryId": 1,
-  "timeZoneId": 1,
+  "countryId": "423e4567-e89b-12d3-a456-426614174000",
+  "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
   "isActive": true,
   "createdAt": "2023-06-15T10:30:00",
   "createdBy": 1
@@ -477,7 +477,7 @@ Next, create a division within the bank:
 curl -X POST http://localhost:8080/api/v1/divisions \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
     "code": "RETAIL",
     "name": "Retail Banking",
     "description": "Consumer banking services",
@@ -488,8 +488,8 @@ curl -X POST http://localhost:8080/api/v1/divisions \
 **Response:**
 ```json
 {
-  "id": 1,
-  "bankId": 1,
+  "id": "623e4567-e89b-12d3-a456-426614174000",
+  "bankId": "123e4567-e89b-12d3-a456-426614174000",
   "code": "RETAIL",
   "name": "Retail Banking",
   "description": "Consumer banking services",
@@ -507,7 +507,7 @@ Create a region within the division:
 curl -X POST http://localhost:8080/api/v1/regions \
   -H "Content-Type: application/json" \
   -d '{
-    "divisionId": 1,
+    "divisionId": "623e4567-e89b-12d3-a456-426614174000",
     "code": "EAST",
     "name": "East Coast Region",
     "description": "Branches on the East Coast",
@@ -518,8 +518,8 @@ curl -X POST http://localhost:8080/api/v1/regions \
 **Response:**
 ```json
 {
-  "id": 1,
-  "divisionId": 1,
+  "id": "723e4567-e89b-12d3-a456-426614174000",
+  "divisionId": "623e4567-e89b-12d3-a456-426614174000",
   "code": "EAST",
   "name": "East Coast Region",
   "description": "Branches on the East Coast",
@@ -548,8 +548,8 @@ curl -X POST http://localhost:8080/api/v1/branches \
     "postalCode": "10005",
     "city": "New York",
     "state": "NY",
-    "countryId": 1,
-    "timeZoneId": 1,
+    "countryId": "423e4567-e89b-12d3-a456-426614174000",
+    "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
     "latitude": 40.7128,
     "longitude": -74.0060,
     "isActive": true
@@ -559,9 +559,9 @@ curl -X POST http://localhost:8080/api/v1/branches \
 **Response:**
 ```json
 {
-  "id": 1,
-  "bankId": 1,
-  "regionId": 1,
+  "id": "223e4567-e89b-12d3-a456-426614174000",
+  "bankId": "123e4567-e89b-12d3-a456-426614174000",
+  "regionId": "723e4567-e89b-12d3-a456-426614174000",
   "code": "NYC001",
   "name": "New York Downtown Branch",
   "description": "Main branch in downtown New York",
@@ -571,8 +571,8 @@ curl -X POST http://localhost:8080/api/v1/branches \
   "postalCode": "10005",
   "city": "New York",
   "state": "NY",
-  "countryId": 1,
-  "timeZoneId": 1,
+  "countryId": "423e4567-e89b-12d3-a456-426614174000",
+  "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
   "latitude": 40.7128,
   "longitude": -74.0060,
   "isActive": true,
@@ -590,7 +590,7 @@ Set the operating hours for the branch:
 curl -X POST http://localhost:8080/api/v1/branches/hours \
   -H "Content-Type: application/json" \
   -d '{
-    "branchId": 1,
+    "branchId": "223e4567-e89b-12d3-a456-426614174000",
     "dayOfWeek": "MONDAY",
     "openTime": "09:00:00",
     "closeTime": "17:00:00",
@@ -601,8 +601,8 @@ curl -X POST http://localhost:8080/api/v1/branches/hours \
 **Response:**
 ```json
 {
-  "id": 1,
-  "branchId": 1,
+  "id": "823e4567-e89b-12d3-a456-426614174000",
+  "branchId": "223e4567-e89b-12d3-a456-426614174000",
   "dayOfWeek": "MONDAY",
   "openTime": "09:00:00",
   "closeTime": "17:00:00",
@@ -622,7 +622,7 @@ Create a department within the branch:
 curl -X POST http://localhost:8080/api/v1/departments \
   -H "Content-Type: application/json" \
   -d '{
-    "branchId": 1,
+    "branchId": "223e4567-e89b-12d3-a456-426614174000",
     "name": "Customer Service",
     "description": "Handles customer inquiries and support",
     "isActive": true
@@ -632,8 +632,8 @@ curl -X POST http://localhost:8080/api/v1/departments \
 **Response:**
 ```json
 {
-  "id": 1,
-  "branchId": 1,
+  "id": "923e4567-e89b-12d3-a456-426614174000",
+  "branchId": "223e4567-e89b-12d3-a456-426614174000",
   "name": "Customer Service",
   "description": "Handles customer inquiries and support",
   "isActive": true,
@@ -650,7 +650,7 @@ Create a position within the department:
 curl -X POST http://localhost:8080/api/v1/positions \
   -H "Content-Type: application/json" \
   -d '{
-    "departmentId": 1,
+    "departmentId": "923e4567-e89b-12d3-a456-426614174000",
     "title": "Customer Service Representative",
     "description": "Front-line staff handling customer inquiries",
     "isActive": true
@@ -660,8 +660,8 @@ curl -X POST http://localhost:8080/api/v1/positions \
 **Response:**
 ```json
 {
-  "id": 1,
-  "departmentId": 1,
+  "id": "a23e4567-e89b-12d3-a456-426614174000",
+  "departmentId": "923e4567-e89b-12d3-a456-426614174000",
   "title": "Customer Service Representative",
   "description": "Front-line staff handling customer inquiries",
   "isActive": true,
@@ -678,7 +678,7 @@ Create a working calendar for the bank:
 curl -X POST http://localhost:8080/api/v1/calendars \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
     "name": "Standard Working Calendar",
     "description": "Default working calendar for all branches",
     "isDefault": true,
@@ -689,12 +689,12 @@ curl -X POST http://localhost:8080/api/v1/calendars \
 **Response:**
 ```json
 {
-  "id": 1,
-  "bankId": 1,
+  "id": "b23e4567-e89b-12d3-a456-426614174000",
+  "bankId": "123e4567-e89b-12d3-a456-426614174000",
   "name": "Standard Working Calendar",
   "description": "Default working calendar for all branches",
   "isDefault": true,
-  "timeZoneId": 1,
+  "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
   "createdAt": "2023-06-15T11:05:00",
   "createdBy": 1
 }
@@ -708,8 +708,8 @@ Assign the working calendar to a branch:
 curl -X POST http://localhost:8080/api/v1/calendars/assignments \
   -H "Content-Type: application/json" \
   -d '{
-    "calendarId": 1,
-    "branchId": 1,
+    "calendarId": "b23e4567-e89b-12d3-a456-426614174000",
+    "branchId": "223e4567-e89b-12d3-a456-426614174000",
     "effectiveFrom": "2023-01-01T00:00:00",
     "isActive": true
   }'
@@ -718,9 +718,9 @@ curl -X POST http://localhost:8080/api/v1/calendars/assignments \
 **Response:**
 ```json
 {
-  "id": 1,
-  "calendarId": 1,
-  "branchId": 1,
+  "id": "c23e4567-e89b-12d3-a456-426614174000",
+  "calendarId": "b23e4567-e89b-12d3-a456-426614174000",
+  "branchId": "223e4567-e89b-12d3-a456-426614174000",
   "effectiveFrom": "2023-01-01T00:00:00",
   "isActive": true,
   "createdAt": "2023-06-15T11:10:00",
@@ -736,7 +736,7 @@ Add a holiday to the bank's calendar:
 curl -X POST http://localhost:8080/api/v1/holidays \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
     "name": "New Year's Day",
     "date": "2024-01-01",
     "isRecurring": true,
@@ -747,8 +747,8 @@ curl -X POST http://localhost:8080/api/v1/holidays \
 **Response:**
 ```json
 {
-  "id": 1,
-  "bankId": 1,
+  "id": "d23e4567-e89b-12d3-a456-426614174000",
+  "bankId": "123e4567-e89b-12d3-a456-426614174000",
   "name": "New Year's Day",
   "date": "2024-01-01",
   "isRecurring": true,
@@ -763,7 +763,7 @@ curl -X POST http://localhost:8080/api/v1/holidays \
 #### Get a Bank by ID
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/banks/1
+curl -X GET http://localhost:8080/api/v1/banks/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Get All Branches for a Bank
@@ -776,7 +776,7 @@ curl -X POST http://localhost:8080/api/v1/branches/filter \
       {
         "field": "bankId",
         "operator": "EQUALS",
-        "value": 1
+        "value": "123e4567-e89b-12d3-a456-426614174000"
       }
     ],
     "page": 0,
@@ -800,7 +800,7 @@ curl -X POST http://localhost:8080/api/v1/departments/filter \
       {
         "field": "branchId",
         "operator": "EQUALS",
-        "value": 1
+        "value": "223e4567-e89b-12d3-a456-426614174000"
       }
     ],
     "page": 0,
@@ -813,11 +813,11 @@ curl -X POST http://localhost:8080/api/v1/departments/filter \
 #### Update a Branch
 
 ```bash
-curl -X PUT http://localhost:8080/api/v1/branches/1 \
+curl -X PUT http://localhost:8080/api/v1/branches/223e4567-e89b-12d3-a456-426614174000 \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
-    "regionId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
+    "regionId": "723e4567-e89b-12d3-a456-426614174000",
     "code": "NYC001",
     "name": "New York Downtown Branch",
     "description": "Updated description for downtown branch",
@@ -827,8 +827,8 @@ curl -X PUT http://localhost:8080/api/v1/branches/1 \
     "postalCode": "10005",
     "city": "New York",
     "state": "NY",
-    "countryId": 1,
-    "timeZoneId": 1,
+    "countryId": "423e4567-e89b-12d3-a456-426614174000",
+    "timeZoneId": "523e4567-e89b-12d3-a456-426614174000",
     "latitude": 40.7128,
     "longitude": -74.0060,
     "isActive": true
@@ -922,8 +922,8 @@ curl -X POST http://localhost:8080/api/v1/banks \
 curl -X POST http://localhost:8080/api/v1/branches \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
-    "regionId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
+    "regionId": "723e4567-e89b-12d3-a456-426614174000",
     "code": "NYC001",
     "name": "New York Downtown Branch",
     "description": "Main branch in downtown New York",
@@ -933,7 +933,7 @@ curl -X POST http://localhost:8080/api/v1/branches \
     "postalCode": "10005",
     "city": "New York",
     "state": "NY",
-    "countryId": 1,
+    "countryId": "423e4567-e89b-12d3-a456-426614174000",
     "isActive": true
   }'
 ```
