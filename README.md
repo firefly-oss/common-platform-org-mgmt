@@ -98,7 +98,7 @@ erDiagram
     WorkingCalendar ||--o{ CalendarAssignment : "assigned to"
 
     Bank {
-        Long id PK
+        UUID id PK
         String code
         String name
         String description
@@ -112,46 +112,46 @@ erDiagram
         String postalCode
         String city
         String state
-        Long countryId FK
-        Long timeZoneId FK
+        UUID countryId FK
+        UUID timeZoneId FK
         Boolean isActive
         LocalDateTime establishedAt
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BankDivision {
-        Long id PK
-        Long bankId FK
+        UUID id PK
+        UUID bankId FK
         String code
         String name
         String description
         Boolean isActive
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BankRegion {
-        Long id PK
-        Long divisionId FK
+        UUID id PK
+        UUID divisionId FK
         String code
         String name
         String description
         Boolean isActive
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     Branch {
-        Long id PK
-        Long bankId FK
-        Long regionId FK
+        UUID id PK
+        UUID bankId FK
+        UUID regionId FK
         String code
         String name
         String description
@@ -161,120 +161,120 @@ erDiagram
         String postalCode
         String city
         String state
-        Long countryId FK
-        Long timeZoneId FK
+        UUID countryId FK
+        UUID timeZoneId FK
         Float latitude
         Float longitude
         Boolean isActive
         LocalDateTime openedAt
         LocalDateTime closedAt
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BranchDepartment {
-        Long id PK
-        Long branchId FK
+        UUID id PK
+        UUID branchId FK
         String name
         String description
         Boolean isActive
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BranchPosition {
-        Long id PK
-        Long departmentId FK
+        UUID id PK
+        UUID departmentId FK
         String title
         String description
         Boolean isActive
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BranchHours {
-        Long id PK
-        Long branchId FK
+        UUID id PK
+        UUID branchId FK
         DayOfWeek dayOfWeek
         LocalTime openTime
         LocalTime closeTime
         Boolean isClosed
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     WorkingCalendar {
-        Long id PK
-        Long bankId FK
+        UUID id PK
+        UUID bankId FK
         String name
         String description
         Boolean isDefault
-        Long timeZoneId FK
+        UUID timeZoneId FK
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     CalendarAssignment {
-        Long id PK
-        Long calendarId FK
-        Long branchId FK
-        Long departmentId FK
-        Long positionId FK
+        UUID id PK
+        UUID calendarId FK
+        UUID branchId FK
+        UUID departmentId FK
+        UUID positionId FK
         LocalDateTime effectiveFrom
         LocalDateTime effectiveTo
         Boolean isActive
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BankHoliday {
-        Long id PK
-        Long bankId FK
-        Long branchId FK
-        Long countryId FK
+        UUID id PK
+        UUID bankId FK
+        UUID branchId FK
+        UUID countryId FK
         String name
         LocalDate date
         Boolean isRecurring
         String description
         LocalDateTime createdAt
-        Long createdBy
+        UUID createdBy
         LocalDateTime updatedAt
-        Long updatedBy
+        UUID updatedBy
     }
 
     BankAuditLog {
-        Long id PK
-        Long bankId FK
+        UUID id PK
+        UUID bankId FK
         AuditAction action
         String entity
         String entityId
         String metadata
         String ipAddress
-        Long userId
+        UUID userId
         LocalDateTime timestamp
     }
 
     BranchAuditLog {
-        Long id PK
-        Long branchId FK
+        UUID id PK
+        UUID branchId FK
         AuditAction action
         String entity
         String entityId
         String metadata
         String ipAddress
-        Long userId
+        UUID userId
         LocalDateTime timestamp
     }
 ```
@@ -537,8 +537,8 @@ Create a branch within the region:
 curl -X POST http://localhost:8080/api/v1/branches \
   -H "Content-Type: application/json" \
   -d '{
-    "bankId": 1,
-    "regionId": 1,
+    "bankId": "123e4567-e89b-12d3-a456-426614174000",
+    "regionId": "723e4567-e89b-12d3-a456-426614174000",
     "code": "NYC001",
     "name": "New York Downtown Branch",
     "description": "Main branch in downtown New York",
@@ -682,7 +682,7 @@ curl -X POST http://localhost:8080/api/v1/calendars \
     "name": "Standard Working Calendar",
     "description": "Default working calendar for all branches",
     "isDefault": true,
-    "timeZoneId": 1
+    "timeZoneId": "523e4567-e89b-12d3-a456-426614174000"
   }'
 ```
 
@@ -861,8 +861,8 @@ Error responses include a JSON body with details:
   "timestamp": "2023-06-15T12:00:00",
   "status": 404,
   "error": "Not Found",
-  "message": "Branch not found with ID: 999",
-  "path": "/api/v1/branches/999"
+  "message": "Branch not found with ID: 999e4567-e89b-12d3-a456-426614174000",
+  "path": "/api/v1/branches/999e4567-e89b-12d3-a456-426614174000"
 }
 ```
 
@@ -891,7 +891,7 @@ public class OrganizationApiClient {
             .bodyToMono(BankDTO.class);
     }
 
-    public Mono<BranchDTO> getBranchById(Long branchId) {
+    public Mono<BranchDTO> getBranchById(UUID branchId) {
         return webClient.get()
             .uri("/api/v1/branches/{id}", branchId)
             .retrieve()
