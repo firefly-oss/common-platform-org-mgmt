@@ -1003,7 +1003,7 @@ The application can be deployed as a Docker container or as a standalone JAR fil
 ### Docker Deployment
 ```bash
 # Build Docker image
-docker build -t catalis/org-mgmt:1.0.0 .
+docker build -t firefly/org-mgmt:1.0.0 .
 
 # Run Docker container
 docker run -p 8080:8080 \
@@ -1013,7 +1013,7 @@ docker run -p 8080:8080 \
   -e DB_USERNAME=postgres \
   -e DB_PASSWORD=postgres \
   -e DB_SSL_MODE=disable \
-  catalis/org-mgmt:1.0.0
+  firefly/org-mgmt:1.0.0
 ```
 
 ## Contributing
